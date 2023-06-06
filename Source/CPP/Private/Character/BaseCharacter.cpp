@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 
 #include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -31,16 +32,6 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (TestVar == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Test Var Null Ptr"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Test Var is not Null Ptr"));
-	}
-
 	// Add Mapping Context
 	// Local Player
 	// PlayerController
@@ -63,9 +54,28 @@ void ABaseCharacter::BeginPlay()
 
 
 
+
+
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Enhanced input component
+	UEnhancedInputComponent* EnhancedInputComponent =
+		Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	// I A Look -> Event Function -> Bind
+	EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
 }
 
+void ABaseCharacter::Look(const FInputActionValue& Value)
+{
+	
+	const FVector2D LookValue = Value.Get<FVector2D>();
+	
+	// == 0
+	if(LookValue.X != 0.0)
+		AddControllerYawInput(LookValue.X);
+
+	if (LookValue.Y != 0.0)
+		AddControllerPitchInput(LookValue.Y);
+}

@@ -7,6 +7,8 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UInputMappingContext;
+class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class CPP_API ABaseCharacter : public ACharacter
@@ -18,8 +20,10 @@ public:
 	ABaseCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 protected:
-
 	virtual void BeginPlay() override;
+
+private:
+	void Look(const FInputActionValue& Value);
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -31,6 +35,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
 	UInputMappingContext* InputMappingContext;
 
-	UPROPERTY(EditAnywhere, Category = "Test Values") // visible
-	UInputMappingContext* TestVar;
+	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
+	UInputAction* IA_Look;
 };
