@@ -20,6 +20,9 @@ ABaseCharacter::ABaseCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
+
+	// boolean
+	bUseControllerRotationYaw = false;
 }
 
 
