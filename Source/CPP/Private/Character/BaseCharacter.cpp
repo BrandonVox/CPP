@@ -5,6 +5,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "EnhancedInputSubsystems.h"
+
 ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -29,7 +31,25 @@ ABaseCharacter::ABaseCharacter()
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// Add Mapping Context
+	// Local Player
+	// PlayerController
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+	// Guard
+	if (PlayerController == nullptr)
+		return;
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem 
+		= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
+		(PlayerController->GetLocalPlayer());
+
+	// Input mapping context
+	if (Subsystem == nullptr)
+		return;
+
+	Subsystem->AddMappingContext(InputMappingContext, 0);
 }
 
 

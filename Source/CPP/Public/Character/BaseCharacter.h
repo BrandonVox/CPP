@@ -6,6 +6,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UInputMappingContext;
 
 UCLASS()
 class CPP_API ABaseCharacter : public ACharacter
@@ -27,5 +28,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComponent;
 
-
+	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
+	UInputMappingContext* InputMappingContext;
 };
