@@ -32,6 +32,15 @@ void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (TestVar == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Test Var Null Ptr"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Test Var is not Null Ptr"));
+	}
+
 	// Add Mapping Context
 	// Local Player
 	// PlayerController

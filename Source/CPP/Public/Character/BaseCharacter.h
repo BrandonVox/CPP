@@ -30,4 +30,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
 	UInputMappingContext* InputMappingContext;
+
+	UPROPERTY(EditAnywhere, Category = "Test Values") // visible
+	UInputMappingContext* TestVar;
 };
