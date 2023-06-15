@@ -11,6 +11,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DataAsset/EnhancedInputData.h"
 
+#include "Component/AttackComponent.h"
+
 ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -26,6 +28,10 @@ ABaseCharacter::ABaseCharacter()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
+
+	// u attack component
+	// actor component
+	AttackComponent = CreateDefaultSubobject<UAttackComponent>(TEXT("Attack Component"));
 
 	// boolean
 	bUseControllerRotationYaw = false;
@@ -118,5 +124,6 @@ void ABaseCharacter::Move(const FInputActionValue& Value)
 
 void ABaseCharacter::AttackPressed()
 {
-	PlayAnimMontage(AttackMontage);
+	if(AttackComponent)
+		AttackComponent->RequestAttack(this);
 }
