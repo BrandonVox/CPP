@@ -67,6 +67,11 @@ void ABaseCharacter::PostInitializeComponents()
 		AttackComponent->SetupAttackComponent(BaseCharacterData);
 }
 
+void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
+{
+	PlayAnimMontage(AttackMontage);
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();

@@ -9,6 +9,7 @@
 class ACharacter;
 class UAnimMontage;
 class UBaseCharacterData;
+class IAttackInterface;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CPP_API UAttackComponent : public UActorComponent
@@ -20,17 +21,25 @@ public:
 	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void RequestAttack();
 
+	
+
 	void SetupAttackComponent(UBaseCharacterData* BCD);
 protected:
 
 	virtual void BeginPlay() override;
 	
+private:
+	void Attack();
 
 private:
+	// luu actor co trien khai interface
+	// template
 	UPROPERTY()
-	ACharacter* Character;
+	TScriptInterface<IAttackInterface> AttackInterface;
 
 	UPROPERTY()
 	UBaseCharacterData* BaseCharacterData;
+
+	bool bIsAttacking = false;
 
 };

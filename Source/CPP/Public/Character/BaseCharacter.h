@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interface/AttackInterface.h"
 #include "BaseCharacter.generated.h"
 
 class USpringArmComponent;
@@ -14,7 +15,9 @@ class UEnhancedInputData;
 class UBaseCharacterData;
 
 UCLASS()
-class CPP_API ABaseCharacter : public ACharacter
+class CPP_API ABaseCharacter : 
+	public ACharacter,
+	public IAttackInterface
 {
 	GENERATED_BODY()
 
@@ -23,6 +26,8 @@ public:
 	ABaseCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PostInitializeComponents() override;
+	// Attack Interface
+	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 protected:
 	virtual void BeginPlay() override;
 
