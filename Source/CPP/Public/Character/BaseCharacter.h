@@ -28,6 +28,7 @@ protected:
 private:
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
+	void AttackPressed();
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -38,4 +39,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UEnhancedInputData* EnhancedInputData;
+
+	// Animation Montage
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UAnimMontage* AttackMontage;
 };

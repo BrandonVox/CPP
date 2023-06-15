@@ -50,6 +50,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Look, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Move, ETriggerEvent::Triggered, this, &ABaseCharacter::Move);
+	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Attack, ETriggerEvent::Started, this, &ABaseCharacter::AttackPressed);
 }
 
 void ABaseCharacter::BeginPlay()
@@ -113,4 +114,9 @@ void ABaseCharacter::Move(const FInputActionValue& Value)
 
 	if (ActionValue.X != 0.0)
 		AddMovementInput(RightDirection, ActionValue.X);
+}
+
+void ABaseCharacter::AttackPressed()
+{
+	PlayAnimMontage(AttackMontage);
 }
