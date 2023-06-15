@@ -11,6 +11,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class UEnhancedInputData;
+class UBaseCharacterData;
 
 UCLASS()
 class CPP_API ABaseCharacter : public ACharacter
@@ -21,6 +22,7 @@ public:
 
 	ABaseCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void PostInitializeComponents() override;
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,6 +47,7 @@ private:
 	UEnhancedInputData* EnhancedInputData;
 
 
-
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UBaseCharacterData* BaseCharacterData;
 
 };

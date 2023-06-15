@@ -6,7 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "AttackComponent.generated.h"
 
+class ACharacter;
 class UAnimMontage;
+class UBaseCharacterData;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CPP_API UAttackComponent : public UActorComponent
@@ -16,14 +18,19 @@ class CPP_API UAttackComponent : public UActorComponent
 public:	
 	UAttackComponent();
 	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void RequestAttack(ACharacter* Character);
+	void RequestAttack();
+
+	void SetupAttackComponent(UBaseCharacterData* BCD);
 protected:
 
 	virtual void BeginPlay() override;
 	
 
 private:
-	// Animation Montage
-	UPROPERTY(EditDefaultsOnly, Category = "Attack")
-	UAnimMontage* AttackMontage;
+	UPROPERTY()
+	ACharacter* Character;
+
+	UPROPERTY()
+	UBaseCharacterData* BaseCharacterData;
+
 };

@@ -59,6 +59,14 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Attack, ETriggerEvent::Started, this, &ABaseCharacter::AttackPressed);
 }
 
+void ABaseCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	// attack component
+	if(AttackComponent)
+		AttackComponent->SetupAttackComponent(BaseCharacterData);
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -125,5 +133,5 @@ void ABaseCharacter::Move(const FInputActionValue& Value)
 void ABaseCharacter::AttackPressed()
 {
 	if(AttackComponent)
-		AttackComponent->RequestAttack(this);
+		AttackComponent->RequestAttack();
 }
