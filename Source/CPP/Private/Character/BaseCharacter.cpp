@@ -71,6 +71,7 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	// I A Look -> Event Function -> Bind
 	EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
+	EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ABaseCharacter::Move);
 }
 
 void ABaseCharacter::Look(const FInputActionValue& Value)
@@ -84,4 +85,27 @@ void ABaseCharacter::Look(const FInputActionValue& Value)
 
 	if (LookValue.Y != 0.0)
 		AddControllerPitchInput(LookValue.Y);
+}
+
+void ABaseCharacter::Move(const FInputActionValue& Value)
+{
+	const FVector2D ActionValue = Value.Get<FVector2D>();
+
+
+	const FRotator MyControllerRotation = FRotator(0.0, GetControlRotation().Yaw, 0.0);
+	
+	// forward backward
+	const FVector ForwardDirection = 
+		MyControllerRotation.RotateVector(FVector::ForwardVector);
+
+	if (ActionValue.Y != 0.0)
+		AddMovementInput(ForwardDirection, ActionValue.Y);
+
+
+	// right left
+	const FVector RightDirection =
+		MyControllerRotation.RotateVector(FVector::RightVector);
+
+	if (ActionValue.X != 0.0)
+		AddMovementInput(RightDirection, ActionValue.X);
 }

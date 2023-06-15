@@ -24,6 +24,7 @@ protected:
 
 private:
 	void Look(const FInputActionValue& Value);
+	void Move(const FInputActionValue& Value);
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -37,4 +38,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
 	UInputAction* IA_Look;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
+	UInputAction* IA_Move;
 };
