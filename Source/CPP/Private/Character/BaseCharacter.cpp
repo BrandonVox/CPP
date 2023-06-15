@@ -8,6 +8,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 ABaseCharacter::ABaseCharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -26,6 +28,10 @@ ABaseCharacter::ABaseCharacter()
 
 	// boolean
 	bUseControllerRotationYaw = false;
+	// Character movement component
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	// Z -> Yaw
+	GetCharacterMovement()->RotationRate.Yaw = 540.0;
 }
 
 
