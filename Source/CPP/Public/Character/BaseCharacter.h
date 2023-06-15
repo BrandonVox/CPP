@@ -9,6 +9,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class UEnhancedInputData;
 
 UCLASS()
 class CPP_API ABaseCharacter : public ACharacter
@@ -22,6 +23,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	void AddMapingContextForCharacter();
+
 private:
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
@@ -33,12 +36,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
-	UInputMappingContext* InputMappingContext;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
-	UInputAction* IA_Look;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
-	UInputAction* IA_Move;
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UEnhancedInputData* EnhancedInputData;
 };

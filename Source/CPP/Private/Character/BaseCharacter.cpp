@@ -9,6 +9,7 @@
 #include "EnhancedInputComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DataAsset/EnhancedInputData.h"
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -34,45 +35,49 @@ ABaseCharacter::ABaseCharacter()
 	GetCharacterMovement()->RotationRate.Yaw = 540.0;
 }
 
-
-void ABaseCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-	// Add Mapping Context
-	// Local Player
-	// PlayerController
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-
-	// Guard
-	if (PlayerController == nullptr)
-		return;
-
-	UEnhancedInputLocalPlayerSubsystem* Subsystem 
-		= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
-		(PlayerController->GetLocalPlayer());
-
-	// Input mapping context
-	if (Subsystem == nullptr)
-		return;
-
-	Subsystem->AddMappingContext(InputMappingContext, 0);
-}
-
-
-
-
-
 void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	// Enhanced input component
+	AddMapingContextForCharacter();
+
+	// Bind Input Actions
 	UEnhancedInputComponent* EnhancedInputComponent =
 		Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	// I A Look -> Event Function -> Bind
-	EnhancedInputComponent->BindAction(IA_Look, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
-	EnhancedInputComponent->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ABaseCharacter::Move);
+
+	if (EnhancedInputData == nullptr)
+		return;
+
+	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Look, ETriggerEvent::Triggered, this, &ABaseCharacter::Look);
+	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Move, ETriggerEvent::Triggered, this, &ABaseCharacter::Move);
 }
+
+void ABaseCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void ABaseCharacter::AddMapingContextForCharacter()
+{
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+
+	if (PlayerController == nullptr)
+		return;
+
+	UEnhancedInputLocalPlayerSubsystem* Subsystem
+		= ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>
+		(PlayerController->GetLocalPlayer());
+
+
+	if (Subsystem && EnhancedInputData)
+		Subsystem->AddMappingContext(EnhancedInputData->InputMappingContext, 0);
+}
+
+
+
+
+
+
 
 void ABaseCharacter::Look(const FInputActionValue& Value)
 {
