@@ -28,6 +28,7 @@ public:
 	virtual void PostInitializeComponents() override;
 	// Attack Interface
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
+	virtual void I_AN_EndAttack() override;
 protected:
 	virtual void BeginPlay() override;
 

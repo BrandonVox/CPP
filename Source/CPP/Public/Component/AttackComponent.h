@@ -24,6 +24,7 @@ public:
 	
 
 	void SetupAttackComponent(UBaseCharacterData* BCD);
+	void AN_EndAttack();
 protected:
 
 	virtual void BeginPlay() override;

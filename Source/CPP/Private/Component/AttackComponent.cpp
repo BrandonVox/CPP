@@ -38,6 +38,11 @@ void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
 	BaseCharacterData = BCD;
 }
 
+void UAttackComponent::AN_EndAttack()
+{
+	bIsAttacking = false;
+}
+
 
 
 

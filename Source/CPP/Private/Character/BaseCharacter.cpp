@@ -72,6 +72,14 @@ void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 	PlayAnimMontage(AttackMontage);
 }
 
+void ABaseCharacter::I_AN_EndAttack()
+{
+	// attack component
+	// bisattacking -> false
+	if(AttackComponent)
+		AttackComponent->AN_EndAttack();
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
