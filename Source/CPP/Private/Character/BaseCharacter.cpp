@@ -13,9 +13,11 @@
 
 #include "Component/AttackComponent.h"
 
+#include "Kismet/KismetSystemLibrary.h"
+
 ABaseCharacter::ABaseCharacter()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 	// spring arm
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
@@ -67,6 +69,54 @@ void ABaseCharacter::PostInitializeComponents()
 		AttackComponent->SetupAttackComponent(BaseCharacterData);
 }
 
+void ABaseCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	// line trace
+
+	const FVector StartLocation = GetActorLocation();
+	const FVector EndLocation = 
+		StartLocation + (GetActorForwardVector() * 1000.0f);
+
+	// Hit Results
+	TArray<FHitResult> HitResults;
+
+	bool bDoHitSomething = UKismetSystemLibrary::LineTraceMultiForObjects(
+		this,
+		StartLocation,
+		EndLocation,
+		TraceObjectTypes,
+		false,
+		ActorsToIgnore,
+		EDrawDebugTrace::ForOneFrame,
+		HitResults,
+		true
+		);
+	// 
+	if (bDoHitSomething == false) return;
+
+	for (const FHitResult& Result : HitResults)
+	{
+		// GEngine
+		// Bone Name
+		// FName -> FString
+		
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				1.0f,
+				FColor::Cyan,
+				Result.BoneName.ToString()
+			);
+		UKismetSystemLibrary::DrawDebugSphere(
+			this,
+			Result.ImpactPoint,
+			10.0f
+		);
+
+	}
+}
+
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 {
 	PlayAnimMontage(AttackMontage);
@@ -100,12 +150,6 @@ void ABaseCharacter::AddMapingContextForCharacter()
 	if (Subsystem && EnhancedInputData)
 		Subsystem->AddMappingContext(EnhancedInputData->InputMappingContext, 0);
 }
-
-
-
-
-
-
 
 void ABaseCharacter::Look(const FInputActionValue& Value)
 {
