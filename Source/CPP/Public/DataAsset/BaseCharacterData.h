@@ -16,6 +16,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackMontage;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
+	UAnimMontage* HitReactMontage;
+
 	/*
 	* Trace Hit
 	*/
@@ -36,6 +39,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
 	float DrawTime = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
+	bool bDrawDebugTrace = true;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float Damage = 20.0f;

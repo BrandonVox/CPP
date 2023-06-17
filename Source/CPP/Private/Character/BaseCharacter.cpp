@@ -21,7 +21,7 @@
 
 ABaseCharacter::ABaseCharacter()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	// spring arm
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
@@ -77,13 +77,16 @@ void ABaseCharacter::PostInitializeComponents()
 		
 }
 
-// xoa function nay
-void ABaseCharacter::Tick(float DeltaSeconds)
+void ABaseCharacter::BeginPlay()
 {
-	Super::Tick(DeltaSeconds);
-
-	// khong dung nua
+	Super::BeginPlay();
+	// bind delegate nhan sat thuong
+	OnTakePointDamage.AddDynamic(this, &ABaseCharacter::HandleTakePointDamage);
 }
+
+#pragma region Attack_Interface
+
+
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 {
@@ -118,12 +121,8 @@ void ABaseCharacter::I_ANS_TraceHit()
 		AttackComponent->TraceHit();
 }
 
+#pragma endregion
 
-
-void ABaseCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-}
 
 void ABaseCharacter::AddMapingContextForCharacter()
 {
@@ -220,4 +219,19 @@ void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 		UDamageType::StaticClass()
 		);
 
+}
+
+void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
+{
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Red,
+			TEXT("Handle Take Point Damage")
+		);
+
+	// hit react animation montage
+	if(BaseCharacterData)
+		PlayAnimMontage(BaseCharacterData->HitReactMontage);
 }

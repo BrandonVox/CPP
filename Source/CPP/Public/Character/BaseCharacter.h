@@ -25,7 +25,7 @@ public:
 	ABaseCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void PostInitializeComponents() override;
-	virtual void Tick(float DeltaSeconds) override;
+	// virtual void Tick(float DeltaSeconds) override;
 
 	// Attack Interface
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
@@ -46,6 +46,13 @@ private:
 	// Event Function
 	UFUNCTION()
 	void HandleHitSomething(const FHitResult& HitResult);
+
+	UFUNCTION()
+	void HandleTakePointDamage(AActor* DamagedActor, float Damage,
+		class AController* InstigatedBy, FVector HitLocation,
+		class UPrimitiveComponent* FHitComponent, FName BoneName,
+		FVector ShotFromDirection, const class UDamageType* DamageType,
+		AActor* DamageCauser);
 
 private:
 	UPROPERTY(VisibleAnywhere)

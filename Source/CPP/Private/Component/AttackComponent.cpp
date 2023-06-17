@@ -43,8 +43,12 @@ void UAttackComponent::TraceHit()
 	TArray<FHitResult> HitResults;
 
 	// 
+	auto DrawType = 
+		BaseCharacterData->bDrawDebugTrace 
+		? EDrawDebugTrace::ForDuration 
+		: EDrawDebugTrace::None;
 
-
+	// false -> none
 	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
 		this,
 		StartLocation,
@@ -53,7 +57,7 @@ void UAttackComponent::TraceHit()
 		BaseCharacterData->TraceObjectTypes,
 		false,
 		BaseCharacterData->ActorsToIgnore,
-		EDrawDebugTrace::ForDuration,
+		DrawType,
 		HitResults,
 		true,
 		FLinearColor::Red,
