@@ -20,7 +20,7 @@ public:
 	UAttackComponent();
 	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void RequestAttack();
-
+	void TraceHit();
 	
 
 	void SetupAttackComponent(UBaseCharacterData* BCD);
@@ -42,5 +42,11 @@ private:
 	UBaseCharacterData* BaseCharacterData;
 
 	bool bIsAttacking = false;
+
+	/*
+	* Trace Hit
+	*/
+	TArray<AActor*> HittedActors;
+	int HitCount = 0;
 
 };

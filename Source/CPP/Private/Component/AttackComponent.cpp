@@ -6,6 +6,8 @@
 #include "DataAsset/BaseCharacterData.h"
 #include "Interface/AttackInterface.h"
 
+#include "Kismet/KismetSystemLibrary.h"
+
 UAttackComponent::UAttackComponent()
 {
 
@@ -24,6 +26,75 @@ void UAttackComponent::RequestAttack()
 {
 	if (bIsAttacking) return;
 	Attack();
+}
+
+void UAttackComponent::TraceHit()
+{
+	if (AttackInterface == nullptr) return;
+	if (BaseCharacterData == nullptr) return;
+	
+	const FVector& StartLocation = 
+		AttackInterface->I_GetSocketLocation(BaseCharacterData->TraceStart);
+
+	const FVector& EndLocation =
+		AttackInterface->I_GetSocketLocation(BaseCharacterData->TraceEnd);
+
+	// Hit Results
+	TArray<FHitResult> HitResults;
+
+	HittedActors.Empty();
+	HitCount = 0;
+
+	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
+		this,
+		StartLocation,
+		EndLocation,
+		BaseCharacterData->TraceRadius,
+		BaseCharacterData->TraceObjectTypes,
+		false,
+		BaseCharacterData->ActorsToIgnore,
+		EDrawDebugTrace::ForDuration,
+		HitResults,
+		true,
+		FLinearColor::Red,
+		FLinearColor::Green,
+		BaseCharacterData->DrawTime
+	);
+	// 
+	if (bDoHitSomething == false) return;
+
+
+
+
+	// 1 2 3 4
+	for (const FHitResult& Result : HitResults)
+	{
+		if (HittedActors.Contains(Result.GetActor())) continue;
+
+		// Print String
+		if (GEngine)
+			GEngine->AddOnScreenDebugMessage(
+				-1,
+				1.0f,
+				FColor::Cyan,
+				Result.BoneName.ToString()
+			);
+
+		// add -> emplace
+		// 
+		HittedActors.Emplace(Result.GetActor());
+
+		HitCount++;
+	}
+
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Red,
+			FString::Printf(TEXT("Hit Count = %d"), HitCount)
+		);
 }
 
 void UAttackComponent::Attack()

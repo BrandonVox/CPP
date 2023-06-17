@@ -14,7 +14,7 @@
 
 #include "Component/AttackComponent.h"
 
-#include "Kismet/KismetSystemLibrary.h"
+
 
 ABaseCharacter::ABaseCharacter()
 {
@@ -70,78 +70,13 @@ void ABaseCharacter::PostInitializeComponents()
 		AttackComponent->SetupAttackComponent(BaseCharacterData);
 }
 
+// xoa function nay
 void ABaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (GetMesh() == nullptr) return;
-	if (BaseCharacterData == nullptr) return;
-
-	// line trace
-	// Socket Name
-	
-	const FVector& StartLocation = 
-		GetMesh()->GetSocketLocation(BaseCharacterData->TraceStart);
-
-	const FVector& EndLocation = 
-		GetMesh()->GetSocketLocation(BaseCharacterData->TraceEnd);
-
-	// Hit Results
-	TArray<FHitResult> HitResults;
-
-	HittedActors.Empty();
-	HitCount = 0;
-
-	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
-		this,
-		StartLocation,
-		EndLocation,
-		BaseCharacterData->TraceRadius,
-		BaseCharacterData->TraceObjectTypes,
-		false,
-		BaseCharacterData->ActorsToIgnore,
-		EDrawDebugTrace::ForDuration,
-		HitResults,
-		true,
-		FLinearColor::Red,
-		FLinearColor::Green,
-		BaseCharacterData->DrawTime
-		);
-	// 
-	if (bDoHitSomething == false) return;
-
-	
-
-
-	// 1 2 3 4
-	for (const FHitResult& Result : HitResults)
-	{
-		if (HittedActors.Contains(Result.GetActor())) continue;
-		
-		// Print String
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				1.0f,
-				FColor::Cyan,
-				Result.BoneName.ToString()
-			);
-
-		// add -> emplace
-		// 
-		HittedActors.Emplace(Result.GetActor());
-
-		HitCount++;
-	}
-	
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Red,
-			FString::Printf(TEXT("Hit Count = %d"), HitCount)
-		);
+	if(AttackComponent)
+		AttackComponent->TraceHit();
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -155,6 +90,13 @@ void ABaseCharacter::I_AN_EndAttack()
 	// bisattacking -> false
 	if(AttackComponent)
 		AttackComponent->AN_EndAttack();
+}
+
+FVector ABaseCharacter::I_GetSocketLocation(const FName& SocketName) const
+{
+	if (GetMesh() == nullptr) return FVector();
+
+	return GetMesh()->GetSocketLocation(SocketName);
 }
 
 void ABaseCharacter::BeginPlay()
