@@ -64,4 +64,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
 	TArray<AActor*> ActorsToIgnore;
+
+	TArray<AActor*> HittedActors;
 };

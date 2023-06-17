@@ -81,6 +81,8 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 	// Hit Results
 	TArray<FHitResult> HitResults;
 
+	HittedActors.Empty();
+
 	bool bDoHitSomething = UKismetSystemLibrary::LineTraceMultiForObjects(
 		this,
 		StartLocation,
@@ -95,11 +97,15 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 	// 
 	if (bDoHitSomething == false) return;
 
+	
+	int HitCount = 0;
+
+	// 1 2 3 4
 	for (const FHitResult& Result : HitResults)
 	{
-		// GEngine
-		// Bone Name
-		// FName -> FString
+		if (HittedActors.Contains(Result.GetActor())) continue;
+		
+		// Print String
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(
 				-1,
@@ -107,12 +113,28 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 				FColor::Cyan,
 				Result.BoneName.ToString()
 			);
+
+		// Draw Sphere
 		UKismetSystemLibrary::DrawDebugSphere(
 			this,
 			Result.ImpactPoint,
 			10.0f
 		);
+		// add -> emplace
+		// 
+		HittedActors.Emplace(Result.GetActor());
+
+		HitCount++;
 	}
+	
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Red,
+			FString::Printf(TEXT("Hit Count = %d"), HitCount)
+		);
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)

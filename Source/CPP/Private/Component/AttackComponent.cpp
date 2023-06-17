@@ -17,7 +17,7 @@ void UAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	AttackInterface =  TScriptInterface<IAttackInterface>(GetOwner());
+	AttackInterface = TScriptInterface<IAttackInterface>(GetOwner());
 }
 
 void UAttackComponent::RequestAttack()
