@@ -59,14 +59,11 @@ private:
 
 	// Trace Hit
 	// Object Type
-	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
-	TArray<TEnumAsByte<EObjectTypeQuery>> TraceObjectTypes;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
-	TArray<AActor*> ActorsToIgnore;
 
 	TArray<AActor*> HittedActors;
+	int HitCount = 0;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
-	float TraceRadius = 20.0f;
+
+
 };

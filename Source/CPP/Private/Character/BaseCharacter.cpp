@@ -10,6 +10,7 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DataAsset/EnhancedInputData.h"
+#include "DataAsset/BaseCharacterData.h"
 
 #include "Component/AttackComponent.h"
 
@@ -72,34 +73,45 @@ void ABaseCharacter::PostInitializeComponents()
 void ABaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	// line trace
 
-	const FVector StartLocation = GetActorLocation();
-	const FVector EndLocation = 
-		StartLocation + (GetActorForwardVector() * 1000.0f);
+	if (GetMesh() == nullptr) return;
+	if (BaseCharacterData == nullptr) return;
+
+	// line trace
+	// Socket Name
+	
+	const FVector& StartLocation = 
+		GetMesh()->GetSocketLocation(BaseCharacterData->TraceStart);
+
+	const FVector& EndLocation = 
+		GetMesh()->GetSocketLocation(BaseCharacterData->TraceEnd);
 
 	// Hit Results
 	TArray<FHitResult> HitResults;
 
 	HittedActors.Empty();
+	HitCount = 0;
 
 	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
 		this,
 		StartLocation,
 		EndLocation,
-		TraceRadius,
-		TraceObjectTypes,
+		BaseCharacterData->TraceRadius,
+		BaseCharacterData->TraceObjectTypes,
 		false,
-		ActorsToIgnore,
-		EDrawDebugTrace::ForOneFrame,
+		BaseCharacterData->ActorsToIgnore,
+		EDrawDebugTrace::ForDuration,
 		HitResults,
-		true
+		true,
+		FLinearColor::Red,
+		FLinearColor::Green,
+		BaseCharacterData->DrawTime
 		);
 	// 
 	if (bDoHitSomething == false) return;
 
 	
-	int HitCount = 0;
+
 
 	// 1 2 3 4
 	for (const FHitResult& Result : HitResults)
@@ -115,12 +127,6 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 				Result.BoneName.ToString()
 			);
 
-		// Draw Sphere
-		UKismetSystemLibrary::DrawDebugSphere(
-			this,
-			Result.ImpactPoint,
-			10.0f
-		);
 		// add -> emplace
 		// 
 		HittedActors.Emplace(Result.GetActor());
