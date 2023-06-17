@@ -6,6 +6,11 @@
 #include "Components/ActorComponent.h"
 #include "AttackComponent.generated.h"
 
+
+// hit result
+// delegate type
+DECLARE_DYNAMIC_DELEGATE_OneParam(FHitSomethingDelegate, const FHitResult&, HitResult);
+
 class ACharacter;
 class UAnimMontage;
 class UBaseCharacterData;
@@ -21,6 +26,8 @@ public:
 	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void RequestAttack();
 	void TraceHit();
+
+
 	
 
 	void SetupAttackComponent(UBaseCharacterData* BCD);
@@ -32,7 +39,9 @@ protected:
 	
 private:
 	void Attack();
-
+	void HandleHitResult(const FHitResult& Result);
+public:
+	FHitSomethingDelegate HitSomethingDelegate;
 private:
 	// luu actor co trien khai interface
 	// template

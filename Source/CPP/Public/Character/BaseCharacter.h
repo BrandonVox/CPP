@@ -43,6 +43,10 @@ private:
 	void Move(const FInputActionValue& Value);
 	void AttackPressed();
 
+	// Event Function
+	UFUNCTION()
+	void HandleHitSomething(const FHitResult& HitResult);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComponent;

@@ -64,26 +64,40 @@ void UAttackComponent::TraceHit()
 	if (bDoHitSomething == false) return;
 
 
-
+	// point damage
 
 	// 1 2 3 4
 	for (const FHitResult& Result : HitResults)
 	{
 		if (HittedActors.Contains(Result.GetActor())) continue;
 
-		// Print String
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				1.0f,
-				FColor::Cyan,
-				Result.BoneName.ToString()
-			);
+		HandleHitResult(Result);
 
-		// add -> emplace
-		// 
+
 		HittedActors.Emplace(Result.GetActor());
 	}
+}
+
+void UAttackComponent::HandleHitResult(const FHitResult& Result)
+{
+	// Print String
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Cyan,
+			Result.BoneName.ToString()
+		);
+
+	// character -> dang ky delegate
+	// thong bao cho character
+	// da danh trung muc tieu
+	// hit result
+	// Character -> Apply Point Damage
+	// delegate
+	if(HitSomethingDelegate.IsBound())
+		HitSomethingDelegate.Execute(Result);
+
 }
 
 void UAttackComponent::Attack()

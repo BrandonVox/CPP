@@ -14,6 +14,9 @@
 
 #include "Component/AttackComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+
 
 
 ABaseCharacter::ABaseCharacter()
@@ -66,8 +69,12 @@ void ABaseCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	// attack component
-	if(AttackComponent)
+	if (AttackComponent)
+	{
+		AttackComponent->HitSomethingDelegate.BindDynamic(this, &ABaseCharacter::HandleHitSomething);
 		AttackComponent->SetupAttackComponent(BaseCharacterData);
+	}
+		
 }
 
 // xoa function nay
@@ -174,4 +181,43 @@ void ABaseCharacter::AttackPressed()
 {
 	if(AttackComponent)
 		AttackComponent->RequestAttack();
+}
+
+void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
+{
+	if (BaseCharacterData == nullptr) return;
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Cyan,
+			TEXT("Handle Hit Something")
+		);
+
+	// gameplay statics kismet
+	// apply point damage
+	// hit from direction
+	// vi tri cua nguoi tan cong - vi tri cua nan nhan
+	// kismet math library
+	auto HitActor = HitResult.GetActor();
+
+	if (HitActor == nullptr) return;
+
+	const auto AttackDirection = UKismetMathLibrary::GetDirectionUnitVector(
+		GetActorLocation(),
+		HitActor->GetActorLocation()
+	);
+
+
+	UGameplayStatics::ApplyPointDamage(
+		HitActor,
+		BaseCharacterData->Damage,
+		AttackDirection,
+		HitResult, 
+		GetController(),
+		this,
+		UDamageType::StaticClass()
+		);
+
 }
