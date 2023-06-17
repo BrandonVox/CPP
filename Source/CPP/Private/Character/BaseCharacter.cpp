@@ -83,10 +83,11 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 
 	HittedActors.Empty();
 
-	bool bDoHitSomething = UKismetSystemLibrary::LineTraceMultiForObjects(
+	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
 		this,
 		StartLocation,
 		EndLocation,
+		TraceRadius,
 		TraceObjectTypes,
 		false,
 		ActorsToIgnore,

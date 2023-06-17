@@ -66,4 +66,7 @@ private:
 	TArray<AActor*> ActorsToIgnore;
 
 	TArray<AActor*> HittedActors;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
+	float TraceRadius = 20.0f;
 };
