@@ -26,4 +26,7 @@ public:
 	virtual void I_AN_EndAttack() = 0;
 	// getter
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const = 0;
+
+	virtual void I_ANS_TraceHit() = 0;
+	virtual void I_ANS_BeginTraceHit() = 0;
 };

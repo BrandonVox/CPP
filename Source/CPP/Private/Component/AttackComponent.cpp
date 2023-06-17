@@ -42,8 +42,8 @@ void UAttackComponent::TraceHit()
 	// Hit Results
 	TArray<FHitResult> HitResults;
 
-	HittedActors.Empty();
-	HitCount = 0;
+	// 
+
 
 	bool bDoHitSomething = UKismetSystemLibrary::SphereTraceMultiForObjects(
 		this,
@@ -83,18 +83,7 @@ void UAttackComponent::TraceHit()
 		// add -> emplace
 		// 
 		HittedActors.Emplace(Result.GetActor());
-
-		HitCount++;
 	}
-
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Red,
-			FString::Printf(TEXT("Hit Count = %d"), HitCount)
-		);
 }
 
 void UAttackComponent::Attack()
@@ -112,6 +101,11 @@ void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
 void UAttackComponent::AN_EndAttack()
 {
 	bIsAttacking = false;
+}
+
+void UAttackComponent::SetupTraceHit()
+{
+	HittedActors.Empty();
 }
 
 

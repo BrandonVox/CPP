@@ -75,8 +75,7 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if(AttackComponent)
-		AttackComponent->TraceHit();
+	// khong dung nua
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -98,6 +97,21 @@ FVector ABaseCharacter::I_GetSocketLocation(const FName& SocketName) const
 
 	return GetMesh()->GetSocketLocation(SocketName);
 }
+
+
+void ABaseCharacter::I_ANS_BeginTraceHit()
+{
+	if (AttackComponent)
+		AttackComponent->SetupTraceHit();
+}
+
+void ABaseCharacter::I_ANS_TraceHit()
+{
+	if (AttackComponent)
+		AttackComponent->TraceHit();
+}
+
+
 
 void ABaseCharacter::BeginPlay()
 {

@@ -25,6 +25,7 @@ public:
 
 	void SetupAttackComponent(UBaseCharacterData* BCD);
 	void AN_EndAttack();
+	void SetupTraceHit();
 protected:
 
 	virtual void BeginPlay() override;
@@ -47,6 +48,5 @@ private:
 	* Trace Hit
 	*/
 	TArray<AActor*> HittedActors;
-	int HitCount = 0;
 
 };

@@ -31,6 +31,8 @@ public:
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_AN_EndAttack() override;
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const override;
+	virtual void I_ANS_TraceHit() override;
+	virtual void I_ANS_BeginTraceHit() override;
 protected:
 	virtual void BeginPlay() override;
 
