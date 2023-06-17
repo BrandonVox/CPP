@@ -100,7 +100,6 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 		// GEngine
 		// Bone Name
 		// FName -> FString
-		
 		if (GEngine)
 			GEngine->AddOnScreenDebugMessage(
 				-1,
@@ -113,7 +112,6 @@ void ABaseCharacter::Tick(float DeltaSeconds)
 			Result.ImpactPoint,
 			10.0f
 		);
-
 	}
 }
 
