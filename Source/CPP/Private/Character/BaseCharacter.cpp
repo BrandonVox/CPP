@@ -140,6 +140,8 @@ void ABaseCharacter::AddMapingContextForCharacter()
 		Subsystem->AddMappingContext(EnhancedInputData->InputMappingContext, 0);
 }
 
+
+
 void ABaseCharacter::Look(const FInputActionValue& Value)
 {
 	
@@ -221,7 +223,10 @@ void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 
 }
 
-void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
+void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
+	AController* InstigatedBy, FVector HitLocation,
+	UPrimitiveComponent* FHitComponent, FName BoneName,
+	FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(
@@ -234,8 +239,30 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, A
 	// hit react animation montage
 	if (BaseCharacterData)
 	{
-		PlayAnimMontage(BaseCharacterData->HitReactMontage);
+		PlayAnimMontage(GetCorrectHitReactMontage(ShotFromDirection));
 		CombatState = ECombatState::Beaten;
 	}
 		
+}
+
+UAnimMontage* ABaseCharacter::GetCorrectHitReactMontage(const FVector& AttackDirection) const
+{
+	if (BaseCharacterData == nullptr) return nullptr;
+
+	double Dot = FVector::DotProduct(AttackDirection, GetActorForwardVector());
+	// print dot product
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Red,
+			FString::Printf(TEXT("DOT = %f"), Dot)
+		);
+
+	if (Dot > 0.0)
+		return BaseCharacterData->HitReactMontage_Back;
+	else
+		return BaseCharacterData->HitReactMontage_Front;
+
+	return nullptr;
 }

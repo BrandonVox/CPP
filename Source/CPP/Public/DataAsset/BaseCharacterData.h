@@ -16,8 +16,20 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackMontage;
 
+	/*
+	* Hit React Montages
+	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
-	UAnimMontage* HitReactMontage;
+	UAnimMontage* HitReactMontage_Front;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
+	UAnimMontage* HitReactMontage_Back;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
+	UAnimMontage* HitReactMontage_Right;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
+	UAnimMontage* HitReactMontage_Left;
 
 	/*
 	* Trace Hit

@@ -40,6 +40,8 @@ protected:
 	void AddMapingContextForCharacter();
 
 private:
+	// attack direction
+	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
 	void AttackPressed();
