@@ -24,6 +24,7 @@ class CPP_API IAttackInterface
 public:
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) = 0;
 	virtual void I_AN_EndAttack() = 0;
+	virtual void I_AN_Combo() = 0;
 	// getter
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const = 0;
 

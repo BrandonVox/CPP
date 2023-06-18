@@ -24,8 +24,12 @@ void UAttackComponent::BeginPlay()
 
 void UAttackComponent::RequestAttack()
 {
-	if (bIsAttacking) return;
-	Attack();
+	// khong tan cong
+	// co the combo
+	// attack
+	const bool bCanAttack = bIsAttacking == false || bCanCombo == true;
+
+	if (bCanAttack) Attack();
 }
 
 void UAttackComponent::TraceHit()
@@ -109,6 +113,7 @@ void UAttackComponent::Attack()
 	if (AttackInterface && BaseCharacterData)
 		AttackInterface->I_PlayAttackMontage(BaseCharacterData->AttackMontage);
 	bIsAttacking = true;
+	bCanCombo = false;
 }
 
 void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
@@ -119,6 +124,13 @@ void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
 void UAttackComponent::AN_EndAttack()
 {
 	bIsAttacking = false;
+	bCanCombo = false;
+}
+
+void UAttackComponent::AN_Combo()
+{
+	// bcancombo
+	bCanCombo = true;
 }
 
 void UAttackComponent::SetupTraceHit()

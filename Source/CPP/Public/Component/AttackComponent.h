@@ -32,6 +32,7 @@ public:
 
 	void SetupAttackComponent(UBaseCharacterData* BCD);
 	void AN_EndAttack();
+	void AN_Combo();
 	void SetupTraceHit();
 protected:
 
@@ -52,6 +53,7 @@ private:
 	UBaseCharacterData* BaseCharacterData;
 
 	bool bIsAttacking = false;
+	bool bCanCombo = false;
 
 	/*
 	* Trace Hit
