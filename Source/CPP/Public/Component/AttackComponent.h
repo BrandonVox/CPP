@@ -54,6 +54,7 @@ private:
 
 	bool bIsAttacking = false;
 	bool bCanCombo = false;
+	bool bSavedAttack = false;
 
 	/*
 	* Trace Hit

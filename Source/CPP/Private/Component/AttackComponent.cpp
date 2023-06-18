@@ -29,7 +29,10 @@ void UAttackComponent::RequestAttack()
 	// attack
 	const bool bCanAttack = bIsAttacking == false || bCanCombo == true;
 
-	if (bCanAttack) Attack();
+	if (bCanAttack) 
+		Attack();
+	else 
+		bSavedAttack = true;
 }
 
 void UAttackComponent::TraceHit()
@@ -125,12 +128,18 @@ void UAttackComponent::AN_EndAttack()
 {
 	bIsAttacking = false;
 	bCanCombo = false;
+	bSavedAttack = false;
 }
 
 void UAttackComponent::AN_Combo()
 {
 	// bcancombo
 	bCanCombo = true;
+	if (bSavedAttack)
+	{
+		RequestAttack();
+		bSavedAttack = false;
+	}
 }
 
 void UAttackComponent::SetupTraceHit()
