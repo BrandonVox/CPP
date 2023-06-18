@@ -249,20 +249,24 @@ UAnimMontage* ABaseCharacter::GetCorrectHitReactMontage(const FVector& AttackDir
 {
 	if (BaseCharacterData == nullptr) return nullptr;
 
-	double Dot = FVector::DotProduct(AttackDirection, GetActorForwardVector());
-	// print dot product
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Red,
-			FString::Printf(TEXT("DOT = %f"), Dot)
-		);
+	const double Dot = FVector::DotProduct(AttackDirection, GetActorForwardVector());
+	const bool bShouldUseDot = FMath::Abs(Dot) > 0.5;
 
-	if (Dot > 0.0)
-		return BaseCharacterData->HitReactMontage_Back;
+	if (bShouldUseDot)
+	{
+		if (Dot > 0.0)
+			return BaseCharacterData->HitReactMontage_Back;
+		else
+			return BaseCharacterData->HitReactMontage_Front;
+	}
 	else
-		return BaseCharacterData->HitReactMontage_Front;
+	{
+		const FVector Cross = FVector::CrossProduct(AttackDirection, GetActorForwardVector());
+		if (Cross.Z > 0.0)
+			return BaseCharacterData->HitReactMontage_Right;
+		else
+			return BaseCharacterData->HitReactMontage_Left;
+	}
 
 	return nullptr;
 }
