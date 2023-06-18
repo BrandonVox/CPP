@@ -232,6 +232,10 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, A
 		);
 
 	// hit react animation montage
-	if(BaseCharacterData)
+	if (BaseCharacterData)
+	{
 		PlayAnimMontage(BaseCharacterData->HitReactMontage);
+		CombatState = ECombatState::Beaten;
+	}
+		
 }

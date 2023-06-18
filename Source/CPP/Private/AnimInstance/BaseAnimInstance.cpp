@@ -2,14 +2,15 @@
 
 
 #include "AnimInstance/BaseAnimInstance.h"
-#include "GameFramework/Character.h"
+#include "Character/BaseCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Enum/CombatState.h"
 
 void UBaseAnimInstance::NativeInitializeAnimation()
 {
 	// Pawn -> Character
-	Character = Cast<ACharacter>(TryGetPawnOwner());
+	Character = Cast<ABaseCharacter>(TryGetPawnOwner());
 
 	// nullptr
 	if(Character)
@@ -19,10 +20,14 @@ void UBaseAnimInstance::NativeInitializeAnimation()
 void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 
-	if (MovementComponent == nullptr)
+	if (MovementComponent == nullptr || Character == nullptr)
 		return;
 	
 	GroundSpeed =  UKismetMathLibrary::VSizeXY(MovementComponent->Velocity);
 
 	bShouldMove = GroundSpeed > 0.0f;
+
+	bShouldBlendLowerUpper =
+		GroundSpeed > 0.0f
+		&& Character->GetCombatState() != ECombatState::Beaten;
 }

@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/AttackInterface.h"
+#include "Enum/CombatState.h"
 #include "BaseCharacter.generated.h"
 
 class USpringArmComponent;
@@ -55,6 +56,10 @@ private:
 		AActor* DamageCauser);
 
 private:
+	// getter
+	ECombatState CombatState = ECombatState::Ready;
+
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComponent;
 
@@ -71,11 +76,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UBaseCharacterData* BaseCharacterData;
 
-	// Trace Hit
-	// Object Type
-
-
-
+// getter setter
+public:
+	FORCEINLINE
+	ECombatState GetCombatState() const { return CombatState; }
 
 
 
