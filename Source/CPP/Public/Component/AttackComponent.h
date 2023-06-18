@@ -41,6 +41,7 @@ protected:
 private:
 	void Attack();
 	void HandleHitResult(const FHitResult& Result);
+	UAnimMontage* GetCorrectAttackMontage();
 public:
 	FHitSomethingDelegate HitSomethingDelegate;
 private:
@@ -55,6 +56,7 @@ private:
 	bool bIsAttacking = false;
 	bool bCanCombo = false;
 	bool bSavedAttack = false;
+	int AttackIndex = 0;
 
 	/*
 	* Trace Hit

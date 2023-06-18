@@ -13,8 +13,9 @@ class CPP_API UBaseCharacterData : public UDataAsset
 {
 	GENERATED_BODY()
 public:
+	// t array
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
-	UAnimMontage* AttackMontage;
+	TArray< UAnimMontage*> AttackMontages;
 
 	/*
 	* Hit React Montages
