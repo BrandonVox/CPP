@@ -7,6 +7,7 @@
 #include "BaseCharacterData.generated.h"
 
 class UAnimMontage;
+class UParticleSystem;
 
 UCLASS()
 class CPP_API UBaseCharacterData : public UDataAsset
@@ -31,6 +32,11 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
 	UAnimMontage* HitReactMontage_Left;
+	/*
+	* Hit Impact
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Hit Impact")
+	UParticleSystem* HitImpactEffect;
 
 	/*
 	* Trace Hit
