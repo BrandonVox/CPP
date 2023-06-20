@@ -42,6 +42,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 	USoundBase* HitImpactSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundBase* PainSound;
+	
+
 	/*
 	* Trace Hit
 	*/
