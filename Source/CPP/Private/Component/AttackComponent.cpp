@@ -124,6 +124,8 @@ void UAttackComponent::Attack()
 	if (AttackInterface && BaseCharacterData && GetCorrectAttackMontage())
 	{
 		AttackInterface->I_PlayAttackMontage(GetCorrectAttackMontage());
+		AttackInterface->I_PlayStartAttackSound();
+
 		bIsAttacking = true;
 		bCanCombo = false;
 		// 3: 0 1 2

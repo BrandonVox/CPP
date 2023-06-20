@@ -93,6 +93,19 @@ void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 	PlayAnimMontage(AttackMontage);
 }
 
+void ABaseCharacter::I_PlayStartAttackSound()
+{
+	// play sound at location
+	if (BaseCharacterData == nullptr) return;
+
+	UGameplayStatics::PlaySoundAtLocation(
+		this,
+		BaseCharacterData->StartAttackSound,
+		GetActorLocation()
+	);
+
+}
+
 void ABaseCharacter::I_AN_EndAttack()
 {
 	// attack component

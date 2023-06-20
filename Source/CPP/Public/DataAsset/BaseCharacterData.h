@@ -44,6 +44,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 	USoundBase* PainSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundBase* StartAttackSound;
 	
 
 	/*
