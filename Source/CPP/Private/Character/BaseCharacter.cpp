@@ -251,6 +251,13 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		HitLocation
 	);
 
+	// Play Hit Impact Sound
+	UGameplayStatics::PlaySoundAtLocation(
+		this,
+		BaseCharacterData->HitImpactSound,
+		HitLocation
+	);
+
 	// hit react animation montage
 
 	PlayAnimMontage(GetCorrectHitReactMontage(ShotFromDirection));

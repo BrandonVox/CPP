@@ -8,6 +8,7 @@
 
 class UAnimMontage;
 class UParticleSystem;
+class USoundBase;
 
 UCLASS()
 class CPP_API UBaseCharacterData : public UDataAsset
@@ -37,6 +38,9 @@ public:
 	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Hit Impact")
 	UParticleSystem* HitImpactEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundBase* HitImpactSound;
 
 	/*
 	* Trace Hit
