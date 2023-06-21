@@ -13,5 +13,8 @@ UCLASS()
 class CPP_API APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
 	
 };
