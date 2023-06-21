@@ -14,6 +14,8 @@
 
 #include "Component/AttackComponent.h"
 
+#include "Component/HealthComponent.h"
+
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -38,6 +40,8 @@ ABaseCharacter::ABaseCharacter()
 	// u attack component
 	// actor component
 	AttackComponent = CreateDefaultSubobject<UAttackComponent>(TEXT("Attack Component"));
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
 
 	// boolean
 	bUseControllerRotationYaw = false;
@@ -74,6 +78,11 @@ void ABaseCharacter::PostInitializeComponents()
 		AttackComponent->HitSomethingDelegate.BindDynamic(this, &ABaseCharacter::HandleHitSomething);
 		AttackComponent->SetupAttackComponent(BaseCharacterData);
 	}
+
+	if (HealthComponent)
+	{
+		HealthComponent->SetupHealthComponent(BaseCharacterData);
+	}
 		
 }
 
@@ -82,6 +91,19 @@ void ABaseCharacter::BeginPlay()
 	Super::BeginPlay();
 	// bind delegate nhan sat thuong
 	OnTakePointDamage.AddDynamic(this, &ABaseCharacter::HandleTakePointDamage);
+
+	// Print Health - Max Health
+	if (GEngine && HealthComponent)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Red,
+			FString::Printf(
+				TEXT("Health = %f, MaxHealth = %f"),
+				HealthComponent->GetHealth(),
+				HealthComponent->GetMaxHealth()
+				)
+		);
 }
 
 #pragma region Attack_Interface

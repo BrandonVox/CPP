@@ -8,7 +8,10 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+
 class UAttackComponent;
+class UHealthComponent;
+
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -62,6 +65,10 @@ private:
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser);
 
+protected:
+	UPROPERTY(VisibleAnywhere)
+	UHealthComponent* HealthComponent;
+
 private:
 	// getter
 	ECombatState CombatState = ECombatState::Ready;
@@ -75,6 +82,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UAttackComponent* AttackComponent;
+
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UEnhancedInputData* EnhancedInputData;

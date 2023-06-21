@@ -15,7 +15,8 @@ class CPP_API ABasePlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-	void HandleCharacterSpawned();
+
+	void HandleCharacterSpawned(float HealthPercent);
 
 private:
 

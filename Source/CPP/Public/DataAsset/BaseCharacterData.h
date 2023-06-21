@@ -73,6 +73,17 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Trace Hit")
 	bool bDrawDebugTrace = true;
 
+	/*
+	* Stats
+	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float Damage = 20.0f;
+
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float Health = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float MaxHealth = 100.0f;
+
 };

@@ -5,6 +5,8 @@
 
 #include "PlayerController/BasePlayerController.h"
 
+#include "Component/HealthComponent.h"
+
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -12,6 +14,7 @@ void APlayerCharacter::BeginPlay()
 	auto BasePlayerController = 
 		Cast<ABasePlayerController>(GetController());
 	
-	if(BasePlayerController)
-		BasePlayerController->HandleCharacterSpawned();
+	if(BasePlayerController && HealthComponent)
+		BasePlayerController->
+		HandleCharacterSpawned(HealthComponent->GetHealthPercent());
 }

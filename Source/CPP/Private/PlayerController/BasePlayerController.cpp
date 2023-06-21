@@ -2,11 +2,11 @@
 
 
 #include "PlayerController/BasePlayerController.h"
-#include "Blueprint/UserWidget.h"
 
-void ABasePlayerController::HandleCharacterSpawned()
+#include "Widget/PlayerWidget.h"
+
+void ABasePlayerController::HandleCharacterSpawned(float HealthPercent)
 {
-
 	if (GEngine)
 		GEngine->AddOnScreenDebugMessage(
 			-1,
@@ -17,9 +17,11 @@ void ABasePlayerController::HandleCharacterSpawned()
 
 	// Spawn Widget
 
-	UUserWidget* PlayerWidget = 
-		CreateWidget<UUserWidget>(this, PlayerWidgetClass);
+	UPlayerWidget* PlayerWidget =
+		CreateWidget<UPlayerWidget>(this, PlayerWidgetClass);
 
-	if (PlayerWidget)
-		PlayerWidget->AddToViewport();
+	if (PlayerWidget == nullptr) return;
+
+	PlayerWidget->UpdateHealthBar(HealthPercent);
+	PlayerWidget->AddToViewport();
 }
