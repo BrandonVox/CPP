@@ -20,7 +20,6 @@ public:
 
 private:
 
-	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
-	TSubclassOf<UUserWidget> PlayerWidgetClass;
+
 
 };

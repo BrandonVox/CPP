@@ -9,6 +9,8 @@
 
 #include "Kismet/KismetSystemLibrary.h" // debug
 
+#include "Interface/EnemyInterface.h"
+
 AEnemyAIController::AEnemyAIController()
 {
 	AIPerceptionComponent = 
@@ -76,6 +78,12 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 			);
 
 		DebugColor = FLinearColor::Red;
+
+		// handle see player
+		auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
+
+		if (EnemyInterface)
+			EnemyInterface->I_HandleSeePlayer(Actor);
 	}
 	else
 	{

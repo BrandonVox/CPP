@@ -7,6 +7,7 @@
 #include "PlayerWidget.generated.h"
 
 class UProgressBar;
+class UTextBlock;
 
 UCLASS()
 class CPP_API UPlayerWidget : public UUserWidget
@@ -16,9 +17,31 @@ class CPP_API UPlayerWidget : public UUserWidget
 public:
 	void UpdateHealthBar(float NewPercent);
 
+	void UpdateNameText_Enemy(FText GivenNameText);
+
+	void UpdateHealthBar_Enemy(float Health, float MaxHealth);
+
+
+
+	void ShowEnemyStats();
+	void HideEnemyStats();
+
+
 private:
 
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar;
+
+	/*
+	*  Enemy Stats
+	*/
+	UPROPERTY(meta = (BindWidget))
+	UProgressBar* HealthBar_Enemy;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* HealthText_Enemy;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* NameText_Enemy;
 
 };

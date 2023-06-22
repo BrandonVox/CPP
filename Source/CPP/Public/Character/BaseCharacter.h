@@ -47,6 +47,13 @@ protected:
 
 	void AddMapingContextForCharacter();
 
+	UFUNCTION()
+	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
+		class AController* InstigatedBy, FVector HitLocation,
+		class UPrimitiveComponent* FHitComponent, FName BoneName,
+		FVector ShotFromDirection, const class UDamageType* DamageType,
+		AActor* DamageCauser);
+
 private:
 	// attack direction
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
@@ -58,16 +65,14 @@ private:
 	UFUNCTION()
 	void HandleHitSomething(const FHitResult& HitResult);
 
-	UFUNCTION()
-	void HandleTakePointDamage(AActor* DamagedActor, float Damage,
-		class AController* InstigatedBy, FVector HitLocation,
-		class UPrimitiveComponent* FHitComponent, FName BoneName,
-		FVector ShotFromDirection, const class UDamageType* DamageType,
-		AActor* DamageCauser);
+
 
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UBaseCharacterData* BaseCharacterData;
 
 private:
 	// getter
@@ -83,14 +88,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UAttackComponent* AttackComponent;
 
-
-
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UEnhancedInputData* EnhancedInputData;
-
-
-	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
-	UBaseCharacterData* BaseCharacterData;
 
 // getter setter
 public:

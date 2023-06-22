@@ -86,4 +86,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float MaxHealth = 100.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	FText NameText;
+
 };

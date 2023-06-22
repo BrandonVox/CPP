@@ -270,16 +270,11 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	if (BaseCharacterData == nullptr) return;
-
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Red,
-			TEXT("Handle Take Point Damage")
-		);
-	// Spawn Hit Impact Effect
 	
+	if(HealthComponent)
+		HealthComponent->UpdateHealthByDamage(Damage);
+
+	// Spawn Hit Impact Effect
 	UGameplayStatics::SpawnEmitterAtLocation(
 		GetWorld(),
 		BaseCharacterData->HitImpactEffect,
@@ -301,7 +296,6 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	);
 
 	// hit react animation montage
-
 	PlayAnimMontage(GetCorrectHitReactMontage(ShotFromDirection));
 	CombatState = ECombatState::Beaten;
 
