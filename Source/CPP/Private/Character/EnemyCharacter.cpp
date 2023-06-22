@@ -3,8 +3,17 @@
 
 #include "Character/EnemyCharacter.h"
 
+#include "Kismet/KismetSystemLibrary.h" // debug
+
 AEnemyCharacter::AEnemyCharacter()
 {
+}
+
+void AEnemyCharacter::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+
 }
 
 AActor* AEnemyCharacter::GetCorrectPatrolPoint()

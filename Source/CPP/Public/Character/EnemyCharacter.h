@@ -16,10 +16,14 @@ class CPP_API AEnemyCharacter : public ABaseCharacter
 public:
 	AEnemyCharacter();
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	UFUNCTION(BlueprintCallable)
 	AActor* GetCorrectPatrolPoint();
 
+
 private:
+
 	UPROPERTY(EditInstanceOnly, Category = "Enemy AI")
 	TArray<AActor*> PatrolPoints;
 

@@ -14,7 +14,8 @@ public class CPP : ModuleRules
 			"Engine",
 			"InputCore",
             "EnhancedInput",
-            "UMG"
+            "UMG",
+            "AIModule"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
