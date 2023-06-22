@@ -15,5 +15,14 @@ class CPP_API AEnemyCharacter : public ABaseCharacter
 	GENERATED_BODY()
 public:
 	AEnemyCharacter();
+
+	UFUNCTION(BlueprintCallable)
+	AActor* GetCorrectPatrolPoint();
+
+private:
+	UPROPERTY(EditInstanceOnly, Category = "Enemy AI")
+	TArray<AActor*> PatrolPoints;
+
+	int PatrolIndex = 0;
 	
 };
