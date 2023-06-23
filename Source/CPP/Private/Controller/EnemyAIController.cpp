@@ -20,7 +20,6 @@ AEnemyAIController::AEnemyAIController()
 		CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("AI Perception Component"));
 	
 	AISightConfig = 
-
 		CreateDefaultSubobject<UAISenseConfig_Sight>(TEXT("AI Sight Config"));
 
 	AISightConfig->SightRadius = 2500.0f;
@@ -29,6 +28,19 @@ AEnemyAIController::AEnemyAIController()
 	AISightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 
 	AIPerceptionComponent->ConfigureSense(*AISightConfig);
+}
+
+void AEnemyAIController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	PossessedPawn = InPawn;
+
+	RunBehaviorTree(BehaviorTree);
+
+	if (AIPerceptionComponent)
+		AIPerceptionComponent->OnTargetPerceptionUpdated
+		.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
@@ -52,23 +64,11 @@ void AEnemyAIController::Tick(float DeltaTime)
 
 }
 
-void AEnemyAIController::OnPossess(APawn* InPawn)
-{
-	Super::OnPossess(InPawn);
 
-	PossessedPawn = InPawn;
-
-	RunBehaviorTree(BehaviorTree);
-
-	if(AIPerceptionComponent)
-
-		AIPerceptionComponent->OnTargetPerceptionUpdated
-		.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
-
-}
 
 void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
+
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		HandleSeePlayer(Actor);
@@ -79,8 +79,6 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 	}
 	
 }
-
-
 
 void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 {
@@ -97,7 +95,10 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 		Blackboard->SetValueAsObject(KeyPlayerActor, Actor);
 	}
 
-
+	// Remove Delegate, Not Handle Event
+	if (AIPerceptionComponent)
+		AIPerceptionComponent->OnTargetPerceptionUpdated
+		.RemoveDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 }
 
 void AEnemyAIController::HandleNotSeePlayer()

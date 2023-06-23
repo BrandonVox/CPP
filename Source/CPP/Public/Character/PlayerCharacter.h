@@ -9,6 +9,8 @@
 
 class UPlayerWidget;
 
+class UEnhancedInputData;
+
 UCLASS()
 class CPP_API APlayerCharacter : 
 	public ABaseCharacter, 
@@ -17,6 +19,9 @@ class CPP_API APlayerCharacter :
 	GENERATED_BODY()
 
 public:
+	APlayerCharacter();
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	/*
 	* Player Interface
 	*/
@@ -28,10 +33,28 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void AddMapingContextForCharacter();
+
+	void Look(const FInputActionValue& Value);
+	void Move(const FInputActionValue& Value);
+	void AttackPressed();
+
+private:
+	UPROPERTY()
+	UPlayerWidget* PlayerWidget;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UEnhancedInputData* EnhancedInputData;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
 
-	UPROPERTY()
-	UPlayerWidget* PlayerWidget;
+
 	
 };
