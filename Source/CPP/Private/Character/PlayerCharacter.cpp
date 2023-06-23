@@ -33,6 +33,7 @@ void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float Max
 		PlayerWidget->UpdateNameText_Enemy(NameText);
 		PlayerWidget->UpdateHealthBar_Enemy(Health, MaxHealth);
 	}
+	ChangeMaxWalkSpeed(400.0f);
 
 }
 

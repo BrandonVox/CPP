@@ -11,6 +11,8 @@
 
 #include "Interface/EnemyInterface.h"
 
+#include "BehaviorTree/BlackboardComponent.h"
+
 AEnemyAIController::AEnemyAIController()
 {
 	AIPerceptionComponent = 
@@ -56,7 +58,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 
 	PossessedPawn = InPawn;
 
-	// RunBehaviorTree(BehaviorTree);
+	RunBehaviorTree(BehaviorTree);
 
 	if(AIPerceptionComponent)
 
@@ -69,33 +71,42 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 {
 	if (Stimulus.WasSuccessfullySensed())
 	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				1.0f,
-				FColor::Green,
-				TEXT("See Player")
-			);
-
-		DebugColor = FLinearColor::Red;
-
-		// handle see player
-		auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
-
-		if (EnemyInterface)
-			EnemyInterface->I_HandleSeePlayer(Actor);
+		HandleSeePlayer(Actor);
 	}
 	else
 	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				1.0f,
-				FColor::Red,
-				TEXT("Lose Sight Player")
-			);
-
-		DebugColor = FLinearColor::Green;
+		HandleNotSeePlayer();
 	}
 	
+}
+
+
+
+void AEnemyAIController::HandleSeePlayer(AActor* Actor)
+{
+	DebugColor = FLinearColor::Red;
+
+	// handle see player
+	auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
+	if (EnemyInterface)
+		EnemyInterface->I_HandleSeePlayer(Actor);
+
+	if (Blackboard)
+	{
+		Blackboard->SetValueAsBool(KeyIsFighting, true);
+		Blackboard->SetValueAsObject(KeyPlayerActor, Actor);
+	}
+
+
+}
+
+void AEnemyAIController::HandleNotSeePlayer()
+{
+	DebugColor = FLinearColor::Green;
+
+	if (Blackboard)
+	{
+		Blackboard->SetValueAsBool(KeyIsFighting, false);
+		Blackboard->SetValueAsObject(KeyPlayerActor, nullptr);
+	}
 }

@@ -54,6 +54,9 @@ protected:
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser);
 
+	UFUNCTION(BlueprintCallable)
+	void ChangeMaxWalkSpeed(float NewSpeed);
+
 private:
 	// attack direction
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
@@ -73,6 +76,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UBaseCharacterData* BaseCharacterData;
+
+	float BaseSpeed = 0.0f;
 
 private:
 	// getter
@@ -95,7 +100,6 @@ private:
 public:
 	FORCEINLINE
 	ECombatState GetCombatState() const { return CombatState; }
-
 
 
 };

@@ -104,6 +104,9 @@ void ABaseCharacter::BeginPlay()
 				HealthComponent->GetMaxHealth()
 				)
 		);
+
+	if(GetCharacterMovement())
+		BaseSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 #pragma region Attack_Interface
@@ -300,6 +303,14 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	CombatState = ECombatState::Beaten;
 
 		
+}
+
+void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)
+{
+
+	if(GetCharacterMovement())
+		GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
+
 }
 
 UAnimMontage* ABaseCharacter::GetCorrectHitReactMontage(const FVector& AttackDirection) const

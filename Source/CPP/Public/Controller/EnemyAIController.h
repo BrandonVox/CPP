@@ -26,6 +26,9 @@ private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 
+	void HandleSeePlayer(AActor* Actor);
+	void HandleNotSeePlayer();
+
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
@@ -36,11 +39,21 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UAISenseConfig_Sight* AISightConfig;
 
-	UPROPERTY(EditDefaultsOnly)
+	FLinearColor DebugColor = FLinearColor::Green;
+
+	/*
+	* Behavior Tree
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
 	UBehaviorTree* BehaviorTree;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
+	FName KeyIsFighting;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
+	FName KeyPlayerActor;
 	
-	FLinearColor DebugColor = FLinearColor::Green;
+
 
 
 };
