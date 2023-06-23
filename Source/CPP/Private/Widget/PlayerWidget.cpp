@@ -6,10 +6,23 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 
-void UPlayerWidget::UpdateHealthBar(float NewPercent)
+void UPlayerWidget::UpdateHealthBar(float Health, float MaxHealth)
 {
-	if(HealthBar)
-		HealthBar->SetPercent(NewPercent);
+	if (HealthBar && HealthText_Player)
+	{
+
+		HealthBar->SetPercent(Health / MaxHealth);
+
+		FString HealthString =
+			FString::Printf(
+				TEXT("%d / %d"),
+				FMath::CeilToInt(Health),
+				FMath::CeilToInt(MaxHealth)
+			);
+
+		HealthText_Player->SetText(FText::FromString(HealthString));
+
+	}
 }
 
 void UPlayerWidget::UpdateHealthBar_Enemy(float Health, float MaxHealth)

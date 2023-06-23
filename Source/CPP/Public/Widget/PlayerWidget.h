@@ -15,7 +15,7 @@ class CPP_API UPlayerWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void UpdateHealthBar(float NewPercent);
+	void UpdateHealthBar(float Health, float MaxHealth);
 
 	void UpdateNameText_Enemy(FText GivenNameText);
 
@@ -28,6 +28,8 @@ public:
 
 
 private:
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* HealthText_Player;
 
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar;

@@ -65,10 +65,20 @@ void APlayerCharacter::BeginPlay()
 	{
 
 		PlayerWidget->AddToViewport();
-		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealthPercent());
+		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
 
 		PlayerWidget->HideEnemyStats();
 	}
+}
+
+void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
+{
+	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
+		HitLocation, FHitComponent, BoneName, ShotFromDirection,
+		DamageType, DamageCauser);
+
+	if (PlayerWidget && HealthComponent)
+		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
 }
 
 void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float MaxHealth)
