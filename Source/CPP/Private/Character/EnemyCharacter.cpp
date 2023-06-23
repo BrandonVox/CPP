@@ -17,9 +17,8 @@ void AEnemyCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
-AActor* AEnemyCharacter::GetCorrectPatrolPoint()
+AActor* AEnemyCharacter::I_GetCorrectPatrolPoint()
 {
-
 	if (PatrolPoints.IsEmpty()) return nullptr;
 
 	auto Result = PatrolPoints[PatrolIndex];

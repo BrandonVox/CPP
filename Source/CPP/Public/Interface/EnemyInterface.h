@@ -7,7 +7,7 @@
 #include "EnemyInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, meta = (CannotImplementInterfaceInBlueprint))
 class UEnemyInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -24,5 +24,8 @@ class CPP_API IEnemyInterface
 public:
 
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) = 0;
+
+	UFUNCTION(BlueprintCallable)
+	virtual AActor* I_GetCorrectPatrolPoint() = 0;
 
 };

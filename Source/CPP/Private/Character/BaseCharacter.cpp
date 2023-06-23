@@ -84,6 +84,12 @@ void ABaseCharacter::BeginPlay()
 
 
 
+void ABaseCharacter::I_RequestAttack()
+{
+	if (CombatState == ECombatState::Ready && AttackComponent)
+		AttackComponent->RequestAttack();
+}
+
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 {
 	PlayAnimMontage(AttackMontage);
@@ -104,10 +110,15 @@ void ABaseCharacter::I_PlayStartAttackSound()
 
 void ABaseCharacter::I_AN_EndAttack()
 {
-	// attack component
-	// bisattacking -> false
 	if(AttackComponent)
 		AttackComponent->AN_EndAttack();
+}
+
+void ABaseCharacter::I_AN_EndHitReact()
+{
+	CombatState = ECombatState::Ready;
+
+	I_AN_EndAttack();
 }
 
 void ABaseCharacter::I_AN_Combo()

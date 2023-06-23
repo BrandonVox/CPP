@@ -34,10 +34,13 @@ public:
 	/*
 	* Attack Interface
 	*/
+	virtual void I_RequestAttack() override;
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
 
 	virtual void I_AN_EndAttack() override;
+	virtual void I_AN_EndHitReact() override;
+
 	virtual void I_AN_Combo() override;
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const override;
 	virtual void I_ANS_TraceHit() override;
@@ -84,13 +87,6 @@ protected:
 private:
 	// getter
 	ECombatState CombatState = ECombatState::Ready;
-
-
-
-
-
-
-
 
 // getter setter
 public:

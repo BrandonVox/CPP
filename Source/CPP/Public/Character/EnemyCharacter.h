@@ -21,12 +21,14 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION(BlueprintCallable)
-	AActor* GetCorrectPatrolPoint();
+
 
 	/*
 	* Enemy Interface
 	*/
+
+	virtual AActor* I_GetCorrectPatrolPoint() override;
+
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) override;
 
 protected:
