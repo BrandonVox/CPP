@@ -26,4 +26,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
 	UInputAction* IA_Attack;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Enhanced Input")
+	UInputAction* IA_Sprint;
 };

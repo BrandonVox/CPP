@@ -229,10 +229,11 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 
 void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)
 {
-
-	if(GetCharacterMovement())
+	if (GetCharacterMovement())
+	{
+		PreviousSpeed = GetCharacterMovement()->MaxWalkSpeed;
 		GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
-
+	}
 }
 
 UAnimMontage* ABaseCharacter::GetCorrectHitReactMontage(const FVector& AttackDirection) const

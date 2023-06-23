@@ -73,6 +73,8 @@ private:
 
 
 protected:
+	float PreviousSpeed = 0.0f;
+
 	UPROPERTY(VisibleAnywhere)
 	UHealthComponent* HealthComponent;
 
@@ -80,6 +82,8 @@ protected:
 	UBaseCharacterData* BaseCharacterData;
 
 	float BaseSpeed = 0.0f;
+
+
 
 	UPROPERTY(VisibleAnywhere)
 	UAttackComponent* AttackComponent;

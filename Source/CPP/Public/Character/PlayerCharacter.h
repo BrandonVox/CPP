@@ -45,6 +45,9 @@ private:
 	void Move(const FInputActionValue& Value);
 	void AttackPressed();
 
+	void SprintStarted();
+	void SprintCompleted();
+
 private:
 	UPROPERTY()
 	UPlayerWidget* PlayerWidget;
@@ -60,7 +63,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
-
 
 	
 };

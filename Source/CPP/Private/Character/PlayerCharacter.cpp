@@ -16,6 +16,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -49,6 +51,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Look, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Move, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Attack, ETriggerEvent::Started, this, &APlayerCharacter::AttackPressed);
+
+		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Sprint, ETriggerEvent::Started, this, &APlayerCharacter::SprintStarted);
+		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::SprintCompleted);
 	}
 
 }
@@ -89,7 +94,13 @@ void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float Max
 		PlayerWidget->UpdateNameText_Enemy(NameText);
 		PlayerWidget->UpdateHealthBar_Enemy(Health, MaxHealth);
 	}
-	ChangeMaxWalkSpeed(400.0f);
+
+	if (BaseCharacterData)
+	{
+		ChangeMaxWalkSpeed(BaseCharacterData->FightSpeed);
+		PreviousSpeed = BaseCharacterData->FightSpeed;
+	}
+		
 
 }
 
@@ -157,6 +168,18 @@ void APlayerCharacter::Move(const FInputActionValue& Value)
 void APlayerCharacter::AttackPressed()
 {
 	I_RequestAttack();
+}
+
+void APlayerCharacter::SprintStarted()
+{
+	if (BaseCharacterData)	
+		ChangeMaxWalkSpeed(BaseCharacterData->SprintSpeed);
+		
+}
+
+void APlayerCharacter::SprintCompleted()
+{
+	ChangeMaxWalkSpeed(PreviousSpeed);
 }
 
 #pragma endregion

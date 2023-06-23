@@ -89,4 +89,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	FText NameText;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float FightSpeed = 400.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float SprintSpeed = 900.0f;
+
 };
