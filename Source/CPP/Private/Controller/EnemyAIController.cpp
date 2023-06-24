@@ -81,8 +81,13 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerActor,
 	float AttackRange, float GiveUpRange)
 {
-	if (AIActor == nullptr || Blackboard == nullptr)
+	if (Blackboard == nullptr) return;
+
+	if (AIActor == nullptr || PlayerActor == nullptr)
+	{
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
 		return;
+	}
 
 	const float Distance_AI_Player =
 		AIActor->GetDistanceTo(PlayerActor);
