@@ -22,6 +22,8 @@ public:
 
 	void UpdateStaminaByCost(float Cost);
 
+	bool HasEnoughStamina(float Cost) const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

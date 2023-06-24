@@ -36,6 +36,7 @@ public:
 	* Attack Interface
 	*/
 	virtual void I_RequestAttack() override;
+
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
 	virtual void I_HandleAttackSuccess() override;
@@ -74,6 +75,8 @@ private:
 
 	void SpawnHitImpact(const FVector& HitLocation);
 	void HandleHitted(const FVector& ShotFromDirection);
+
+	bool CanAttack() const;
 
 
 protected:

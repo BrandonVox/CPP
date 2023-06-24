@@ -27,6 +27,11 @@ void UStaminaComponent::UpdateStaminaByCost(float Cost)
 	Stamina = FMath::Max(Stamina - Cost, 0.0f);
 }
 
+bool UStaminaComponent::HasEnoughStamina(float Cost) const
+{
+	return Stamina >= Cost;
+}
+
 
 // Called when the game starts
 void UStaminaComponent::BeginPlay()

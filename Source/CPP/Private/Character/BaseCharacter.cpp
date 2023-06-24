@@ -86,12 +86,19 @@ void ABaseCharacter::BeginPlay()
 
 #pragma region Attack_Interface
 
-
-
 void ABaseCharacter::I_RequestAttack()
 {
-	if (CombatState == ECombatState::Ready && AttackComponent)
+	if (CanAttack() && AttackComponent)
 		AttackComponent->RequestAttack();
+}
+
+bool ABaseCharacter::CanAttack() const
+{
+	if (StaminaComponent == nullptr || BaseCharacterData == nullptr) return false;
+
+	return 
+		CombatState == ECombatState::Ready 
+		&& StaminaComponent->HasEnoughStamina(BaseCharacterData->Cost_NormalAttack);
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -114,8 +121,8 @@ void ABaseCharacter::I_PlayStartAttackSound()
 
 void ABaseCharacter::I_HandleAttackSuccess()
 {
-	if(StaminaComponent)
-		StaminaComponent->UpdateStaminaByCost(20.0f);
+	if(StaminaComponent && BaseCharacterData)
+		StaminaComponent->UpdateStaminaByCost(BaseCharacterData->Cost_NormalAttack);
 }
 
 void ABaseCharacter::I_AN_EndAttack()

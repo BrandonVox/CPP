@@ -111,4 +111,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float MaxStamina = 100.0f;
 
+	/*
+	* Stamina
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Stamina")
+	float Cost_NormalAttack = 20.0f;
+
 };
