@@ -15,7 +15,8 @@ public class CPP : ModuleRules
 			"InputCore",
             "EnhancedInput",
             "UMG",
-            "AIModule"
+            "AIModule",
+            "GameplayTasks"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

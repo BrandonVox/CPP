@@ -98,10 +98,8 @@ void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float Max
 	if (BaseCharacterData)
 	{
 		ChangeMaxWalkSpeed(BaseCharacterData->FightSpeed);
-		PreviousSpeed = BaseCharacterData->FightSpeed;
+		SpeedBeforeSprint = BaseCharacterData->FightSpeed;
 	}
-		
-
 }
 
 void APlayerCharacter::I_HandleEnemyHealthUpdated(float Health, float MaxHealth)
@@ -172,14 +170,18 @@ void APlayerCharacter::AttackPressed()
 
 void APlayerCharacter::SprintStarted()
 {
-	if (BaseCharacterData)	
-		ChangeMaxWalkSpeed(BaseCharacterData->SprintSpeed);
-		
+	if (GetCharacterMovement() && BaseCharacterData)
+	{
+		SpeedBeforeSprint = GetCharacterMovement()->MaxWalkSpeed;
+		GetCharacterMovement()->MaxWalkSpeed = BaseCharacterData->SprintSpeed;
+	}
+
 }
 
 void APlayerCharacter::SprintCompleted()
 {
-	ChangeMaxWalkSpeed(PreviousSpeed);
+	if(GetCharacterMovement())
+		GetCharacterMovement()->MaxWalkSpeed = SpeedBeforeSprint;
 }
 
 #pragma endregion

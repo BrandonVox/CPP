@@ -73,7 +73,7 @@ private:
 
 
 protected:
-	float PreviousSpeed = 0.0f;
+
 
 	UPROPERTY(VisibleAnywhere)
 	UHealthComponent* HealthComponent;

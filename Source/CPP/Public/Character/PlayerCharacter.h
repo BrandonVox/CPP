@@ -49,6 +49,9 @@ private:
 	void SprintCompleted();
 
 private:
+
+	float SpeedBeforeSprint = 0.0f;
+
 	UPROPERTY()
 	UPlayerWidget* PlayerWidget;
 
