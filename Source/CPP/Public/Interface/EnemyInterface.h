@@ -24,6 +24,7 @@ class CPP_API IEnemyInterface
 public:
 
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) = 0;
+	virtual void I_FightToPatrol() = 0;
 
 	UFUNCTION(BlueprintCallable)
 	virtual AActor* I_GetCorrectPatrolPoint() = 0;

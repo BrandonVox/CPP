@@ -30,6 +30,7 @@ public:
 	virtual AActor* I_GetCorrectPatrolPoint() override;
 
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) override;
+	virtual void I_FightToPatrol() override;
 
 protected:
 	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
@@ -39,7 +40,6 @@ protected:
 		AActor* DamageCauser) override;
 
 private:
-
 	UPROPERTY()
 	TScriptInterface<IPlayerInterface> PlayerInterface;
 

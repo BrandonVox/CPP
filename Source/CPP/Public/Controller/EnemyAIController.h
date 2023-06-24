@@ -33,6 +33,7 @@ private:
 	void HandleSeePlayer(AActor* Actor);
 	void HandleNotSeePlayer();
 
+	void FightToPatrol();
 	void GiveUpTimerFinished();
 
 private:

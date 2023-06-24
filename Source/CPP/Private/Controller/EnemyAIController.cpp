@@ -91,19 +91,32 @@ void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerAc
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Attack);
 	else if (Distance_AI_Player > GiveUpRange)
 	{
-		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
-		DebugColor = FLinearColor::Gray;
-
-		GetWorldTimerManager().SetTimer(
-			GiveUpTimer,
-			this,
-			&AEnemyAIController::GiveUpTimerFinished,
-			GiveUpSecond
-		);
+		FightToPatrol();
 	}
 		
 	else
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Fight);
+}
+
+void AEnemyAIController::FightToPatrol()
+{
+	if (Blackboard == nullptr) return;
+
+	Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
+	DebugColor = FLinearColor::Gray;
+
+	// Enemy Giveup
+	auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
+	if (EnemyInterface)
+		EnemyInterface->I_FightToPatrol();
+	//
+
+	GetWorldTimerManager().SetTimer(
+		GiveUpTimer,
+		this,
+		&AEnemyAIController::GiveUpTimerFinished,
+		GiveUpSecond
+	);
 }
 
 void AEnemyAIController::GiveUpTimerFinished()

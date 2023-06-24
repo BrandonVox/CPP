@@ -102,6 +102,17 @@ void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float Max
 	}
 }
 
+void APlayerCharacter::I_ExitFight()
+{
+	if (PlayerWidget)
+		PlayerWidget->HideEnemyStats();
+
+
+	ChangeMaxWalkSpeed(BaseSpeed);
+	SpeedBeforeSprint = BaseSpeed;
+	
+}
+
 void APlayerCharacter::I_HandleEnemyHealthUpdated(float Health, float MaxHealth)
 {
 

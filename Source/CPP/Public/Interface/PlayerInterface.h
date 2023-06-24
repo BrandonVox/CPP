@@ -23,6 +23,8 @@ class CPP_API IPlayerInterface
 public:
 
 	virtual void I_SetupEnemyStats(FText NameText, float Health, float MaxHealth) = 0;
+	virtual void I_ExitFight() = 0;
 
 	virtual void I_HandleEnemyHealthUpdated(float Health, float MaxHealth) = 0;
+
 };

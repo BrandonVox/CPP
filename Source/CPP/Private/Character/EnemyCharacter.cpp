@@ -45,6 +45,12 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 		);
 }
 
+void AEnemyCharacter::I_FightToPatrol()
+{
+	if (PlayerInterface)
+		PlayerInterface->I_ExitFight();
+}
+
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	AController* InstigatedBy, FVector HitLocation,
 	UPrimitiveComponent* FHitComponent, FName BoneName,

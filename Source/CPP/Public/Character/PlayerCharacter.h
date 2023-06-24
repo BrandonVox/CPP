@@ -26,6 +26,7 @@ public:
 	* Player Interface
 	*/
 	virtual void I_SetupEnemyStats(FText NameText, float Health, float MaxHealth) override;
+	virtual void I_ExitFight() override;
 	virtual void I_HandleEnemyHealthUpdated(float Health, float MaxHealth) override;
 
 
