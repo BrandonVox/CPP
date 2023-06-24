@@ -194,10 +194,63 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	UPrimitiveComponent* FHitComponent, FName BoneName,
 	FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
-	if (BaseCharacterData == nullptr) return;
+	if (HealthComponent == nullptr) return;
 	
-	if(HealthComponent)
-		HealthComponent->UpdateHealthByDamage(Damage);
+	SpawnHitImpact(HitLocation);
+	HealthComponent->UpdateHealthByDamage(Damage);
+
+	if (HealthComponent->GetHealth() > 0.0f)
+		HandleHitted(ShotFromDirection);
+	else
+		HandleDead();
+}
+
+void ABaseCharacter::HandleHitted(const FVector& ShotFromDirection)
+{
+	if (BaseCharacterData == nullptr) return;
+	// Play Pain Sound
+	UGameplayStatics::PlaySoundAtLocation(
+		this,
+		BaseCharacterData->PainSound,
+		GetActorLocation()
+	);
+
+	// Hit React Montage
+	PlayAnimMontage(GetCorrectHitReactMontage(ShotFromDirection));
+	CombatState = ECombatState::Beaten;
+}
+
+void ABaseCharacter::HandleDead()
+{
+	if (
+		BaseCharacterData == nullptr 
+		|| GetCharacterMovement() == nullptr 
+		|| GetCapsuleComponent() == nullptr 
+		|| GetMesh() == nullptr
+		)
+		return;
+
+	UGameplayStatics::PlaySoundAtLocation(
+		this,
+		BaseCharacterData->DeadSound,
+		GetActorLocation()
+	);
+
+	float DeadMontageSecond = 
+		PlayAnimMontage(BaseCharacterData->DeadMontage);
+	CombatState = ECombatState::Dead;
+
+	GetCharacterMovement()->StopMovementImmediately();
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	SetLifeSpan(DeadMontageSecond);
+}
+
+void ABaseCharacter::SpawnHitImpact(const FVector& HitLocation)
+{
+	if (BaseCharacterData == nullptr) return;
 
 	// Spawn Hit Impact Effect
 	UGameplayStatics::SpawnEmitterAtLocation(
@@ -212,19 +265,6 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		BaseCharacterData->HitImpactSound,
 		HitLocation
 	);
-
-	// Play Pain Sound, Actor Location
-	UGameplayStatics::PlaySoundAtLocation(
-		this,
-		BaseCharacterData->PainSound,
-		GetActorLocation()
-	);
-
-	// hit react animation montage
-	PlayAnimMontage(GetCorrectHitReactMontage(ShotFromDirection));
-	CombatState = ECombatState::Beaten;
-
-		
 }
 
 void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)

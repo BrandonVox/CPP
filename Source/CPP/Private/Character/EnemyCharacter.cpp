@@ -66,6 +66,14 @@ void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 				HealthComponent->GetHealth(),
 				HealthComponent->GetMaxHealth()
 			);
-	
-	
+}
+
+void AEnemyCharacter::HandleDead()
+{
+	Super::HandleDead();
+
+	if (PlayerInterface)
+		PlayerInterface->I_ExitFight();
+	// remove controller
+	DetachFromControllerPendingDestroy();
 }

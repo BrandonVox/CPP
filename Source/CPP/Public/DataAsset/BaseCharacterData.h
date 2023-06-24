@@ -19,36 +19,44 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	TArray< UAnimMontage*> AttackMontages;
 
-	/*
-	* Hit React Montages
-	*/
-	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
-	UAnimMontage* HitReactMontage_Front;
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	USoundBase* StartAttackSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
-	UAnimMontage* HitReactMontage_Back;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
-	UAnimMontage* HitReactMontage_Right;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
-	UAnimMontage* HitReactMontage_Left;
 	/*
 	* Hit Impact
 	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Hit Impact")
 	UParticleSystem* HitImpactEffect;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	UPROPERTY(EditDefaultsOnly, Category = "Hit Impact")
 	USoundBase* HitImpactSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	/*
+	* Hitted
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Hitted")
+	UAnimMontage* HitReactMontage_Front;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hitted")
+	UAnimMontage* HitReactMontage_Back;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hitted")
+	UAnimMontage* HitReactMontage_Right;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hitted")
+	UAnimMontage* HitReactMontage_Left;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hitted")
 	USoundBase* PainSound;
+	/*
+	* Dead
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Dead")
+	UAnimMontage* DeadMontage;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
-	USoundBase* StartAttackSound;
-	
-
+	UPROPERTY(EditDefaultsOnly, Category = "Dead")
+	USoundBase* DeadSound;
 	/*
 	* Trace Hit
 	*/

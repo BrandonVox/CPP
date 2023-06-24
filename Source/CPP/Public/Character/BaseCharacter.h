@@ -48,8 +48,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-
-
 	UFUNCTION()
 	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		class AController* InstigatedBy, FVector HitLocation,
@@ -59,6 +57,8 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	void ChangeMaxWalkSpeed(float NewSpeed);
+
+	virtual void HandleDead();
 
 private:
 	// attack direction
@@ -70,6 +70,8 @@ private:
 	UFUNCTION()
 	void HandleHitSomething(const FHitResult& HitResult);
 
+	void SpawnHitImpact(const FVector& HitLocation);
+	void HandleHitted(const FVector& ShotFromDirection);
 
 
 protected:
