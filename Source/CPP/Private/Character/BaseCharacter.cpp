@@ -12,6 +12,7 @@
 #include "Component/AttackComponent.h"
 
 #include "Component/HealthComponent.h"
+#include "Component/StaminaComponent.h"
 
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -27,6 +28,8 @@ ABaseCharacter::ABaseCharacter()
 	// Components
 	AttackComponent = CreateDefaultSubobject<UAttackComponent>(TEXT("Attack Component"));
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
+
+	StaminaComponent = CreateDefaultSubobject<UStaminaComponent>(TEXT("Stamina Component"));
 
 	bUseControllerRotationYaw = false;
 
@@ -51,9 +54,10 @@ void ABaseCharacter::PostInitializeComponents()
 	}
 
 	if (HealthComponent)
-	{
 		HealthComponent->SetupHealthComponent(BaseCharacterData);
-	}
+
+	if (StaminaComponent)
+		StaminaComponent->SetupComponent(BaseCharacterData);
 		
 }
 

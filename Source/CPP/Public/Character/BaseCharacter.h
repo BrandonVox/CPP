@@ -11,6 +11,7 @@ class UCameraComponent;
 
 class UAttackComponent;
 class UHealthComponent;
+class UStaminaComponent;
 
 class UInputMappingContext;
 class UInputAction;
@@ -75,10 +76,14 @@ private:
 
 
 protected:
-
+	UPROPERTY(VisibleAnywhere)
+	UAttackComponent* AttackComponent;
 
 	UPROPERTY(VisibleAnywhere)
 	UHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UStaminaComponent* StaminaComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UBaseCharacterData* BaseCharacterData;
@@ -87,8 +92,7 @@ protected:
 
 
 
-	UPROPERTY(VisibleAnywhere)
-	UAttackComponent* AttackComponent;
+
 
 private:
 	// getter

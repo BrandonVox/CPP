@@ -88,11 +88,7 @@ public:
 	float Damage = 20.0f;
 
 	
-	UPROPERTY(EditDefaultsOnly, Category = "Stats")
-	float Health = 100.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Stats")
-	float MaxHealth = 100.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	FText NameText;
@@ -102,5 +98,17 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float SprintSpeed = 900.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float Health = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float MaxHealth = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float Stamina = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float MaxStamina = 100.0f;
 
 };
