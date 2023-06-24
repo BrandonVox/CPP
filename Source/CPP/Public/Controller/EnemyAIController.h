@@ -33,6 +33,8 @@ private:
 	void HandleSeePlayer(AActor* Actor);
 	void HandleNotSeePlayer();
 
+	void GiveUpTimerFinished();
+
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
@@ -59,5 +61,8 @@ private:
 	
 
 
+	FTimerHandle GiveUpTimer;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
+	float GiveUpSecond = 3.0f;
 };

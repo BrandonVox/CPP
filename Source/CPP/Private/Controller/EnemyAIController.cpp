@@ -39,10 +39,14 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	PossessedPawn = InPawn;
 
 	RunBehaviorTree(BehaviorTree);
+	
 
 	if (AIPerceptionComponent)
+	{
 		AIPerceptionComponent->OnTargetPerceptionUpdated
-		.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+			.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	}
+
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
@@ -66,6 +70,14 @@ void AEnemyAIController::Tick(float DeltaTime)
 
 }
 
+void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
+{
+	if (Stimulus.WasSuccessfullySensed())
+	{
+		HandleSeePlayer(Actor);
+	}
+}
+
 void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerActor,
 	float AttackRange, float GiveUpRange)
 {
@@ -78,24 +90,32 @@ void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerAc
 	if (Distance_AI_Player <= AttackRange)
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Attack);
 	else if (Distance_AI_Player > GiveUpRange)
+	{
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
+		DebugColor = FLinearColor::Gray;
+
+		GetWorldTimerManager().SetTimer(
+			GiveUpTimer,
+			this,
+			&AEnemyAIController::GiveUpTimerFinished,
+			GiveUpSecond
+		);
+	}
+		
 	else
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Fight);
 }
 
-void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
+void AEnemyAIController::GiveUpTimerFinished()
 {
-
-	if (Stimulus.WasSuccessfullySensed())
+	if (AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound() == false)
 	{
-		HandleSeePlayer(Actor);
+		DebugColor = FLinearColor::Green;
+		AIPerceptionComponent->OnTargetPerceptionUpdated
+			.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 	}
-	else
-	{
-		HandleNotSeePlayer();
-	}
-	
 }
+
 
 void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 {
@@ -113,9 +133,13 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 	}
 
 	// Remove Delegate, Not Handle Event
-	if (AIPerceptionComponent)
+	if(AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound())
 		AIPerceptionComponent->OnTargetPerceptionUpdated
 		.RemoveDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	
+
+
+	// AIPerceptionComponent->OnTargetPerceptionUpdated.IsAlreadyBound()
 }
 
 void AEnemyAIController::HandleNotSeePlayer()
