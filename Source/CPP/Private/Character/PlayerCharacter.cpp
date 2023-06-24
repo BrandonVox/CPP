@@ -86,6 +86,17 @@ void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
 }
 
+void APlayerCharacter::HandleDead()
+{
+	Super::HandleDead();
+
+	if(PlayerWidget)
+		PlayerWidget->RemoveFromViewport();
+
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	DisableInput(PlayerController);
+}
+
 void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float MaxHealth)
 {
 	if (PlayerWidget)

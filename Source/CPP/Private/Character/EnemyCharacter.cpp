@@ -74,6 +74,7 @@ void AEnemyCharacter::HandleDead()
 
 	if (PlayerInterface)
 		PlayerInterface->I_ExitFight();
+
 	// remove controller
 	DetachFromControllerPendingDestroy();
 }
