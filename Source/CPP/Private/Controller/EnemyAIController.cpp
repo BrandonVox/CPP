@@ -13,6 +13,8 @@
 
 #include "BehaviorTree/BlackboardComponent.h"
 
+#include "Enum/EnemyAIState.h"
+
 AEnemyAIController::AEnemyAIController()
 {
 	AIPerceptionComponent = 
@@ -64,7 +66,22 @@ void AEnemyAIController::Tick(float DeltaTime)
 
 }
 
+void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerActor,
+	float AttackRange, float GiveUpRange)
+{
+	if (AIActor == nullptr || Blackboard == nullptr)
+		return;
 
+	const float Distance_AI_Player =
+		AIActor->GetDistanceTo(PlayerActor);
+
+	if (Distance_AI_Player <= AttackRange)
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Attack);
+	else if (Distance_AI_Player > GiveUpRange)
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
+	else
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Fight);
+}
 
 void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
@@ -91,7 +108,7 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 
 	if (Blackboard)
 	{
-		Blackboard->SetValueAsBool(KeyIsFighting, true);
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Fight);
 		Blackboard->SetValueAsObject(KeyPlayerActor, Actor);
 	}
 
@@ -107,7 +124,7 @@ void AEnemyAIController::HandleNotSeePlayer()
 
 	if (Blackboard)
 	{
-		Blackboard->SetValueAsBool(KeyIsFighting, false);
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Patrol);
 		Blackboard->SetValueAsObject(KeyPlayerActor, nullptr);
 	}
 }

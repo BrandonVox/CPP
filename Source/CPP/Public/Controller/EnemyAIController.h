@@ -17,6 +17,10 @@ public:
 	AEnemyAIController();
 
 	virtual void Tick(float DeltaTime) override;
+	
+	UFUNCTION(BlueprintCallable)
+	void CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerActor,
+		float AttackRange, float GiveUpRange);
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
@@ -48,7 +52,7 @@ private:
 	UBehaviorTree* BehaviorTree;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
-	FName KeyIsFighting;
+	FName KeyEnemyAIState;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
 	FName KeyPlayerActor;
