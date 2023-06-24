@@ -26,5 +26,6 @@ public:
 	virtual void I_ExitFight() = 0;
 
 	virtual void I_HandleEnemyHealthUpdated(float Health, float MaxHealth) = 0;
+	virtual void I_HandleEnemyStaminaUpdated(float Stamina, float MaxStamina) = 0;
 
 };

@@ -22,6 +22,11 @@ void UStaminaComponent::SetupComponent(UBaseCharacterData* BCD)
 	MaxStamina = BCD->MaxStamina;
 }
 
+void UStaminaComponent::UpdateStaminaByCost(float Cost)
+{
+	Stamina = FMath::Max(Stamina - Cost, 0.0f);
+}
+
 
 // Called when the game starts
 void UStaminaComponent::BeginPlay()

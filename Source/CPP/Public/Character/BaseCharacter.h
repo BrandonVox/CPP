@@ -38,6 +38,7 @@ public:
 	virtual void I_RequestAttack() override;
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
+	virtual void I_HandleAttackSuccess() override;
 
 	virtual void I_AN_EndAttack() override;
 	virtual void I_AN_EndHitReact() override;

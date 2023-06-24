@@ -22,7 +22,10 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 
-
+	/*
+	* Attack Interface
+	*/
+	virtual void I_HandleAttackSuccess() override;
 	/*
 	* Enemy Interface
 	*/

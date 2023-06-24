@@ -25,6 +25,8 @@ public:
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) = 0;
 	virtual void I_PlayStartAttackSound() = 0;
 
+	virtual void I_HandleAttackSuccess() = 0;
+
 	virtual void I_AN_EndAttack() = 0;
 	virtual void I_AN_EndHitReact() = 0;
 

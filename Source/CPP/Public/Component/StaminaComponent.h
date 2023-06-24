@@ -20,6 +20,8 @@ public:
 	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void SetupComponent(UBaseCharacterData* BCD);
 
+	void UpdateStaminaByCost(float Cost);
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

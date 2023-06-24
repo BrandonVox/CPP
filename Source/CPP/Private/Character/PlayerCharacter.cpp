@@ -101,6 +101,16 @@ void APlayerCharacter::HandleDead()
 	DisableInput(PlayerController);
 }
 
+void APlayerCharacter::I_HandleAttackSuccess()
+{
+	Super::I_HandleAttackSuccess();
+
+	if (PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Player(
+			StaminaComponent->GetStamina(),
+			StaminaComponent->GetMaxStamina());
+}
+
 void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health,
 	float MaxHealth, float Stamina, float MaxStamina)
 {
@@ -137,6 +147,12 @@ void APlayerCharacter::I_HandleEnemyHealthUpdated(float Health, float MaxHealth)
 	if(PlayerWidget)
 		PlayerWidget->UpdateHealthBar_Enemy(Health, MaxHealth);
 
+}
+
+void APlayerCharacter::I_HandleEnemyStaminaUpdated(float Stamina, float MaxStamina)
+{
+	if (PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Enemy(Stamina, MaxStamina);
 }
 
 #pragma region Enhanced_Input

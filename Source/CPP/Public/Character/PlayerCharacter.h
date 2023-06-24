@@ -23,11 +23,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/*
+	* Attack Interface
+	*/
+	virtual void I_HandleAttackSuccess() override;
+	/*
 	* Player Interface
 	*/
 	virtual void I_SetupEnemyStats(FText NameText, float Health, float MaxHealth, float Stamina, float MaxStamina) override;
 	virtual void I_ExitFight() override;
 	virtual void I_HandleEnemyHealthUpdated(float Health, float MaxHealth) override;
+	virtual void I_HandleEnemyStaminaUpdated(float Stamina, float MaxStamina) override;
 
 
 protected:

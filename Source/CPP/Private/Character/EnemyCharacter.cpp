@@ -19,6 +19,17 @@ void AEnemyCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
+void AEnemyCharacter::I_HandleAttackSuccess()
+{
+	Super::I_HandleAttackSuccess();
+
+	if (PlayerInterface)
+		PlayerInterface->I_HandleEnemyStaminaUpdated(
+			StaminaComponent->GetStamina(),
+			StaminaComponent->GetMaxStamina()
+		);
+}
+
 AActor* AEnemyCharacter::I_GetCorrectPatrolPoint()
 {
 	if (PatrolPoints.IsEmpty()) return nullptr;

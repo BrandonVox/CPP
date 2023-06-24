@@ -112,6 +112,12 @@ void ABaseCharacter::I_PlayStartAttackSound()
 
 }
 
+void ABaseCharacter::I_HandleAttackSuccess()
+{
+	if(StaminaComponent)
+		StaminaComponent->UpdateStaminaByCost(20.0f);
+}
+
 void ABaseCharacter::I_AN_EndAttack()
 {
 	if(AttackComponent)
