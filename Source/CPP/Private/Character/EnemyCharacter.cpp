@@ -6,6 +6,8 @@
 
 #include "Component/HealthComponent.h"
 
+#include "Component/StaminaComponent.h"
+
 #include "DataAsset/BaseCharacterData.h"
 
 AEnemyCharacter::AEnemyCharacter()
@@ -36,12 +38,14 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 	// player interface
 	PlayerInterface = TScriptInterface<IPlayerInterface>(PlayerActor);
 
-	if (PlayerInterface && BaseCharacterData && HealthComponent)
+	if (PlayerInterface && BaseCharacterData && HealthComponent && StaminaComponent)
 
 		PlayerInterface->I_SetupEnemyStats(
 			BaseCharacterData->NameText,
 			HealthComponent->GetHealth(),
-			HealthComponent->GetMaxHealth()
+			HealthComponent->GetMaxHealth(),
+			StaminaComponent->GetStamina(),
+			StaminaComponent->GetMaxStamina()
 		);
 }
 

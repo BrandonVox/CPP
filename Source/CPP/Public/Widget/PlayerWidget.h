@@ -15,11 +15,13 @@ class CPP_API UPlayerWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void UpdateHealthBar(float Health, float MaxHealth);
+	void UpdateHealthBar_Player(float Health, float MaxHealth);
+	void UpdateStaminaBar_Player(float Stamina, float MaxStamina);
+
 
 	void UpdateNameText_Enemy(FText GivenNameText);
-
 	void UpdateHealthBar_Enemy(float Health, float MaxHealth);
+	void UpdateStaminaBar_Enemy(float Stamina, float MaxStamina);
 
 
 
@@ -29,14 +31,22 @@ public:
 
 private:
 	UPROPERTY(meta = (BindWidget))
+	UProgressBar* HealthBar_Player;
+
+	UPROPERTY(meta = (BindWidget))
 	UTextBlock* HealthText_Player;
 
 	UPROPERTY(meta = (BindWidget))
-	UProgressBar* HealthBar;
+	UProgressBar* StaminaBar_Player;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* StaminaText_Player;
 	/*
 	*  Enemy Stats
 	*/
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* NameText_Enemy;
+
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar_Enemy;
 
@@ -44,6 +54,11 @@ private:
 	UTextBlock* HealthText_Enemy;
 
 	UPROPERTY(meta = (BindWidget))
-	UTextBlock* NameText_Enemy;
+	UProgressBar* StaminaBar_Enemy;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* StaminaText_Enemy;
+
+
 
 };

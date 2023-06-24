@@ -22,7 +22,7 @@ class CPP_API IPlayerInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	virtual void I_SetupEnemyStats(FText NameText, float Health, float MaxHealth) = 0;
+	virtual void I_SetupEnemyStats(FText NameText, float Health, float MaxHealth, float Stamina, float MaxStamina) = 0;
 	virtual void I_ExitFight() = 0;
 
 	virtual void I_HandleEnemyHealthUpdated(float Health, float MaxHealth) = 0;

@@ -4,6 +4,9 @@
 #include "Character/PlayerCharacter.h"
 #include "PlayerController/BasePlayerController.h"
 #include "Component/HealthComponent.h"
+
+#include "Component/StaminaComponent.h"
+
 #include "Widget/PlayerWidget.h"
 #include "DataAsset/BaseCharacterData.h"
 
@@ -66,11 +69,12 @@ void APlayerCharacter::BeginPlay()
 	PlayerWidget =
 		CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
 
-	if (PlayerWidget && HealthComponent)
+	// Show Player Stats
+	if (PlayerWidget && HealthComponent && StaminaComponent)
 	{
-
 		PlayerWidget->AddToViewport();
-		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
+		PlayerWidget->UpdateHealthBar_Player(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
+		PlayerWidget->UpdateStaminaBar_Player(StaminaComponent->GetStamina(), StaminaComponent->GetMaxStamina());
 
 		PlayerWidget->HideEnemyStats();
 	}
@@ -83,7 +87,7 @@ void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		DamageType, DamageCauser);
 
 	if (PlayerWidget && HealthComponent)
-		PlayerWidget->UpdateHealthBar(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
+		PlayerWidget->UpdateHealthBar_Player(HealthComponent->GetHealth(), HealthComponent->GetMaxHealth());
 }
 
 void APlayerCharacter::HandleDead()
@@ -97,13 +101,16 @@ void APlayerCharacter::HandleDead()
 	DisableInput(PlayerController);
 }
 
-void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health, float MaxHealth)
+void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health,
+	float MaxHealth, float Stamina, float MaxStamina)
 {
 	if (PlayerWidget)
 	{
 		PlayerWidget->ShowEnemyStats();
 		PlayerWidget->UpdateNameText_Enemy(NameText);
 		PlayerWidget->UpdateHealthBar_Enemy(Health, MaxHealth);
+
+		PlayerWidget->UpdateStaminaBar_Enemy(Stamina, MaxStamina);
 	}
 
 	if (BaseCharacterData)
