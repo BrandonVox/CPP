@@ -28,7 +28,6 @@ void UStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 		Stamina = FMath::Min(Stamina + (RegenSpeed * DeltaTime), MaxStamina);
 		 
 		AttackInterface->I_HandleStaminaUpdated(Stamina, MaxStamina);
-
 	}
 		
 }

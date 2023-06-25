@@ -4,11 +4,14 @@
 #include "Kismet/KismetSystemLibrary.h" // debug
 #include "Interface/PlayerInterface.h"
 
-#include "Component/HealthComponent.h"
 
-#include "Component/StaminaComponent.h"
 
 #include "DataAsset/BaseCharacterData.h"
+
+#include "Component/AttackComponent.h"
+#include "Component/HealthComponent.h"
+#include "Component/StaminaComponent.h"
+
 
 AEnemyCharacter::AEnemyCharacter()
 {
@@ -17,6 +20,18 @@ AEnemyCharacter::AEnemyCharacter()
 void AEnemyCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+}
+
+void AEnemyCharacter::I_RequestAttack()
+{
+	if (AttackComponent == nullptr) return;
+
+	if(AttackComponent->GetAttackCount_Normal() >= 4)
+		AttackComponent->SetAttackType(EAttackType::Strong);
+	else
+		AttackComponent->SetAttackType(EAttackType::Normal);
+
+	Super::I_RequestAttack();
 }
 
 void AEnemyCharacter::I_HandleAttackSuccess(float Cost)
@@ -28,6 +43,7 @@ void AEnemyCharacter::I_HandleAttackSuccess(float Cost)
 			StaminaComponent->GetStamina(),
 			StaminaComponent->GetMaxStamina()
 		);
+	
 }
 
 void AEnemyCharacter::I_HandleStaminaUpdated(float Stamina, float MaxStamina)

@@ -65,16 +65,13 @@ private:
 	bool bSavedAttack = false;
 	int AttackIndex = 0;
 
+	int AttackCount_Normal = 0;
 	/*
 	* Trace Hit
 	*/
 	TArray<AActor*> HittedActors;
-
 	EAttackType DesireAttackType = EAttackType::Normal;
-
 	EAttackType LastAttackType = EAttackType::Normal;
-
-
 
 public:
 	FORCEINLINE
@@ -82,4 +79,7 @@ public:
 	
 	FORCEINLINE
 	bool IsAttacking() const { return bIsAttacking; }
+
+	FORCEINLINE
+	int GetAttackCount_Normal() const { return AttackCount_Normal; }
 };

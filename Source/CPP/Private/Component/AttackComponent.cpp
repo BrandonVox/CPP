@@ -28,8 +28,12 @@ void UAttackComponent::RequestAttack()
 {
 	if (CanAttack()) 
 		Attack();
-	else 
+	else
+	{
 		bSavedAttack = true;
+		// AttackInterface->handle
+	}
+		
 }
 
 bool UAttackComponent::CanAttack() const
@@ -152,12 +156,15 @@ void UAttackComponent::Attack()
 		bCanCombo = false;
 
 		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
+		LastAttackType = DesireAttackType;
+
+		if (DesireAttackType == EAttackType::Normal)
+			AttackCount_Normal++;
+		else
+			AttackCount_Normal = 0;
 
 		AttackInterface->I_HandleAttackSuccess(BaseCharacterData->CostMap[DesireAttackType]);
-
-		LastAttackType = DesireAttackType;
 	}
-		
 
 }
 
