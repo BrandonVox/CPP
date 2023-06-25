@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Enum/AttackType.h"
 #include "AttackComponent.generated.h"
 
 
@@ -63,4 +64,9 @@ private:
 	*/
 	TArray<AActor*> HittedActors;
 
+	EAttackType AttackType = EAttackType::Normal;
+
+public:
+	FORCEINLINE
+	void SetAttackType(EAttackType NewAttackType) { AttackType = NewAttackType; }
 };

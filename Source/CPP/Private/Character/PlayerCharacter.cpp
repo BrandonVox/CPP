@@ -55,6 +55,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Move, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Attack, ETriggerEvent::Started, this, &APlayerCharacter::AttackPressed);
 
+		EnhancedInputComponent->BindAction(EnhancedInputData->IA_StrongAttack,
+			ETriggerEvent::Started, this, &APlayerCharacter::StrongAttackPressed);
+
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Sprint, ETriggerEvent::Started, this, &APlayerCharacter::SprintStarted);
 		EnhancedInputComponent->BindAction(EnhancedInputData->IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::SprintCompleted);
 	}
@@ -210,7 +213,20 @@ void APlayerCharacter::Move(const FInputActionValue& Value)
 
 void APlayerCharacter::AttackPressed()
 {
-	I_RequestAttack();
+	if (AttackComponent)
+	{
+		AttackComponent->SetAttackType(EAttackType::Normal);
+		I_RequestAttack();
+	}
+}
+
+void APlayerCharacter::StrongAttackPressed()
+{
+	if (AttackComponent)
+	{
+		AttackComponent->SetAttackType(EAttackType::Strong);
+		I_RequestAttack();
+	}
 }
 
 void APlayerCharacter::SprintStarted()

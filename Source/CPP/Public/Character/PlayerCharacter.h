@@ -53,6 +53,8 @@ private:
 	void Move(const FInputActionValue& Value);
 	void AttackPressed();
 
+	void StrongAttackPressed();
+
 	void SprintStarted();
 	void SprintCompleted();
 

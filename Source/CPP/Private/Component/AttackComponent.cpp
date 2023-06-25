@@ -114,9 +114,18 @@ void UAttackComponent::HandleHitResult(const FHitResult& Result)
 UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
 {
 	if (BaseCharacterData == nullptr) return nullptr;
-	if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
 
-	return BaseCharacterData->AttackMontages[AttackIndex];
+	switch (AttackType)
+	{
+	case EAttackType::Normal:
+		if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
+		return BaseCharacterData->AttackMontages[AttackIndex];
+
+	case EAttackType::Strong:
+		return BaseCharacterData->AttackMontage_Strong;
+	}
+
+	return nullptr;
 }
 
 void UAttackComponent::Attack()

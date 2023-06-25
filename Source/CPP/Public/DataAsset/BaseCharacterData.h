@@ -17,7 +17,10 @@ class CPP_API UBaseCharacterData : public UDataAsset
 public:
 	// t array
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
-	TArray< UAnimMontage*> AttackMontages;
+	TArray<UAnimMontage*> AttackMontages;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UAnimMontage* AttackMontage_Strong;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	USoundBase* StartAttackSound;
