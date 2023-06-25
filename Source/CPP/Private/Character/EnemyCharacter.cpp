@@ -12,9 +12,17 @@
 #include "Component/HealthComponent.h"
 #include "Component/StaminaComponent.h"
 
+#include "Controller/EnemyAIController.h"
+
 
 AEnemyCharacter::AEnemyCharacter()
 {
+}
+
+void AEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	EnemyAIController = Cast<AEnemyAIController>(GetController());
 }
 
 void AEnemyCharacter::Tick(float DeltaSeconds)
@@ -26,11 +34,7 @@ void AEnemyCharacter::I_RequestAttack()
 {
 	if (AttackComponent == nullptr) return;
 
-	if(AttackComponent->GetAttackCount_Normal() >= 4)
-		AttackComponent->SetAttackType(EAttackType::Strong);
-	else
-		AttackComponent->SetAttackType(EAttackType::Normal);
-
+	AttackComponent->SetAttackType(GetDesireAttack_Type());
 	Super::I_RequestAttack();
 }
 
@@ -52,6 +56,18 @@ void AEnemyCharacter::I_HandleStaminaUpdated(float Stamina, float MaxStamina)
 
 	if(PlayerInterface)
 		PlayerInterface->I_HandleEnemyStaminaUpdated(Stamina, MaxStamina);
+}
+
+void AEnemyCharacter::I_AN_Combo()
+{
+	if (I_HasEnoughStamina(GetDesireAttack_Cost()) == false)
+	{
+		if (EnemyAIController)
+			EnemyAIController->StartRegenMode();
+		return;
+	}
+
+	Super::I_AN_Combo();
 }
 
 AActor* AEnemyCharacter::I_GetCorrectPatrolPoint()
@@ -90,6 +106,11 @@ void AEnemyCharacter::I_FightToPatrol()
 		PlayerInterface->I_ExitFight();
 }
 
+bool AEnemyCharacter::I_RegenEnoughStamina() const
+{
+	return I_HasEnoughStamina(GetDesireAttack_Cost());
+}
+
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 	AController* InstigatedBy, FVector HitLocation,
 	UPrimitiveComponent* FHitComponent, FName BoneName,
@@ -116,4 +137,24 @@ void AEnemyCharacter::HandleDead()
 
 	// remove controller
 	DetachFromControllerPendingDestroy();
+}
+
+EAttackType AEnemyCharacter::GetDesireAttack_Type() const
+{
+	if(AttackComponent == nullptr) 
+		return EAttackType::Normal;
+
+	if (AttackComponent->GetAttackCount_Normal() >= 4)
+		return EAttackType::Strong;
+	else
+		return EAttackType::Normal;
+
+	return EAttackType::Normal;
+}
+
+float AEnemyCharacter::GetDesireAttack_Cost() const
+{
+	if (BaseCharacterData == nullptr) return 0.0f;
+
+	return BaseCharacterData->CostMap[GetDesireAttack_Type()];
 }

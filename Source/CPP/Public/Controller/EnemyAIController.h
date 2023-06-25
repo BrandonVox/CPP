@@ -7,6 +7,7 @@
 #include "EnemyAIController.generated.h"
 
 class UAISenseConfig_Sight;
+class IEnemyInterface;
 
 UCLASS()
 class CPP_API AEnemyAIController : public AAIController
@@ -21,6 +22,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerActor,
 		float AttackRange, float GiveUpRange);
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateRegenLocation(AActor* AIActor, AActor* PlayerActor, float RegenRange);
+
+	UFUNCTION(BlueprintCallable)
+	void CheckStamina();
+
+	void StartRegenMode();
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
@@ -39,6 +48,9 @@ private:
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
+
+	UPROPERTY()
+	TScriptInterface<IEnemyInterface> EnemyInterface;
 
 	UPROPERTY(VisibleAnywhere)
 	UAIPerceptionComponent* AIPerceptionComponent;
@@ -59,6 +71,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
 	FName KeyPlayerActor;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
+	FName Key_RegenLocation;
 	
 
 
@@ -66,4 +81,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Behavior Tree")
 	float GiveUpSecond = 3.0f;
+
+	bool bIsRegen = false;
+
 };

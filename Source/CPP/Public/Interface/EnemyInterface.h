@@ -29,4 +29,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	virtual AActor* I_GetCorrectPatrolPoint() = 0;
 
+	virtual bool I_RegenEnoughStamina() const = 0;
+
 };

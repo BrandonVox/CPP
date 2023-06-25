@@ -5,5 +5,6 @@ enum class EEnemyAIState : uint8
 {
 	Patrol,
 	Fight,
+	Regen,
 	Attack
 };

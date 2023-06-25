@@ -17,6 +17,11 @@ UAttackComponent::UAttackComponent()
 
 }
 
+void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
+{
+	BaseCharacterData = BCD;
+}
+
 void UAttackComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -49,13 +54,57 @@ bool UAttackComponent::CanAttack() const
 	return A && B && C;
 }
 
+void UAttackComponent::Attack()
+{
+	if (AttackInterface && BaseCharacterData && GetCorrectAttackMontage())
+	{
+		AttackInterface->I_PlayAttackMontage(GetCorrectAttackMontage());
+		AttackInterface->I_PlayStartAttackSound();
+
+		bIsAttacking = true;
+		bCanCombo = false;
+
+		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
+		LastAttackType = DesireAttackType;
+
+		if (DesireAttackType == EAttackType::Normal)
+			AttackCount_Normal++;
+		else
+			AttackCount_Normal = 0;
+
+		AttackInterface->I_HandleAttackSuccess(BaseCharacterData->CostMap[DesireAttackType]);
+	}
+
+}
+
+UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
+{
+	if (BaseCharacterData == nullptr) return nullptr;
+
+	switch (DesireAttackType)
+	{
+	case EAttackType::Normal:
+		if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
+		return BaseCharacterData->AttackMontages[AttackIndex];
+
+	case EAttackType::Strong:
+		return BaseCharacterData->AttackMontage_Strong;
+	}
+
+	return nullptr;
+}
+
+void UAttackComponent::SetupTraceHit()
+{
+	HittedActors.Empty();
+}
 
 void UAttackComponent::TraceHit()
 {
 	if (AttackInterface == nullptr) return;
 	if (BaseCharacterData == nullptr) return;
-	
-	const FVector& StartLocation = 
+
+	const FVector& StartLocation =
 		AttackInterface->I_GetSocketLocation(BaseCharacterData->TraceStart);
 
 	const FVector& EndLocation =
@@ -65,9 +114,9 @@ void UAttackComponent::TraceHit()
 	TArray<FHitResult> HitResults;
 
 	// 
-	auto DrawType = 
-		BaseCharacterData->bDrawDebugTrace 
-		? EDrawDebugTrace::ForDuration 
+	auto DrawType =
+		BaseCharacterData->bDrawDebugTrace
+		? EDrawDebugTrace::ForDuration
 		: EDrawDebugTrace::None;
 
 	// false -> none
@@ -104,6 +153,25 @@ void UAttackComponent::TraceHit()
 	}
 }
 
+void UAttackComponent::AN_Combo()
+{
+	// bcancombo
+	bCanCombo = true;
+	if (bSavedAttack)
+	{
+		RequestAttack();
+		bSavedAttack = false;
+	}
+}
+
+void UAttackComponent::AN_EndAttack()
+{
+	bIsAttacking = false;
+	bCanCombo = false;
+	bSavedAttack = false;
+	AttackIndex = 0;
+}
+
 void UAttackComponent::HandleHitResult(const FHitResult& Result)
 {
 	// Print String
@@ -121,80 +189,9 @@ void UAttackComponent::HandleHitResult(const FHitResult& Result)
 	// hit result
 	// Character -> Apply Point Damage
 	// delegate
-	if(HitSomethingDelegate.IsBound())
+	if (HitSomethingDelegate.IsBound())
 		HitSomethingDelegate.Execute(Result);
 
-}
-
-UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
-{
-	if (BaseCharacterData == nullptr) return nullptr;
-
-	switch (DesireAttackType)
-	{
-	case EAttackType::Normal:
-		if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
-		return BaseCharacterData->AttackMontages[AttackIndex];
-
-	case EAttackType::Strong:
-		return BaseCharacterData->AttackMontage_Strong;
-	}
-
-	return nullptr;
-}
-
-
-
-void UAttackComponent::Attack()
-{
-	if (AttackInterface && BaseCharacterData && GetCorrectAttackMontage())
-	{
-		AttackInterface->I_PlayAttackMontage(GetCorrectAttackMontage());
-		AttackInterface->I_PlayStartAttackSound();
-
-		bIsAttacking = true;
-		bCanCombo = false;
-
-		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
-		LastAttackType = DesireAttackType;
-
-		if (DesireAttackType == EAttackType::Normal)
-			AttackCount_Normal++;
-		else
-			AttackCount_Normal = 0;
-
-		AttackInterface->I_HandleAttackSuccess(BaseCharacterData->CostMap[DesireAttackType]);
-	}
-
-}
-
-void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)
-{
-	BaseCharacterData = BCD;
-}
-
-void UAttackComponent::AN_EndAttack()
-{
-	bIsAttacking = false;
-	bCanCombo = false;
-	bSavedAttack = false;
-	AttackIndex = 0;
-}
-
-void UAttackComponent::AN_Combo()
-{
-	// bcancombo
-	bCanCombo = true;
-	if (bSavedAttack)
-	{
-		RequestAttack();
-		bSavedAttack = false;
-	}
-}
-
-void UAttackComponent::SetupTraceHit()
-{
-	HittedActors.Empty();
 }
 
 float UAttackComponent::GetDamageOfLastAttack() const
@@ -203,7 +200,3 @@ float UAttackComponent::GetDamageOfLastAttack() const
 
 	return BaseCharacterData->DamageMap[LastAttackType];
 }
-
-
-
-

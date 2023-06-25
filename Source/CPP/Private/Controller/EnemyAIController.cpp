@@ -15,6 +15,10 @@
 
 #include "Enum/EnemyAIState.h"
 
+#include "Kismet/KismetMathLibrary.h"
+
+
+
 AEnemyAIController::AEnemyAIController()
 {
 	AIPerceptionComponent = 
@@ -37,6 +41,8 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	Super::OnPossess(InPawn);
 
 	PossessedPawn = InPawn;
+
+	EnemyInterface = TScriptInterface<IEnemyInterface>(InPawn);
 
 	RunBehaviorTree(BehaviorTree);
 	
@@ -89,18 +95,51 @@ void AEnemyAIController::CheckDistanceToPlayer(AActor* AIActor, AActor* PlayerAc
 		return;
 	}
 
-	const float Distance_AI_Player =
-		AIActor->GetDistanceTo(PlayerActor);
+	if (bIsRegen) return;
+
+	const float Distance_AI_Player = AIActor->GetDistanceTo(PlayerActor);
 
 	if (Distance_AI_Player <= AttackRange)
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Attack);
+
 	else if (Distance_AI_Player > GiveUpRange)
-	{
 		FightToPatrol();
-	}
 		
 	else
 		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Fight);
+}
+
+void AEnemyAIController::UpdateRegenLocation(AActor* AIActor, AActor* PlayerActor, float RegenRange)
+{
+	if (PlayerActor == nullptr
+		|| AIActor == nullptr
+		|| Blackboard == nullptr) return;
+
+	const auto Direction_Player_AI = UKismetMathLibrary::GetDirectionUnitVector(
+		PlayerActor->GetActorLocation(),
+		AIActor->GetActorLocation());
+
+	const auto NewRegenLocation = PlayerActor->GetActorLocation() + (Direction_Player_AI * RegenRange);
+
+	Blackboard->SetValueAsVector(Key_RegenLocation, NewRegenLocation);
+}
+
+void AEnemyAIController::CheckStamina()
+{
+	if (bIsRegen == false) return;
+	
+	if (EnemyInterface == nullptr) return;
+
+	if (EnemyInterface->I_RegenEnoughStamina())
+		bIsRegen = false;
+}
+
+void AEnemyAIController::StartRegenMode()
+{
+	bIsRegen = true;
+
+	if(Blackboard)
+		Blackboard->SetValueAsEnum(KeyEnemyAIState, (uint8)EEnemyAIState::Regen);
 }
 
 void AEnemyAIController::FightToPatrol()
@@ -111,7 +150,6 @@ void AEnemyAIController::FightToPatrol()
 	DebugColor = FLinearColor::Gray;
 
 	// Enemy Giveup
-	auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
 	if (EnemyInterface)
 		EnemyInterface->I_FightToPatrol();
 	//
@@ -140,7 +178,6 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 	DebugColor = FLinearColor::Red;
 
 	// handle see player
-	auto EnemyInterface = TScriptInterface<IEnemyInterface>(PossessedPawn);
 	if (EnemyInterface)
 		EnemyInterface->I_HandleSeePlayer(Actor);
 
