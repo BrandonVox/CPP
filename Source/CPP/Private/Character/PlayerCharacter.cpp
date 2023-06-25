@@ -98,15 +98,15 @@ void APlayerCharacter::HandleDead()
 	Super::HandleDead();
 
 	if(PlayerWidget)
-		PlayerWidget->RemoveFromViewport();
+		PlayerWidget->RemoveFromParent();
 
 	APlayerController* PlayerController = Cast<APlayerController>(GetController());
 	DisableInput(PlayerController);
 }
 
-void APlayerCharacter::I_HandleAttackSuccess()
+void APlayerCharacter::I_HandleAttackSuccess(float Cost)
 {
-	Super::I_HandleAttackSuccess();
+	Super::I_HandleAttackSuccess(Cost);
 
 	if (PlayerWidget)
 		PlayerWidget->UpdateStaminaBar_Player(

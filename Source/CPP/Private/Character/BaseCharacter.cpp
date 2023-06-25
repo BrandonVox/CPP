@@ -88,17 +88,8 @@ void ABaseCharacter::BeginPlay()
 
 void ABaseCharacter::I_RequestAttack()
 {
-	if (CanAttack() && AttackComponent)
+	if (AttackComponent)
 		AttackComponent->RequestAttack();
-}
-
-bool ABaseCharacter::CanAttack() const
-{
-	if (StaminaComponent == nullptr || BaseCharacterData == nullptr) return false;
-
-	return 
-		CombatState == ECombatState::Ready 
-		&& StaminaComponent->HasEnoughStamina(BaseCharacterData->Cost_NormalAttack);
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -119,10 +110,10 @@ void ABaseCharacter::I_PlayStartAttackSound()
 
 }
 
-void ABaseCharacter::I_HandleAttackSuccess()
+void ABaseCharacter::I_HandleAttackSuccess(float Cost)
 {
-	if(StaminaComponent && BaseCharacterData)
-		StaminaComponent->UpdateStaminaByCost(BaseCharacterData->Cost_NormalAttack);
+	if(StaminaComponent)
+		StaminaComponent->UpdateStaminaByCost(Cost);
 }
 
 void ABaseCharacter::I_AN_EndAttack()
@@ -158,6 +149,18 @@ void ABaseCharacter::I_ANS_BeginTraceHit()
 		AttackComponent->SetupTraceHit();
 }
 
+ECombatState ABaseCharacter::I_GetCombatState() const
+{
+	return CombatState;
+}
+
+bool ABaseCharacter::I_HasEnoughStamina(float Cost) const
+{
+	if (StaminaComponent == nullptr) return false;
+
+	return StaminaComponent->HasEnoughStamina(Cost);
+}
+
 void ABaseCharacter::I_ANS_TraceHit()
 {
 	if (AttackComponent)
@@ -169,21 +172,8 @@ void ABaseCharacter::I_ANS_TraceHit()
 
 void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 {
-	if (BaseCharacterData == nullptr) return;
+	if (BaseCharacterData == nullptr || AttackComponent == nullptr) return;
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Cyan,
-			TEXT("Handle Hit Something")
-		);
-
-	// gameplay statics kismet
-	// apply point damage
-	// hit from direction
-	// vi tri cua nguoi tan cong - vi tri cua nan nhan
-	// kismet math library
 	auto HitActor = HitResult.GetActor();
 
 	if (HitActor == nullptr) return;
@@ -193,10 +183,9 @@ void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 		HitActor->GetActorLocation()
 	);
 
-
 	UGameplayStatics::ApplyPointDamage(
 		HitActor,
-		BaseCharacterData->Damage,
+		AttackComponent->GetDamageOfLastAttack(),
 		AttackDirection,
 		HitResult, 
 		GetController(),

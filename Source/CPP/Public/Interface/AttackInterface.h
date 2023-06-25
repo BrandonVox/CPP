@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+
+#include "Enum/CombatState.h"
+
 #include "AttackInterface.generated.h"
 
 // This class does not need to be modified.
@@ -13,9 +16,7 @@ class UAttackInterface : public UInterface
 	GENERATED_BODY()
 };
 
-/**
- * 
- */
+
 class CPP_API IAttackInterface
 {
 	GENERATED_BODY()
@@ -25,7 +26,7 @@ public:
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) = 0;
 	virtual void I_PlayStartAttackSound() = 0;
 
-	virtual void I_HandleAttackSuccess() = 0;
+	virtual void I_HandleAttackSuccess(float Cost) = 0;
 
 	virtual void I_AN_EndAttack() = 0;
 	virtual void I_AN_EndHitReact() = 0;
@@ -39,4 +40,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void I_RequestAttack() = 0;
+
+	virtual ECombatState I_GetCombatState() const = 0;
+	virtual bool I_HasEnoughStamina(float Cost) const = 0;
 };

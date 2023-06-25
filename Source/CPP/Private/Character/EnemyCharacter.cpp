@@ -19,9 +19,9 @@ void AEnemyCharacter::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 }
 
-void AEnemyCharacter::I_HandleAttackSuccess()
+void AEnemyCharacter::I_HandleAttackSuccess(float Cost)
 {
-	Super::I_HandleAttackSuccess();
+	Super::I_HandleAttackSuccess(Cost);
 
 	if (PlayerInterface)
 		PlayerInterface->I_HandleEnemyStaminaUpdated(

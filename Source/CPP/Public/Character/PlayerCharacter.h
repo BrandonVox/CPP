@@ -25,7 +25,7 @@ public:
 	/*
 	* Attack Interface
 	*/
-	virtual void I_HandleAttackSuccess() override;
+	virtual void I_HandleAttackSuccess(float Cost) override;
 	/*
 	* Player Interface
 	*/

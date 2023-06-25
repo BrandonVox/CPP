@@ -3,7 +3,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Interface/AttackInterface.h"
-#include "Enum/CombatState.h"
 #include "BaseCharacter.generated.h"
 
 class USpringArmComponent;
@@ -39,7 +38,7 @@ public:
 
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
-	virtual void I_HandleAttackSuccess() override;
+	virtual void I_HandleAttackSuccess(float Cost) override;
 
 	virtual void I_AN_EndAttack() override;
 	virtual void I_AN_EndHitReact() override;
@@ -48,6 +47,9 @@ public:
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const override;
 	virtual void I_ANS_TraceHit() override;
 	virtual void I_ANS_BeginTraceHit() override;
+
+	virtual ECombatState I_GetCombatState() const override;
+	virtual bool I_HasEnoughStamina(float Cost) const override;
 protected:
 	virtual void BeginPlay() override;
 
@@ -75,9 +77,6 @@ private:
 
 	void SpawnHitImpact(const FVector& HitLocation);
 	void HandleHitted(const FVector& ShotFromDirection);
-
-	bool CanAttack() const;
-
 
 protected:
 	UPROPERTY(VisibleAnywhere)

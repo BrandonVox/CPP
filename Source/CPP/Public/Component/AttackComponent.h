@@ -35,6 +35,9 @@ public:
 	void AN_EndAttack();
 	void AN_Combo();
 	void SetupTraceHit();
+
+	float GetDamageOfLastAttack() const;
+
 protected:
 
 	virtual void BeginPlay() override;
@@ -43,6 +46,9 @@ private:
 	void Attack();
 	void HandleHitResult(const FHitResult& Result);
 	UAnimMontage* GetCorrectAttackMontage();
+
+	bool CanAttack() const;
+
 public:
 	FHitSomethingDelegate HitSomethingDelegate;
 private:
@@ -64,9 +70,13 @@ private:
 	*/
 	TArray<AActor*> HittedActors;
 
-	EAttackType AttackType = EAttackType::Normal;
+	EAttackType DesireAttackType = EAttackType::Normal;
+
+	EAttackType LastAttackType = EAttackType::Normal;
+
+
 
 public:
 	FORCEINLINE
-	void SetAttackType(EAttackType NewAttackType) { AttackType = NewAttackType; }
+	void SetAttackType(EAttackType NewAttackType) { DesireAttackType = NewAttackType; }
 };

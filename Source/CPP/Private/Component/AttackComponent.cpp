@@ -8,6 +8,8 @@
 
 #include "Kismet/KismetSystemLibrary.h"
 
+#include "Enum/CombatState.h"
+
 UAttackComponent::UAttackComponent()
 {
 
@@ -24,16 +26,25 @@ void UAttackComponent::BeginPlay()
 
 void UAttackComponent::RequestAttack()
 {
-	// khong tan cong
-	// co the combo
-	// attack
-	const bool bCanAttack = bIsAttacking == false || bCanCombo == true;
-
-	if (bCanAttack) 
+	if (CanAttack()) 
 		Attack();
 	else 
 		bSavedAttack = true;
 }
+
+bool UAttackComponent::CanAttack() const
+{
+	if (AttackInterface == nullptr || BaseCharacterData == nullptr) return false;
+
+	const bool A = AttackInterface->I_GetCombatState() == ECombatState::Ready;
+
+	const bool B = AttackInterface->I_HasEnoughStamina(BaseCharacterData->CostMap[DesireAttackType]);
+
+	const bool C = bIsAttacking == false || bCanCombo == true;
+
+	return A && B && C;
+}
+
 
 void UAttackComponent::TraceHit()
 {
@@ -115,7 +126,7 @@ UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
 {
 	if (BaseCharacterData == nullptr) return nullptr;
 
-	switch (AttackType)
+	switch (DesireAttackType)
 	{
 	case EAttackType::Normal:
 		if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
@@ -127,6 +138,8 @@ UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
 
 	return nullptr;
 }
+
+
 
 void UAttackComponent::Attack()
 {
@@ -140,7 +153,9 @@ void UAttackComponent::Attack()
 
 		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
 
-		AttackInterface->I_HandleAttackSuccess();
+		AttackInterface->I_HandleAttackSuccess(BaseCharacterData->CostMap[DesireAttackType]);
+
+		LastAttackType = DesireAttackType;
 	}
 		
 
@@ -173,6 +188,13 @@ void UAttackComponent::AN_Combo()
 void UAttackComponent::SetupTraceHit()
 {
 	HittedActors.Empty();
+}
+
+float UAttackComponent::GetDamageOfLastAttack() const
+{
+	if (BaseCharacterData == nullptr) return 0.0f;
+
+	return BaseCharacterData->DamageMap[LastAttackType];
 }
 
 
