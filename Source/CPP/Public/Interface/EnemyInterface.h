@@ -31,4 +31,7 @@ public:
 
 	virtual bool I_RegenEnoughStamina() const = 0;
 
+	UFUNCTION(BlueprintCallable)
+	virtual void I_RotateToPlayer(AActor* PlayerActor) = 0;
+
 };

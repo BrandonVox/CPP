@@ -35,7 +35,7 @@ ABaseCharacter::ABaseCharacter()
 
 	// Movement Component
 	GetCharacterMovement()->bOrientRotationToMovement = true;
-	GetCharacterMovement()->RotationRate.Yaw = 540.0;
+	GetCharacterMovement()->RotationRate.Yaw = 800.0;
 	
 	// Ignore Camera
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);

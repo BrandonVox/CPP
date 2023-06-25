@@ -44,6 +44,8 @@ public:
 
 	virtual bool I_RegenEnoughStamina() const override;
 
+	virtual void I_RotateToPlayer(AActor* PlayerActor) override;
+
 protected:
 	virtual void BeginPlay() override;
 

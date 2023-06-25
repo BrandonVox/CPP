@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Character/EnemyCharacter.h"
-#include "Kismet/KismetSystemLibrary.h" // debug
+
 #include "Interface/PlayerInterface.h"
 
 
@@ -13,6 +13,9 @@
 #include "Component/StaminaComponent.h"
 
 #include "Controller/EnemyAIController.h"
+
+#include "Kismet/KismetSystemLibrary.h" // debug
+#include "Kismet/KismetMathLibrary.h"
 
 
 AEnemyCharacter::AEnemyCharacter()
@@ -109,6 +112,20 @@ void AEnemyCharacter::I_FightToPatrol()
 bool AEnemyCharacter::I_RegenEnoughStamina() const
 {
 	return I_HasEnoughStamina(GetDesireAttack_Cost());
+}
+
+void AEnemyCharacter::I_RotateToPlayer(AActor* PlayerActor)
+{
+	if (PlayerActor == nullptr) return;
+
+	const auto DirectionToPlayer = 
+		UKismetMathLibrary::GetDirectionUnitVector(
+			GetActorLocation(),
+			PlayerActor->GetActorLocation());
+
+	const auto NewRotation = UKismetMathLibrary::MakeRotFromX(DirectionToPlayer);
+
+	SetActorRotation(NewRotation);
 }
 
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
