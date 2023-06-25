@@ -112,13 +112,14 @@ void ABaseCharacter::I_PlayStartAttackSound()
 
 void ABaseCharacter::I_HandleAttackSuccess(float Cost)
 {
-	if(StaminaComponent)
+	if (StaminaComponent)
 		StaminaComponent->UpdateStaminaByCost(Cost);
+		
 }
 
 void ABaseCharacter::I_AN_EndAttack()
 {
-	if(AttackComponent)
+	if (AttackComponent)
 		AttackComponent->AN_EndAttack();
 }
 
@@ -159,6 +160,18 @@ bool ABaseCharacter::I_HasEnoughStamina(float Cost) const
 	if (StaminaComponent == nullptr) return false;
 
 	return StaminaComponent->HasEnoughStamina(Cost);
+}
+
+void ABaseCharacter::I_HandleStaminaUpdated(float Stamina, float MaxStamina)
+{
+
+}
+
+bool ABaseCharacter::I_IsAttacking() const
+{
+	if (AttackComponent == nullptr) return false;
+
+	return AttackComponent->IsAttacking();
 }
 
 void ABaseCharacter::I_ANS_TraceHit()

@@ -50,6 +50,9 @@ public:
 
 	virtual ECombatState I_GetCombatState() const override;
 	virtual bool I_HasEnoughStamina(float Cost) const override;
+
+	virtual void I_HandleStaminaUpdated(float Stamina, float MaxStamina) override;
+	virtual bool I_IsAttacking() const override;
 protected:
 	virtual void BeginPlay() override;
 

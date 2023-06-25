@@ -79,4 +79,7 @@ private:
 public:
 	FORCEINLINE
 	void SetAttackType(EAttackType NewAttackType) { DesireAttackType = NewAttackType; }
+	
+	FORCEINLINE
+	bool IsAttacking() const { return bIsAttacking; }
 };

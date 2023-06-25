@@ -43,4 +43,8 @@ public:
 
 	virtual ECombatState I_GetCombatState() const = 0;
 	virtual bool I_HasEnoughStamina(float Cost) const = 0;
+
+	virtual void I_HandleStaminaUpdated(float Stamina, float MaxStamina) = 0;
+
+	virtual bool I_IsAttacking() const = 0;
 };

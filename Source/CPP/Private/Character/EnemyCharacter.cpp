@@ -30,6 +30,14 @@ void AEnemyCharacter::I_HandleAttackSuccess(float Cost)
 		);
 }
 
+void AEnemyCharacter::I_HandleStaminaUpdated(float Stamina, float MaxStamina)
+{
+	Super::I_HandleStaminaUpdated(Stamina, MaxStamina);
+
+	if(PlayerInterface)
+		PlayerInterface->I_HandleEnemyStaminaUpdated(Stamina, MaxStamina);
+}
+
 AActor* AEnemyCharacter::I_GetCorrectPatrolPoint()
 {
 	if (PatrolPoints.IsEmpty()) return nullptr;

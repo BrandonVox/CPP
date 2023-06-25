@@ -1,17 +1,36 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 
 #include "Component/StaminaComponent.h"
 #include "DataAsset/BaseCharacterData.h"
+#include "Interface/AttackInterface.h"
 
-// Sets default values for this component's properties
+
 UStaminaComponent::UStaminaComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
+	// 1/30
+	SetComponentTickInterval(0.03f);
+}
 
-	// ...
+void UStaminaComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	AttackInterface = TScriptInterface<IAttackInterface>(GetOwner());
+
+}
+
+void UStaminaComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (Stamina < MaxStamina && AttackInterface && AttackInterface->I_IsAttacking() == false)
+	{
+		Stamina = FMath::Min(Stamina + (RegenSpeed * DeltaTime), MaxStamina);
+		 
+		AttackInterface->I_HandleStaminaUpdated(Stamina, MaxStamina);
+
+	}
+		
 }
 
 void UStaminaComponent::SetupComponent(UBaseCharacterData* BCD)
@@ -20,6 +39,7 @@ void UStaminaComponent::SetupComponent(UBaseCharacterData* BCD)
 
 	Stamina = BCD->Stamina;
 	MaxStamina = BCD->MaxStamina;
+	RegenSpeed = BCD->RegenSpeed_Stamina;
 }
 
 void UStaminaComponent::UpdateStaminaByCost(float Cost)
@@ -33,12 +53,5 @@ bool UStaminaComponent::HasEnoughStamina(float Cost) const
 }
 
 
-// Called when the game starts
-void UStaminaComponent::BeginPlay()
-{
-	Super::BeginPlay();
 
-	// ...
-	
-}
 

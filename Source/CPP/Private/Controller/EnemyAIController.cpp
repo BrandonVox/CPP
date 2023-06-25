@@ -38,7 +38,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 
 	PossessedPawn = InPawn;
 
-	// RunBehaviorTree(BehaviorTree);
+	RunBehaviorTree(BehaviorTree);
 	
 
 	if (AIPerceptionComponent)

@@ -7,6 +7,7 @@
 #include "StaminaComponent.generated.h"
 
 class UBaseCharacterData;
+class IAttackInterface;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CPP_API UStaminaComponent : public UActorComponent
@@ -17,7 +18,7 @@ public:
 	// Sets default values for this component's properties
 	UStaminaComponent();
 
-	// virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void SetupComponent(UBaseCharacterData* BCD);
 
 	void UpdateStaminaByCost(float Cost);
@@ -29,8 +30,12 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	UPROPERTY()
+	TScriptInterface<IAttackInterface> AttackInterface;
+
 	float Stamina = 0.0f;
 	float MaxStamina = 0.0f;
+	float RegenSpeed = 0.0f;
 
 public:
 	FORCEINLINE

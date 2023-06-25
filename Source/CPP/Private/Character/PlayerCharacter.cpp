@@ -114,6 +114,13 @@ void APlayerCharacter::I_HandleAttackSuccess(float Cost)
 			StaminaComponent->GetMaxStamina());
 }
 
+void APlayerCharacter::I_HandleStaminaUpdated(float Stamina, float MaxStamina)
+{
+	Super::I_HandleStaminaUpdated(Stamina, MaxStamina);
+	if (PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Player(Stamina, MaxStamina);
+}
+
 void APlayerCharacter::I_SetupEnemyStats(FText NameText, float Health,
 	float MaxHealth, float Stamina, float MaxStamina)
 {

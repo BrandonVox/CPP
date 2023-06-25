@@ -26,6 +26,7 @@ public:
 	* Attack Interface
 	*/
 	virtual void I_HandleAttackSuccess(float Cost) override;
+	virtual void I_HandleStaminaUpdated(float Stamina, float MaxStamina) override;
 	/*
 	* Player Interface
 	*/
