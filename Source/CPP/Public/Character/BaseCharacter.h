@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UAttackComponent;
+class UHealthComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -75,6 +76,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UAttackComponent* AttackComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UHealthComponent* HealthComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UEnhancedInputData* EnhancedInputData;
