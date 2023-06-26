@@ -23,4 +23,6 @@ class CPP_API IEnemyInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual FVector I_GetPatrolLocation() = 0;
+
+	virtual void I_HandleSeePlayer(AActor* PlayerActor) = 0;
 };

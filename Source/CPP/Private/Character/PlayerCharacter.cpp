@@ -5,22 +5,31 @@
 #include "Widget/PlayerWidget.h"
 #include "Component/HealthComponent.h"
 
+
+
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	// player widget
-	// world
-	auto PlayerWidget =  
-		CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
+
+	PlayerWidget = CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
 
 	if (PlayerWidget && HealthComponent)
 	{
 		PlayerWidget->AddToViewport();
-		// percent
-		// health / max health
 		PlayerWidget->
-			UpdateHealthBar_Player(
-				HealthComponent->Health / HealthComponent->MaxHealth);
+			UpdateHealthBar_Player(HealthComponent->Health, HealthComponent->MaxHealth);
+		PlayerWidget->HideEnemyStats();
+
+	}
+		
+}
+
+void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)
+{
+	if (PlayerWidget)
+	{
+		PlayerWidget->ShowEnemyStats();
+		PlayerWidget->UpdateHealthBar_Enemy(Health_Enemy, MaxHealth_Enemy);
 	}
 		
 }

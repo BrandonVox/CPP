@@ -21,6 +21,7 @@ public:
 	* Enemy Interface
 	*/
 	virtual FVector I_GetPatrolLocation() override;
+	virtual void I_HandleSeePlayer(AActor* PlayerActor) override;
 
 private:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol")

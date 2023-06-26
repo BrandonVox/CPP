@@ -6,18 +6,25 @@
 #include "Character/BaseCharacter.h"
 #include "PlayerCharacter.generated.h"
 
-/**
- * 
- */
+class UPlayerWidget;
+
 UCLASS()
 class CPP_API APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 
+public:
+	/*
+	* Attack Interface
+	*/
+	virtual void I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy) override;
 protected:
 	virtual void BeginPlay() override;
 private:
 	// begin play
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
+
+	UPROPERTY()
+	UPlayerWidget* PlayerWidget;
 };

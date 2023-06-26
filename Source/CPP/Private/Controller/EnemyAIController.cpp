@@ -80,6 +80,10 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 				TEXT("See Player")
 			);
 		DebugColor = FLinearColor::Red;
+		// enemy interface
+		// da thay nguoi choi
+		if(EnemyInterface)
+			EnemyInterface->I_HandleSeePlayer(Actor);
 	}
 	else
 	{
