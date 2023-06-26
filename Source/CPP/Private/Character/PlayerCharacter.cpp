@@ -4,7 +4,7 @@
 #include "Character/PlayerCharacter.h"
 #include "Widget/PlayerWidget.h"
 #include "Component/HealthComponent.h"
-
+#include "DataAsset/BaseCharacterData.h"
 
 
 void APlayerCharacter::BeginPlay()
@@ -31,6 +31,9 @@ void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)
 		PlayerWidget->ShowEnemyStats();
 		PlayerWidget->UpdateHealthBar_Enemy(Health_Enemy, MaxHealth_Enemy);
 	}
+
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
 		
 }
 

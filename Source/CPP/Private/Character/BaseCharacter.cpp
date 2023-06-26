@@ -81,6 +81,15 @@ void ABaseCharacter::PostInitializeComponents()
 		HealthComponent->SetupComponent(BaseCharacterData);
 }
 
+void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)
+{
+	if(GetCharacterMovement())
+		GetCharacterMovement()->MaxWalkSpeed = NewSpeed;
+	// Combat Speed
+	// Default Speed
+	// Patrol Speed
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();

@@ -29,6 +29,9 @@ public:
 	virtual void PostInitializeComponents() override;
 	// virtual void Tick(float DeltaSeconds) override;
 
+
+	void ChangeMaxWalkSpeed(float NewSpeed);
+
 	/*
 	* Attack Interface
 	*/
@@ -67,10 +70,13 @@ private:
 
 protected:
 	UPROPERTY(VisibleAnywhere)
-		UAttackComponent* AttackComponent;
+	UAttackComponent* AttackComponent;
 
 	UPROPERTY(VisibleAnywhere)
-		UHealthComponent* HealthComponent;
+	UHealthComponent* HealthComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UBaseCharacterData* BaseCharacterData;
 private:
 	// getter
 	ECombatState CombatState = ECombatState::Ready;
@@ -88,8 +94,7 @@ private:
 	UEnhancedInputData* EnhancedInputData;
 
 
-	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
-	UBaseCharacterData* BaseCharacterData;
+
 
 // getter setter
 public:

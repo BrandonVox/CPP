@@ -4,11 +4,16 @@
 #include "Character/EnemyCharacter.h"
 #include "Interface/AttackInterface.h"
 #include "Component/HealthComponent.h"
+#include "DataAsset/BaseCharacterData.h"
 
-// khi goi function nay
-// thi minh se set gia tri cho key patrol location
-// ai controller
-// blackboard->set black board key
+void AEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->PatrolSpeed);
+}
+
 FVector AEnemyCharacter::I_GetPatrolLocation()
 {
 	if (PatrolPoints.IsEmpty()) return GetActorLocation();
@@ -29,8 +34,12 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 	AttackInterface_Player = TScriptInterface<IAttackInterface>(PlayerActor);
 
 	if(AttackInterface_Player && HealthComponent)
-		AttackInterface_Player
-			->I_EnterCombat(HealthComponent->Health, HealthComponent->MaxHealth);
+		AttackInterface_Player->I_EnterCombat
+			(HealthComponent->Health, HealthComponent->MaxHealth);
+
+
+	if(BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
 }
 
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)

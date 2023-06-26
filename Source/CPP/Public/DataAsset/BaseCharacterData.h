@@ -84,4 +84,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float MaxHealth = 100.0f;
+	/*
+	* Speed
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Speed")
+	float DefaultSpeed = 600.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Speed")
+	float PatrolSpeed = 300.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Speed")
+	float CombatSpeed = 400.0f;
 };

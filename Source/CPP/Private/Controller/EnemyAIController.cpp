@@ -66,8 +66,6 @@ void AEnemyAIController::Tick(float DeltaTime)
 	);
 }
 
-
-
 void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
 	if (Stimulus.WasSuccessfullySensed())
@@ -104,8 +102,6 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 
 
 }
-
-
 
 void AEnemyAIController::UpdatePatrolLocation()
 {

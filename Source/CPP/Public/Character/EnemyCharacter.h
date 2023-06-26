@@ -24,6 +24,8 @@ public:
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) override;
 
 protected:
+	virtual void BeginPlay() override;
+
 	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
 		class AController* InstigatedBy, FVector HitLocation,
 		class UPrimitiveComponent* FHitComponent, FName BoneName,
