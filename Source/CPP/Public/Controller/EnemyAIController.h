@@ -7,6 +7,7 @@
 #include "EnemyAIController.generated.h"
 
 class IEnemyInterface;
+class UAISenseConfig_Sight;
 
 UCLASS()
 class CPP_API AEnemyAIController : public AAIController
@@ -14,13 +15,23 @@ class CPP_API AEnemyAIController : public AAIController
 	GENERATED_BODY()
 
 public:
+	AEnemyAIController();
+
 	UFUNCTION(BlueprintCallable)
 	void UpdatePatrolLocation();
 
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
-
 private:
+	UFUNCTION()
+	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+private:
+	UPROPERTY(VisibleAnywhere)
+	UAIPerceptionComponent* AIPerceptionComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UAISenseConfig_Sight* AISightConfig;
+
 	UPROPERTY()
 	TScriptInterface<IEnemyInterface> EnemyInterface;
 
