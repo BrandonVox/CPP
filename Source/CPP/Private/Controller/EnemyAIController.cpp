@@ -6,6 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // AI Module
 
@@ -29,17 +30,43 @@ AEnemyAIController::AEnemyAIController()
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
 {
-	Super::OnPossess( InPawn);
-
+	Super::OnPossess(InPawn);
+	PossessedPawn = InPawn;
 
 	EnemyInterface = TScriptInterface<IEnemyInterface>(InPawn);
 
 	// RunBehaviorTree(BehaviorTree);
 
-	if(AIPerceptionComponent)
+	if (AIPerceptionComponent)
 		AIPerceptionComponent->OnTargetPerceptionUpdated
-			.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+		.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 }
+
+void AEnemyAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	// draw debug cone
+	// 
+	// vi tri cua enemy
+	// nhan vat ma ai controller dang possess
+	// radian degree
+	if (PossessedPawn == nullptr) return;
+
+	UKismetSystemLibrary::DrawDebugCone(
+		this,
+		PossessedPawn->GetActorLocation(),
+		PossessedPawn->GetActorForwardVector(),
+		2500.0f,
+		FMath::DegreesToRadians(55.0f),
+		FMath::DegreesToRadians(55.0f),
+		20,
+		DebugColor,
+		-1.0f,
+		3.0f
+	);
+}
+
+
 
 void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
@@ -52,7 +79,7 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 				FColor::Green,
 				TEXT("See Player")
 			);
-
+		DebugColor = FLinearColor::Red;
 	}
 	else
 	{
@@ -63,6 +90,7 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 				FColor::Red,
 				TEXT("Lose Sight Player")
 			);
+		DebugColor = FLinearColor::Green;
 	}
 }
 

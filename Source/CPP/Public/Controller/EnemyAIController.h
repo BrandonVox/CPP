@@ -16,6 +16,7 @@ class CPP_API AEnemyAIController : public AAIController
 
 public:
 	AEnemyAIController();
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
 	void UpdatePatrolLocation();
@@ -26,6 +27,9 @@ private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 private:
+	UPROPERTY()
+	APawn* PossessedPawn;
+
 	UPROPERTY(VisibleAnywhere)
 	UAIPerceptionComponent* AIPerceptionComponent;
 
@@ -40,4 +44,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	FName Key_PatrolLocation;
+
+	FLinearColor DebugColor = FLinearColor::Green;
 };
