@@ -26,9 +26,22 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 	// attack interface
 	// enter combat
 	// health max health
-	auto AttackInterface_Player = TScriptInterface<IAttackInterface>(PlayerActor);
+	AttackInterface_Player = TScriptInterface<IAttackInterface>(PlayerActor);
 
 	if(AttackInterface_Player && HealthComponent)
 		AttackInterface_Player
 			->I_EnterCombat(HealthComponent->Health, HealthComponent->MaxHealth);
+}
+
+void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
+{
+	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
+		HitLocation, FHitComponent, BoneName, ShotFromDirection,
+		DamageType, DamageCauser);
+	// hit target
+	// da danh trung enemy
+	// cap nhat mau
+	if (AttackInterface_Player && HealthComponent)
+		AttackInterface_Player->
+			I_HitTarget(HealthComponent->Health, HealthComponent->MaxHealth);
 }

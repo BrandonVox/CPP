@@ -20,6 +20,8 @@ public:
 
 	// base character data
 	void SetupComponent(UBaseCharacterData* BCD);
+
+	void UpdateHealthByDamage(float Damage);
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

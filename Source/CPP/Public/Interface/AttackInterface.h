@@ -34,4 +34,5 @@ public:
 	virtual void I_ANS_BeginTraceHit() = 0;
 
 	virtual void I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy);
+	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target);
 };

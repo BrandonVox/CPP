@@ -24,6 +24,11 @@ void UHealthComponent::SetupComponent(UBaseCharacterData* BCD)
 	}
 }
 
+void UHealthComponent::UpdateHealthByDamage(float Damage)
+{
+	Health = FMath::Max(Health - Damage, 0.0f);
+}
+
 // Called when the game starts
 void UHealthComponent::BeginPlay()
 {

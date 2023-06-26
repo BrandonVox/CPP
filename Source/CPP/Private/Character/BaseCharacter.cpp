@@ -253,13 +253,20 @@ void ABaseCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 {
 	if (BaseCharacterData == nullptr) return;
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Red,
-			TEXT("Handle Take Point Damage")
-		);
+
+	// health component
+	// update health
+	// Damage
+	// base character
+	// player, enemy
+	// - chi so mau
+	// enemy
+	// enemy bi danh, thi se thong bao cho nguoi danh
+	// player
+	// player cap nhap mau cua ke dich len man hinh
+	if(HealthComponent)
+		HealthComponent->UpdateHealthByDamage(Damage);
+
 	// Spawn Hit Impact Effect
 	
 	UGameplayStatics::SpawnEmitterAtLocation(

@@ -33,3 +33,14 @@ void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)
 	}
 		
 }
+
+void APlayerCharacter::I_HitTarget(float Health_Target, float MaxHealth_Target)
+{
+	// danh trung target
+	// cap nhat mau
+	// mau cua enemy
+	if (PlayerWidget)
+	{
+		PlayerWidget->UpdateHealthBar_Enemy(Health_Target, MaxHealth_Target);
+	}
+}
