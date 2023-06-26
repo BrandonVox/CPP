@@ -13,5 +13,10 @@ UCLASS()
 class CPP_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void OnPossess(APawn* InPawn) override;
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UBehaviorTree* BehaviorTree;
 };
