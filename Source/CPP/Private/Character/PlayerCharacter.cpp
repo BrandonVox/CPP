@@ -3,6 +3,7 @@
 
 #include "Character/PlayerCharacter.h"
 #include "Widget/PlayerWidget.h"
+#include "Component/HealthComponent.h"
 
 void APlayerCharacter::BeginPlay()
 {
@@ -12,6 +13,14 @@ void APlayerCharacter::BeginPlay()
 	auto PlayerWidget =  
 		CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
 
-	if(PlayerWidget)
+	if (PlayerWidget && HealthComponent)
+	{
 		PlayerWidget->AddToViewport();
+		// percent
+		// health / max health
+		PlayerWidget->
+			UpdateHealthBar_Player(
+				HealthComponent->Health / HealthComponent->MaxHealth);
+	}
+		
 }

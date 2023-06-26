@@ -63,6 +63,12 @@ private:
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser);
 
+protected:
+	UPROPERTY(VisibleAnywhere)
+		UAttackComponent* AttackComponent;
+
+	UPROPERTY(VisibleAnywhere)
+		UHealthComponent* HealthComponent;
 private:
 	// getter
 	ECombatState CombatState = ECombatState::Ready;
@@ -74,11 +80,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(VisibleAnywhere)
-	UAttackComponent* AttackComponent;
 
-	UPROPERTY(VisibleAnywhere)
-	UHealthComponent* HealthComponent;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UEnhancedInputData* EnhancedInputData;
