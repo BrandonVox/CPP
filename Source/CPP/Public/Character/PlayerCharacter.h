@@ -13,5 +13,11 @@ UCLASS()
 class CPP_API APlayerCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
-	
+
+protected:
+	virtual void BeginPlay() override;
+private:
+	// begin play
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> PlayerWidgetClass;
 };
