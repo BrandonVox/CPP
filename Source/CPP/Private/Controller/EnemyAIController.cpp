@@ -35,7 +35,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 
 	EnemyInterface = TScriptInterface<IEnemyInterface>(InPawn);
 
-	// RunBehaviorTree(BehaviorTree);
+	RunBehaviorTree(BehaviorTree);
 
 	if (AIPerceptionComponent)
 		AIPerceptionComponent->OnTargetPerceptionUpdated
@@ -72,18 +72,7 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 {
 	if (Stimulus.WasSuccessfullySensed())
 	{
-		if (GEngine)
-			GEngine->AddOnScreenDebugMessage(
-				-1,
-				1.0f,
-				FColor::Green,
-				TEXT("See Player")
-			);
-		DebugColor = FLinearColor::Red;
-		// enemy interface
-		// da thay nguoi choi
-		if(EnemyInterface)
-			EnemyInterface->I_HandleSeePlayer(Actor);
+		HandleSeePlayer(Actor);
 	}
 	else
 	{
@@ -96,6 +85,24 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 			);
 		DebugColor = FLinearColor::Green;
 	}
+}
+
+void AEnemyAIController::HandleSeePlayer(AActor* Actor)
+{
+
+	DebugColor = FLinearColor::Red;
+
+	if (EnemyInterface)
+		EnemyInterface->I_HandleSeePlayer(Actor);
+
+
+	if (Blackboard)
+	{
+		Blackboard->SetValueAsBool(Key_IsCombat, true);
+		Blackboard->SetValueAsObject(Key_PlayerActor, Actor);
+	}
+
+
 }
 
 

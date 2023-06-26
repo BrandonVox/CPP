@@ -26,6 +26,7 @@ protected:
 private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
+	void HandleSeePlayer(AActor* Actor);
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
@@ -44,6 +45,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	FName Key_PatrolLocation;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName Key_IsCombat;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName Key_PlayerActor;
 
 	FLinearColor DebugColor = FLinearColor::Green;
 };
