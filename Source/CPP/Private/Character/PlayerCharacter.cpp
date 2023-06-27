@@ -149,8 +149,7 @@ void APlayerCharacter::Move(const FInputActionValue& Value)
 
 void APlayerCharacter::AttackPressed()
 {
-	if (AttackComponent)
-		AttackComponent->RequestAttack();
+	I_RequestAttack();
 }
 #pragma endregion
 

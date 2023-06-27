@@ -31,9 +31,8 @@ public:
 
 	void ChangeMaxWalkSpeed(float NewSpeed);
 
-	/*
-	* Attack Interface
-	*/
+#pragma region Attack_Interface
+
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
 
@@ -42,6 +41,12 @@ public:
 	virtual FVector I_GetSocketLocation(const FName& SocketName) const override;
 	virtual void I_ANS_TraceHit() override;
 	virtual void I_ANS_BeginTraceHit() override;
+	virtual void I_RequestAttack() override;
+
+#pragma endregion
+
+
+
 protected:
 	virtual void BeginPlay() override;
 

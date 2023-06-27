@@ -118,6 +118,12 @@ void ABaseCharacter::I_ANS_BeginTraceHit()
 		AttackComponent->SetupTraceHit();
 }
 
+void ABaseCharacter::I_RequestAttack()
+{
+	if(AttackComponent)
+		AttackComponent->RequestAttack();
+}
+
 void ABaseCharacter::I_ANS_TraceHit()
 {
 	if (AttackComponent)

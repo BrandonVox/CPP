@@ -7,7 +7,7 @@
 #include "AttackInterface.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, meta = (CannotImplementInterfaceInBlueprint))
 class UAttackInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -35,4 +35,7 @@ public:
 
 	virtual void I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy);
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target);
+
+	UFUNCTION(BlueprintCallable)
+	virtual void I_RequestAttack() = 0;
 };
