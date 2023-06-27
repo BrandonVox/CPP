@@ -50,6 +50,9 @@ public:
 	FHitSomethingDelegate HitSomethingDelegate;
 
 	EAttackType RequestAttackType = EAttackType::Normal;
+	
+	float SuccessAttackCost = 0.0f;
+	float SuccessAttackDamage = 0.0f;
 
 private:
 	// luu actor co trien khai interface
@@ -69,5 +72,4 @@ private:
 	* Trace Hit
 	*/
 	TArray<AActor*> HittedActors;
-
 };

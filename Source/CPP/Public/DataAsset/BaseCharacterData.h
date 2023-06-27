@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Enum/AttackType.h"
 #include "BaseCharacterData.generated.h"
 
 class UAnimMontage;
@@ -15,12 +16,26 @@ class CPP_API UBaseCharacterData : public UDataAsset
 {
 	GENERATED_BODY()
 public:
-	// t array
+	UBaseCharacterData();
+public:
+	/*
+	* Attack
+	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	TArray< UAnimMontage*> AttackMontages;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	UAnimMontage* AttackMontage_Strong;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	TMap<EAttackType, float> CostMap;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	TMap<EAttackType, float> DamageMap;
+	// key -> unique
+	// khai bao gia tri cac key
+	// khai bao gia tri mac dinh
+	// constructor
 	/*
 	* Hit React
 	*/
@@ -88,9 +103,6 @@ public:
 	/*
 	* Stats
 	*/
-	UPROPERTY(EditDefaultsOnly, Category = "Stats")
-	float Damage = 20.0f;
-
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float Health = 100.0f;
 

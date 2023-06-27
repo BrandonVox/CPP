@@ -141,8 +141,8 @@ void ABaseCharacter::I_AN_EndHitReact()
 
 void ABaseCharacter::I_HandleAttackSuccess()
 {
-	if(StaminaComponent)
-		StaminaComponent->UpdateStamina(20.0f);
+	if(StaminaComponent && AttackComponent)
+		StaminaComponent->UpdateStamina(AttackComponent->SuccessAttackCost);
 }
 
 bool ABaseCharacter::I_DoesReadyAttack() const
@@ -175,20 +175,8 @@ void ABaseCharacter::I_ANS_TraceHit()
 void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 {
 	if (BaseCharacterData == nullptr) return;
+	if (AttackComponent == nullptr) return;
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Cyan,
-			TEXT("Handle Hit Something")
-		);
-
-	// gameplay statics kismet
-	// apply point damage
-	// hit from direction
-	// vi tri cua nguoi tan cong - vi tri cua nan nhan
-	// kismet math library
 	auto HitActor = HitResult.GetActor();
 
 	if (HitActor == nullptr) return;
@@ -198,10 +186,9 @@ void ABaseCharacter::HandleHitSomething(const FHitResult& HitResult)
 		HitActor->GetActorLocation()
 	);
 
-
 	UGameplayStatics::ApplyPointDamage(
 		HitActor,
-		BaseCharacterData->Damage,
+		AttackComponent->SuccessAttackDamage,
 		AttackDirection,
 		HitResult, 
 		GetController(),
