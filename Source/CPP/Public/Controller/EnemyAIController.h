@@ -32,6 +32,8 @@ private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 	void HandleSeePlayer(AActor* Actor);
+
+	void ExitCombatTimerFinished();
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
@@ -58,4 +60,9 @@ private:
 	FName Key_AIState;
 	
 	FLinearColor DebugColor = FLinearColor::Green;
+
+	FTimerHandle ExitCombatTimer;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ExitCombatSecond = 3.0f;
 };

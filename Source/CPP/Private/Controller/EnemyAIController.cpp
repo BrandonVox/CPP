@@ -111,6 +111,8 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 	}
 }
 
+
+
 void AEnemyAIController::UpdatePatrolLocation()
 {
 	if(Blackboard && EnemyInterface)
@@ -141,4 +143,24 @@ void AEnemyAIController::BackToPatrol()
 {
 	if (Blackboard)
 		Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Patrol);
+
+	DebugColor = FLinearColor::Gray;
+
+	GetWorldTimerManager().SetTimer(
+		ExitCombatTimer,
+		this,
+		&AEnemyAIController::ExitCombatTimerFinished,
+		ExitCombatSecond
+	);
+}
+
+void AEnemyAIController::ExitCombatTimerFinished()
+{
+	DebugColor = FLinearColor::Green;
+
+	if (AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound() == false)
+	{
+		AIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic
+			(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	}
 }
