@@ -37,9 +37,11 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 
 	RunBehaviorTree(BehaviorTree);
 
-	if (AIPerceptionComponent)
-		AIPerceptionComponent->OnTargetPerceptionUpdated
-		.AddDynamic(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	if (AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound() == false)
+	{
+		AIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic
+		(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	}
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
@@ -101,6 +103,11 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 	}
 
 
+	if (AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound())
+	{
+		AIPerceptionComponent->OnTargetPerceptionUpdated.RemoveDynamic
+			(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+	}
 }
 
 void AEnemyAIController::UpdatePatrolLocation()
