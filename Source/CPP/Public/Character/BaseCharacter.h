@@ -43,6 +43,8 @@ public:
 	virtual void I_ANS_BeginTraceHit() override;
 	virtual void I_RequestAttack() override;
 
+	virtual void I_AN_EndHitReact() override;
+
 #pragma endregion
 
 

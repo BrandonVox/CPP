@@ -120,8 +120,16 @@ void ABaseCharacter::I_ANS_BeginTraceHit()
 
 void ABaseCharacter::I_RequestAttack()
 {
-	if(AttackComponent)
+	if(CombatState == ECombatState::Ready && AttackComponent)
 		AttackComponent->RequestAttack();
+}
+
+void ABaseCharacter::I_AN_EndHitReact()
+{
+	// khi minh bi danh xong
+	// combatstate -> ready
+	CombatState = ECombatState::Ready;
+	I_AN_EndAttack();
 }
 
 void ABaseCharacter::I_ANS_TraceHit()

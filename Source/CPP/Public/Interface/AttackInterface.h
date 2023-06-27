@@ -38,4 +38,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void I_RequestAttack() = 0;
+
+	virtual void I_AN_EndHitReact() = 0;
 };
