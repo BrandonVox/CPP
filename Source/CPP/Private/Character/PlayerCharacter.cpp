@@ -79,6 +79,17 @@ void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage,
 			(HealthComponent->Health, HealthComponent->MaxHealth);
 }
 
+void APlayerCharacter::HandleDead()
+{
+	Super::HandleDead();
+
+	if(PlayerWidget)
+		PlayerWidget->RemoveFromParent();
+
+	auto PlayerController = Cast<APlayerController>(GetController());
+	DisableInput(PlayerController);
+}
+
 
 
 void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)

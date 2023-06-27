@@ -36,6 +36,8 @@ protected:
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser) override;
 
+	virtual void HandleDead() override;
+
 private:
 	void AddMapingContextForCharacter();
 
