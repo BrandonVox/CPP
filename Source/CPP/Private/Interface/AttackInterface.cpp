@@ -28,3 +28,7 @@ void IAttackInterface::I_StaminaUpdated()
 void IAttackInterface::I_StaminaUpdated_Target(float Stamina_Target, float MaxStamina_Target)
 {
 }
+
+void IAttackInterface::I_RequestAttackFailed_Stamina(float StaminaCost)
+{
+}

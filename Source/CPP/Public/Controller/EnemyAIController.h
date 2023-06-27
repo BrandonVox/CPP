@@ -26,6 +26,13 @@ public:
 
 	void BackToPatrol();
 
+	void StartRegenStamina(float Stamina);
+
+	void RegenToCombat();
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateRegenLocation(AActor* AIActor, AActor* PlayerActor, float RegenRange);
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 private:
@@ -34,6 +41,12 @@ private:
 	void HandleSeePlayer(AActor* Actor);
 
 	void ExitCombatTimerFinished();
+
+public:
+	bool bIsRegenStamina = false;
+
+	float TargetStamina = 0.0f;
+
 private:
 	UPROPERTY()
 	APawn* PossessedPawn;
@@ -58,6 +71,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	FName Key_AIState;
+
+	UPROPERTY(EditDefaultsOnly)
+	FName Key_RegenLocation;
 	
 	FLinearColor DebugColor = FLinearColor::Green;
 
@@ -65,4 +81,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	float ExitCombatSecond = 3.0f;
+
+
 };

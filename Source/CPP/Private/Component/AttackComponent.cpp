@@ -39,6 +39,9 @@ bool UAttackComponent::CanAttack() const
 	const bool B = AttackInterface->I_DoesReadyAttack();
 	const bool C = AttackInterface->I_HasEnoughStamina(BaseCharacterData->CostMap[RequestAttackType]);
 
+	if (C == false)
+		AttackInterface->I_RequestAttackFailed_Stamina(BaseCharacterData->CostMap[RequestAttackType]);
+
 	return A && B && C;
 }
 

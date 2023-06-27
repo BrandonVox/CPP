@@ -17,6 +17,8 @@ void AEnemyCharacter::BeginPlay()
 
 	if (BaseCharacterData)
 		ChangeMaxWalkSpeed(BaseCharacterData->PatrolSpeed);
+
+	EnemyAIController = Cast<AEnemyAIController>(GetController());
 }
 
 FVector AEnemyCharacter::I_GetPatrolLocation()
@@ -73,6 +75,9 @@ void AEnemyCharacter::I_RequestAttack()
 		AttackComponent->RequestAttackType = EAttackType::Normal;
 	}
 
+	// neu minh khong the tan cong
+	// li do boi stamina khong du
+	// lui lai de hoi phuc stamina
 	Super::I_RequestAttack();
 }
 
@@ -90,6 +95,23 @@ void AEnemyCharacter::I_StaminaUpdated()
 	if(AttackInterface_Player && StaminaComponent)
 		AttackInterface_Player->I_StaminaUpdated_Target
 			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+
+	
+	if (EnemyAIController == nullptr) return;
+
+	if (EnemyAIController->bIsRegenStamina)
+	{
+		if (I_HasEnoughStamina(EnemyAIController->TargetStamina))
+		{
+			EnemyAIController->RegenToCombat();
+		}
+	}
+}
+
+void AEnemyCharacter::I_RequestAttackFailed_Stamina(float StaminaCost)
+{
+	if(EnemyAIController)
+		EnemyAIController->StartRegenStamina(StaminaCost);
 }
 
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
@@ -113,8 +135,6 @@ void AEnemyCharacter::HandleDead()
 
 void AEnemyCharacter::HandlePlayerExitCombat()
 {
-	auto EnemyAIController = Cast<AEnemyAIController>(GetController());
-
 	if(EnemyAIController)
 		EnemyAIController->BackToPatrol();
 }

@@ -7,9 +7,8 @@
 #include "Interface/EnemyInterface.h"
 #include "EnemyCharacter.generated.h"
 
-/**
- * 
- */
+class AEnemyAIController;
+
 UCLASS()
 class CPP_API AEnemyCharacter : 
 	public ABaseCharacter,
@@ -23,6 +22,7 @@ public:
 	virtual void I_RequestAttack() override;
 	virtual void I_HandleAttackSuccess() override;
 	virtual void I_StaminaUpdated() override;
+	virtual void I_RequestAttackFailed_Stamina(float StaminaCost) override;
 #pragma endregion
 
 #pragma region Enemy_Interface
@@ -55,4 +55,7 @@ private:
 	TArray<AActor*> PatrolPoints;
 
 	int PatrolIndex = 0;
+
+	UPROPERTY()
+	AEnemyAIController* EnemyAIController;
 };

@@ -59,6 +59,9 @@ public:
 
 	virtual bool I_IsAttacking() const = 0;
 
+	// base character
+	virtual void I_RequestAttackFailed_Stamina(float StaminaCost);
+
 public:
 	FExitCombatDelegate I_OnExitCombat;
 };
