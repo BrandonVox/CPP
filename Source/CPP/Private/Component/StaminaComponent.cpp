@@ -42,3 +42,8 @@ void UStaminaComponent::SetupComponent(UBaseCharacterData* BCD)
 	}
 }
 
+void UStaminaComponent::UpdateStamina(float Cost)
+{
+	Stamina = FMath::Max(Stamina - Cost, 0.0f);
+}
+

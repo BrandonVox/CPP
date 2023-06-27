@@ -25,6 +25,10 @@ public:
 			float Stamina_Enemy, float MaxStamina_Enemy) override;
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target) override;
 	virtual void I_HandleTargetDestroyed() override;
+
+	virtual void I_HandleAttackSuccess() override;
+
+	virtual void I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target) override;
 #pragma endregion
 
 

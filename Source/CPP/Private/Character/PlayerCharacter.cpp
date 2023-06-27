@@ -129,6 +129,21 @@ void APlayerCharacter::I_HandleTargetDestroyed()
 		PlayerWidget->HideEnemyStats();
 }
 
+void APlayerCharacter::I_HandleAttackSuccess()
+{
+	Super::I_HandleAttackSuccess();
+
+	if(PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Player
+			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+}
+
+void APlayerCharacter::I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target)
+{
+	if (PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Target, MaxStamina_Target);
+}
+
 
 #pragma region Input
 

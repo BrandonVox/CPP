@@ -139,6 +139,12 @@ void ABaseCharacter::I_AN_EndHitReact()
 	I_AN_EndAttack();
 }
 
+void ABaseCharacter::I_HandleAttackSuccess()
+{
+	if(StaminaComponent)
+		StaminaComponent->UpdateStamina(20.0f);
+}
+
 void ABaseCharacter::I_ANS_TraceHit()
 {
 	if (AttackComponent)

@@ -17,6 +17,8 @@ public:
 	UStaminaComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void SetupComponent(UBaseCharacterData* BCD);
+
+	void UpdateStamina(float Cost);
 protected:
 	virtual void BeginPlay() override;
 

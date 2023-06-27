@@ -128,12 +128,11 @@ void UAttackComponent::Attack()
 
 		bIsAttacking = true;
 		bCanCombo = false;
-		// 3: 0 1 2
-		// 0 1 2 0
-		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
-	}
-		
 
+		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
+
+		AttackInterface->I_HandleAttackSuccess();
+	}
 }
 
 void UAttackComponent::SetupAttackComponent(UBaseCharacterData* BCD)

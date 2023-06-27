@@ -45,6 +45,10 @@ public:
 
 	virtual void I_HandleTargetDestroyed();
 
+	virtual void I_HandleAttackSuccess() = 0;
+
+	virtual void I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target);
+
 public:
 	FExitCombatDelegate I_OnExitCombat;
 };

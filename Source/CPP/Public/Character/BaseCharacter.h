@@ -48,6 +48,8 @@ public:
 
 	virtual void I_AN_EndHitReact() override;
 
+	virtual void I_HandleAttackSuccess() override;
+
 #pragma endregion
 
 
