@@ -20,6 +20,7 @@ public:
 	virtual void Destroyed() override;
 
 #pragma region Attack_Interface
+	virtual void I_RequestAttack() override;
 	virtual void I_HandleAttackSuccess() override;
 	virtual void I_StaminaUpdated() override;
 #pragma endregion

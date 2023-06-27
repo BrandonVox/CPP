@@ -147,6 +147,12 @@ void UAttackComponent::Attack()
 		SuccessAttackCost = BaseCharacterData->CostMap[RequestAttackType];
 		SuccessAttackDamage = BaseCharacterData->DamageMap[RequestAttackType];
 
+
+		if (RequestAttackType == EAttackType::Normal)
+			AttackCount_Normal++;
+		else
+			AttackCount_Normal = 0;
+
 		AttackInterface->I_HandleAttackSuccess();
 	}
 }

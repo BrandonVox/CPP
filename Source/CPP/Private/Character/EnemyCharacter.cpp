@@ -6,6 +6,7 @@
 
 #include "Component/HealthComponent.h"
 #include "Component/StaminaComponent.h"
+#include "Component/AttackComponent.h"
 
 #include "DataAsset/BaseCharacterData.h"
 #include "Controller/EnemyAIController.h"
@@ -57,6 +58,22 @@ void AEnemyCharacter::Destroyed()
 		AttackInterface_Player->I_HandleTargetDestroyed();
 
 	Super::Destroyed();
+}
+
+void AEnemyCharacter::I_RequestAttack()
+{
+	if (AttackComponent == nullptr) return;
+
+	if (AttackComponent->AttackCount_Normal >= 4)
+	{
+		AttackComponent->RequestAttackType = EAttackType::Strong;
+	}
+	else
+	{
+		AttackComponent->RequestAttackType = EAttackType::Normal;
+	}
+
+	Super::I_RequestAttack();
 }
 
 void AEnemyCharacter::I_HandleAttackSuccess()

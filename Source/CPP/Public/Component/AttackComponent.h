@@ -56,6 +56,8 @@ public:
 
 	bool bIsAttacking = false;
 
+	int AttackCount_Normal = 0;
+
 private:
 	// luu actor co trien khai interface
 	// template
