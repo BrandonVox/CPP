@@ -25,6 +25,9 @@ private:
 	UProgressBar* HealthBar_Player;
 
 	UPROPERTY(meta = (BindWidget))
+	UTextBlock* HealthText_Player;
+
+	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar_Enemy;
 
 	UPROPERTY(meta = (BindWidget))

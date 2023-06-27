@@ -27,6 +27,12 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
+		class AController* InstigatedBy, FVector HitLocation,
+		class UPrimitiveComponent* FHitComponent, FName BoneName,
+		FVector ShotFromDirection, const class UDamageType* DamageType,
+		AActor* DamageCauser) override;
+
 private:
 	void AddMapingContextForCharacter();
 

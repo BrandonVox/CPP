@@ -66,6 +66,17 @@ void APlayerCharacter::BeginPlay()
 		
 }
 
+void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
+{
+	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
+		HitLocation, FHitComponent, BoneName, ShotFromDirection,
+		DamageType, DamageCauser);
+
+	if(PlayerWidget && HealthComponent)
+		PlayerWidget->UpdateHealthBar_Player
+			(HealthComponent->Health, HealthComponent->MaxHealth);
+}
+
 
 
 void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)
