@@ -3,7 +3,10 @@
 
 #include "Character/EnemyCharacter.h"
 #include "Interface/AttackInterface.h"
+
 #include "Component/HealthComponent.h"
+#include "Component/StaminaComponent.h"
+
 #include "DataAsset/BaseCharacterData.h"
 #include "Controller/EnemyAIController.h"
 
@@ -36,8 +39,13 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 
 	if (AttackInterface_Player == nullptr) return;
 
-	if (HealthComponent)
-		AttackInterface_Player->I_EnterCombat(HealthComponent->Health, HealthComponent->MaxHealth);
+	if (HealthComponent && StaminaComponent)
+		AttackInterface_Player->I_EnterCombat(
+			HealthComponent->Health,
+			HealthComponent->MaxHealth,
+			StaminaComponent->Stamina,
+			StaminaComponent->MaxStamina
+		);
 
 	if(AttackInterface_Player->I_OnExitCombat.IsBound() == false)
 		AttackInterface_Player->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::HandlePlayerExitCombat);

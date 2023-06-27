@@ -11,6 +11,8 @@
 #include "Camera/CameraComponent.h"
 
 #include "Component/HealthComponent.h"
+#include "Component/StaminaComponent.h"
+
 #include "Component/AttackComponent.h"
 
 #include "EnhancedInputSubsystems.h"
@@ -60,8 +62,12 @@ void APlayerCharacter::BeginPlay()
 	if (PlayerWidget && HealthComponent)
 	{
 		PlayerWidget->AddToViewport();
-		PlayerWidget->
-			UpdateHealthBar_Player(HealthComponent->Health, HealthComponent->MaxHealth);
+		PlayerWidget->UpdateHealthBar_Player
+			(HealthComponent->Health, HealthComponent->MaxHealth);
+
+		PlayerWidget->UpdateStaminaBar_Player
+			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+
 		PlayerWidget->HideEnemyStats();
 
 	}
@@ -92,17 +98,18 @@ void APlayerCharacter::HandleDead()
 
 
 
-void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy)
+void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy,
+	float Stamina_Enemy, float MaxStamina_Enemy)
 {
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+
 	if (PlayerWidget)
 	{
 		PlayerWidget->ShowEnemyStats();
 		PlayerWidget->UpdateHealthBar_Enemy(Health_Enemy, MaxHealth_Enemy);
+		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Enemy, MaxStamina_Enemy);
 	}
-
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
-		
 }
 
 void APlayerCharacter::I_HitTarget(float Health_Target, float MaxHealth_Target)
