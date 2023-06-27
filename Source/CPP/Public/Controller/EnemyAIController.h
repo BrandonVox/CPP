@@ -50,13 +50,10 @@ private:
 	FName Key_PatrolLocation;
 
 	UPROPERTY(EditDefaultsOnly)
-	FName Key_IsCombat;
-
-	UPROPERTY(EditDefaultsOnly)
 	FName Key_PlayerActor;
 
 	UPROPERTY(EditDefaultsOnly)
-	FName Key_ShouldAttack;
+	FName Key_AIState;
 	
 	FLinearColor DebugColor = FLinearColor::Green;
 };

@@ -7,6 +7,7 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Enum/AIState.h"
 
 // AI Module
 
@@ -98,7 +99,7 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 
 	if (Blackboard)
 	{
-		Blackboard->SetValueAsBool(Key_IsCombat, true);
+		Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Combat);
 		Blackboard->SetValueAsObject(Key_PlayerActor, Actor);
 	}
 
@@ -127,11 +128,11 @@ void AEnemyAIController::CheckDistance(AActor* AIActor, AActor* PlayerActor, flo
 	if (Distance_AI_Player <= AttackRange)
 	{
 		if(Blackboard)
-			Blackboard->SetValueAsBool(Key_ShouldAttack, true);
+			Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Attack);
 	}
 	else
 	{
 		if(Blackboard)
-			Blackboard->SetValueAsBool(Key_ShouldAttack, false);
+			Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Combat);
 	}
 }
