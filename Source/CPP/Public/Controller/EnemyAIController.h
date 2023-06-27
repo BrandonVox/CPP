@@ -21,6 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdatePatrolLocation();
 
+	UFUNCTION(BlueprintCallable)
+	void CheckDistance(AActor* AIActor, AActor* PlayerActor, float AttackRange);
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 private:
@@ -52,5 +55,8 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	FName Key_PlayerActor;
 
+	UPROPERTY(EditDefaultsOnly)
+	FName Key_ShouldAttack;
+	
 	FLinearColor DebugColor = FLinearColor::Green;
 };

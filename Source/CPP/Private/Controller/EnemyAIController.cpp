@@ -117,3 +117,21 @@ void AEnemyAIController::UpdatePatrolLocation()
 			Key_PatrolLocation,
 			EnemyInterface->I_GetPatrolLocation());
 }
+
+void AEnemyAIController::CheckDistance(AActor* AIActor, AActor* PlayerActor, float AttackRange)
+{
+	if (AIActor == nullptr) return;
+
+	const auto Distance_AI_Player = AIActor->GetDistanceTo(PlayerActor);
+
+	if (Distance_AI_Player <= AttackRange)
+	{
+		if(Blackboard)
+			Blackboard->SetValueAsBool(Key_ShouldAttack, true);
+	}
+	else
+	{
+		if(Blackboard)
+			Blackboard->SetValueAsBool(Key_ShouldAttack, false);
+	}
+}
