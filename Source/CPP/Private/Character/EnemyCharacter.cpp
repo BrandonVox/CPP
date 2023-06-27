@@ -5,6 +5,7 @@
 #include "Interface/AttackInterface.h"
 #include "Component/HealthComponent.h"
 #include "DataAsset/BaseCharacterData.h"
+#include "Controller/EnemyAIController.h"
 
 void AEnemyCharacter::BeginPlay()
 {
@@ -28,18 +29,18 @@ FVector AEnemyCharacter::I_GetPatrolLocation()
 
 void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 {
-	// attack interface
-	// enter combat
-	// health max health
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+
 	AttackInterface_Player = TScriptInterface<IAttackInterface>(PlayerActor);
 
-	if(AttackInterface_Player && HealthComponent)
-		AttackInterface_Player->I_EnterCombat
-			(HealthComponent->Health, HealthComponent->MaxHealth);
+	if (AttackInterface_Player == nullptr) return;
 
+	if (HealthComponent)
+		AttackInterface_Player->I_EnterCombat(HealthComponent->Health, HealthComponent->MaxHealth);
 
-	if(BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+	if(AttackInterface_Player->I_OnExitCombat.IsBound() == false)
+		AttackInterface_Player->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::HandlePlayerExitCombat);
 }
 
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
@@ -53,4 +54,12 @@ void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, 
 	if (AttackInterface_Player && HealthComponent)
 		AttackInterface_Player->
 			I_HitTarget(HealthComponent->Health, HealthComponent->MaxHealth);
+}
+
+void AEnemyCharacter::HandlePlayerExitCombat()
+{
+	auto EnemyAIController = Cast<AEnemyAIController>(GetController());
+
+	if(EnemyAIController)
+		EnemyAIController->BackToPatrol();
 }

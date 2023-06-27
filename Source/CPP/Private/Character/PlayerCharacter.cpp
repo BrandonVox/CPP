@@ -47,6 +47,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Look, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Move, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
 	EnhancedInputComponent->BindAction(EnhancedInputData->IA_Attack, ETriggerEvent::Started, this, &APlayerCharacter::AttackPressed);
+
+	EnhancedInputComponent->BindAction(EnhancedInputData->IA_ExitCombat, ETriggerEvent::Started, this, &APlayerCharacter::ExitCombatPressed);
 }
 
 void APlayerCharacter::BeginPlay()
@@ -162,5 +164,12 @@ void APlayerCharacter::AttackPressed()
 {
 	I_RequestAttack();
 }
-#pragma endregion
+void APlayerCharacter::ExitCombatPressed()
+{
+	if(PlayerWidget)
+		PlayerWidget->HideEnemyStats();
 
+	if(I_OnExitCombat.IsBound())
+		I_OnExitCombat.Execute();
+}
+#pragma endregion

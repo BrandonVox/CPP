@@ -31,6 +31,9 @@ protected:
 		class UPrimitiveComponent* FHitComponent, FName BoneName,
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser) override;
+private:
+	UFUNCTION()
+	void HandlePlayerExitCombat();
 
 private:
 	UPROPERTY()

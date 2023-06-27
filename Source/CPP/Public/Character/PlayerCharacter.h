@@ -39,6 +39,7 @@ private:
 	void Look(const FInputActionValue& Value);
 	void Move(const FInputActionValue& Value);
 	void AttackPressed();
+	void ExitCombatPressed();
 
 private:
 	UPROPERTY(VisibleAnywhere)

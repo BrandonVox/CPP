@@ -136,3 +136,9 @@ void AEnemyAIController::CheckDistance(AActor* AIActor, AActor* PlayerActor, flo
 			Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Combat);
 	}
 }
+
+void AEnemyAIController::BackToPatrol()
+{
+	if (Blackboard)
+		Blackboard->SetValueAsEnum(Key_AIState, (uint8)EAIState::Patrol);
+}

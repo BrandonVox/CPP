@@ -24,6 +24,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CheckDistance(AActor* AIActor, AActor* PlayerActor, float AttackRange);
 
+	void BackToPatrol();
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 private:

@@ -16,6 +16,8 @@ class UAttackInterface : public UInterface
 /**
  * 
  */
+DECLARE_DYNAMIC_DELEGATE(FExitCombatDelegate);
+
 class CPP_API IAttackInterface
 {
 	GENERATED_BODY()
@@ -40,4 +42,7 @@ public:
 	virtual void I_RequestAttack() = 0;
 
 	virtual void I_AN_EndHitReact() = 0;
+
+public:
+	FExitCombatDelegate I_OnExitCombat;
 };
