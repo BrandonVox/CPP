@@ -24,15 +24,21 @@ void UAttackComponent::BeginPlay()
 
 void UAttackComponent::RequestAttack()
 {
-	// khong tan cong
-	// co the combo
-	// attack
-	const bool bCanAttack = bIsAttacking == false || bCanCombo == true;
-
-	if (bCanAttack) 
+	if (CanAttack()) 
 		Attack();
 	else 
 		bSavedAttack = true;
+}
+
+bool UAttackComponent::CanAttack() const
+{
+	if (AttackInterface == nullptr) return false;
+
+	const bool A = bIsAttacking == false || bCanCombo == true;
+	const bool B = AttackInterface->I_DoesReadyAttack();
+	const bool C = AttackInterface->I_HasEnoughStamina(20.0f);
+
+	return A && B && C;
 }
 
 void UAttackComponent::TraceHit()
@@ -118,6 +124,8 @@ UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
 
 	return BaseCharacterData->AttackMontages[AttackIndex];
 }
+
+
 
 void UAttackComponent::Attack()
 {

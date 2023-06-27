@@ -50,6 +50,10 @@ public:
 
 	virtual void I_HandleAttackSuccess() override;
 
+	virtual bool I_DoesReadyAttack() const override;
+
+	virtual bool I_HasEnoughStamina(float Cost) const override;
+
 #pragma endregion
 
 

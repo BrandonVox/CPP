@@ -127,7 +127,7 @@ void ABaseCharacter::I_ANS_BeginTraceHit()
 
 void ABaseCharacter::I_RequestAttack()
 {
-	if(CombatState == ECombatState::Ready && AttackComponent)
+	if(AttackComponent)
 		AttackComponent->RequestAttack();
 }
 
@@ -143,6 +143,18 @@ void ABaseCharacter::I_HandleAttackSuccess()
 {
 	if(StaminaComponent)
 		StaminaComponent->UpdateStamina(20.0f);
+}
+
+bool ABaseCharacter::I_DoesReadyAttack() const
+{
+	return CombatState == ECombatState::Ready;
+}
+
+bool ABaseCharacter::I_HasEnoughStamina(float Cost) const
+{
+	if (StaminaComponent == nullptr) return false;
+
+	return StaminaComponent->Stamina >= Cost;
 }
 
 void ABaseCharacter::I_ANS_TraceHit()

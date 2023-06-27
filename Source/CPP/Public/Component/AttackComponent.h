@@ -42,6 +42,9 @@ private:
 	void Attack();
 	void HandleHitResult(const FHitResult& Result);
 	UAnimMontage* GetCorrectAttackMontage();
+
+	bool CanAttack() const;
+
 public:
 	FHitSomethingDelegate HitSomethingDelegate;
 private:

@@ -49,6 +49,10 @@ public:
 
 	virtual void I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target);
 
+	virtual bool I_DoesReadyAttack() const = 0;
+
+	virtual bool I_HasEnoughStamina(float Cost) const = 0;
+
 public:
 	FExitCombatDelegate I_OnExitCombat;
 };
