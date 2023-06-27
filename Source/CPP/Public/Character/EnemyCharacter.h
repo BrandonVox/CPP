@@ -17,11 +17,14 @@ class CPP_API AEnemyCharacter :
 {
 	GENERATED_BODY()
 public:
-	/*
-	* Enemy Interface
-	*/
+	virtual void Destroyed() override;
+
+#pragma region Enemy_Interface
 	virtual FVector I_GetPatrolLocation() override;
 	virtual void I_HandleSeePlayer(AActor* PlayerActor) override;
+#pragma endregion
+
+	
 
 protected:
 	virtual void BeginPlay() override;
@@ -31,6 +34,9 @@ protected:
 		class UPrimitiveComponent* FHitComponent, FName BoneName,
 		FVector ShotFromDirection, const class UDamageType* DamageType,
 		AActor* DamageCauser) override;
+
+	virtual void HandleDead() override;
+
 private:
 	UFUNCTION()
 	void HandlePlayerExitCombat();

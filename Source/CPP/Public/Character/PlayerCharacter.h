@@ -18,11 +18,14 @@ class CPP_API APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	/*
-	* Attack Interface
-	*/
+
+#pragma region Attack_Interface
 	virtual void I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy) override;
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target) override;
+	virtual void I_HandleTargetDestroyed() override;
+#pragma endregion
+
+
 
 protected:
 	virtual void BeginPlay() override;

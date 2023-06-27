@@ -52,8 +52,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-
-
 	UFUNCTION()
 	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
 			class AController* InstigatedBy, FVector HitLocation,
@@ -61,15 +59,17 @@ protected:
 			FVector ShotFromDirection, const class UDamageType* DamageType,
 			AActor* DamageCauser);
 
+	virtual void HandleDead();
+
 private:
-	// attack direction
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
 
-
-
-	// Event Function
 	UFUNCTION()
 	void HandleHitSomething(const FHitResult& HitResult);
+
+	void SpawnHitImpact(const FVector& HitLocation);
+
+	void HandleBeaten(const FVector& ShotFromDirection);
 
 
 

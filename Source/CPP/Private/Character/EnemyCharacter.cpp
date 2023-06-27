@@ -43,6 +43,14 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 		AttackInterface_Player->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::HandlePlayerExitCombat);
 }
 
+void AEnemyCharacter::Destroyed()
+{
+	if (AttackInterface_Player)
+		AttackInterface_Player->I_HandleTargetDestroyed();
+
+	Super::Destroyed();
+}
+
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
@@ -54,6 +62,12 @@ void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, 
 	if (AttackInterface_Player && HealthComponent)
 		AttackInterface_Player->
 			I_HitTarget(HealthComponent->Health, HealthComponent->MaxHealth);
+}
+
+void AEnemyCharacter::HandleDead()
+{
+	Super::HandleDead();
+	DetachFromControllerPendingDestroy();
 }
 
 void AEnemyCharacter::HandlePlayerExitCombat()

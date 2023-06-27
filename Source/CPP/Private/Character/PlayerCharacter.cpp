@@ -105,6 +105,12 @@ void APlayerCharacter::I_HitTarget(float Health_Target, float MaxHealth_Target)
 	}
 }
 
+void APlayerCharacter::I_HandleTargetDestroyed()
+{
+	if (PlayerWidget)
+		PlayerWidget->HideEnemyStats();
+}
+
 
 #pragma region Input
 

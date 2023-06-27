@@ -43,6 +43,8 @@ public:
 
 	virtual void I_AN_EndHitReact() = 0;
 
+	virtual void I_HandleTargetDestroyed();
+
 public:
 	FExitCombatDelegate I_OnExitCombat;
 };

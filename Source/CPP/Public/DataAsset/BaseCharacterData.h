@@ -20,7 +20,7 @@ public:
 	TArray< UAnimMontage*> AttackMontages;
 
 	/*
-	* Hit React Montages
+	* Hit React
 	*/
 	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
 	UAnimMontage* HitReactMontage_Front;
@@ -33,6 +33,17 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
 	UAnimMontage* HitReactMontage_Left;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Hit React")
+	USoundBase* PainSound;
+	/*
+	* Dead
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Dead")
+	UAnimMontage* DeadMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Dead")
+	USoundBase* DeadSound;
 	/*
 	* Hit Impact
 	*/
@@ -42,8 +53,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 	USoundBase* HitImpactSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
-	USoundBase* PainSound;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 	USoundBase* StartAttackSound;
