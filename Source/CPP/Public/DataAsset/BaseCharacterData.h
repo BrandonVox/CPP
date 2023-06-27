@@ -114,6 +114,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Stats")
 	float MaxStamina = 100.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Stats")
+	float RegenSpeed = 40.0f;
 	/*
 	* Speed
 	*/

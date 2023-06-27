@@ -54,6 +54,8 @@ public:
 
 	virtual bool I_HasEnoughStamina(float Cost) const override;
 
+	virtual bool I_IsAttacking() const override;
+
 #pragma endregion
 
 

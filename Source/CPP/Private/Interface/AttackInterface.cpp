@@ -20,3 +20,11 @@ void IAttackInterface::I_HandleTargetDestroyed()
 void IAttackInterface::I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target)
 {
 }
+
+void IAttackInterface::I_StaminaUpdated()
+{
+}
+
+void IAttackInterface::I_StaminaUpdated_Target(float Stamina_Target, float MaxStamina_Target)
+{
+}

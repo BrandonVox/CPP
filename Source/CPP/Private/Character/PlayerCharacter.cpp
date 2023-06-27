@@ -134,12 +134,23 @@ void APlayerCharacter::I_HandleAttackSuccess()
 {
 	Super::I_HandleAttackSuccess();
 
-	if(PlayerWidget)
-		PlayerWidget->UpdateStaminaBar_Player
-			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+	if(PlayerWidget && StaminaComponent)
+		PlayerWidget->UpdateStaminaBar_Player(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
 }
 
 void APlayerCharacter::I_HandleTargetAttacked(float Stamina_Target, float MaxStamina_Target)
+{
+	if (PlayerWidget)
+		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Target, MaxStamina_Target);
+}
+
+void APlayerCharacter::I_StaminaUpdated()
+{
+	if (PlayerWidget && StaminaComponent)
+		PlayerWidget->UpdateStaminaBar_Player(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+}
+
+void APlayerCharacter::I_StaminaUpdated_Target(float Stamina_Target, float MaxStamina_Target)
 {
 	if (PlayerWidget)
 		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Target, MaxStamina_Target);

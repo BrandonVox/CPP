@@ -19,8 +19,10 @@ class CPP_API AEnemyCharacter :
 public:
 	virtual void Destroyed() override;
 
-	// Attack Interface
+#pragma region Attack_Interface
 	virtual void I_HandleAttackSuccess() override;
+	virtual void I_StaminaUpdated() override;
+#pragma endregion
 
 #pragma region Enemy_Interface
 	virtual FVector I_GetPatrolLocation() override;

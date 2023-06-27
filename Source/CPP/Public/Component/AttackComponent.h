@@ -54,6 +54,8 @@ public:
 	float SuccessAttackCost = 0.0f;
 	float SuccessAttackDamage = 0.0f;
 
+	bool bIsAttacking = false;
+
 private:
 	// luu actor co trien khai interface
 	// template
@@ -63,7 +65,7 @@ private:
 	UPROPERTY()
 	UBaseCharacterData* BaseCharacterData;
 
-	bool bIsAttacking = false;
+
 	bool bCanCombo = false;
 	bool bSavedAttack = false;
 	int AttackIndex = 0;

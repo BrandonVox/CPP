@@ -7,6 +7,7 @@
 #include "StaminaComponent.generated.h"
 
 class UBaseCharacterData;
+class IAttackInterface;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class CPP_API UStaminaComponent : public UActorComponent
@@ -26,5 +27,10 @@ protected:
 public:
 	float Stamina = 0.0f;
 	float MaxStamina = 0.0f;
+	float RegenSpeed = 0.0f;
+
+private:
+	UPROPERTY()
+	TScriptInterface<IAttackInterface> AttackInterface;
 		
 };

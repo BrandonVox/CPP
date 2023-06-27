@@ -68,6 +68,13 @@ void AEnemyCharacter::I_HandleAttackSuccess()
 			I_HandleTargetAttacked(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
 }
 
+void AEnemyCharacter::I_StaminaUpdated()
+{
+	if(AttackInterface_Player && StaminaComponent)
+		AttackInterface_Player->I_StaminaUpdated_Target
+			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
+}
+
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,

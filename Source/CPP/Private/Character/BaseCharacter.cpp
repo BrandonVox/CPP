@@ -157,6 +157,13 @@ bool ABaseCharacter::I_HasEnoughStamina(float Cost) const
 	return StaminaComponent->Stamina >= Cost;
 }
 
+bool ABaseCharacter::I_IsAttacking() const
+{
+	if (AttackComponent == nullptr) return false;
+
+	return AttackComponent->bIsAttacking;
+}
+
 void ABaseCharacter::I_ANS_TraceHit()
 {
 	if (AttackComponent)
