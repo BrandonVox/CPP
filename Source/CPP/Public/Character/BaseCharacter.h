@@ -6,8 +6,7 @@
 #include "Enum/CombatState.h"
 #include "BaseCharacter.generated.h"
 
-class USpringArmComponent;
-class UCameraComponent;
+
 class UAttackComponent;
 class UHealthComponent;
 class UInputMappingContext;
@@ -25,7 +24,7 @@ class CPP_API ABaseCharacter :
 
 public:
 	ABaseCharacter();
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 	virtual void PostInitializeComponents() override;
 	// virtual void Tick(float DeltaSeconds) override;
 
@@ -46,7 +45,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	void AddMapingContextForCharacter();
+
 
 	UFUNCTION()
 	virtual void HandleTakePointDamage(AActor* DamagedActor, float Damage,
@@ -58,9 +57,8 @@ protected:
 private:
 	// attack direction
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
-	void Look(const FInputActionValue& Value);
-	void Move(const FInputActionValue& Value);
-	void AttackPressed();
+
+
 
 	// Event Function
 	UFUNCTION()
@@ -77,21 +75,19 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
 	UBaseCharacterData* BaseCharacterData;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
+	UEnhancedInputData* EnhancedInputData;
 private:
 	// getter
 	ECombatState CombatState = ECombatState::Ready;
 
 
-	UPROPERTY(VisibleAnywhere)
-	USpringArmComponent* SpringArmComponent;
-
-	UPROPERTY(VisibleAnywhere)
-	UCameraComponent* CameraComponent;
 
 
 
-	UPROPERTY(EditDefaultsOnly, Category = "Character Data Assets")
-	UEnhancedInputData* EnhancedInputData;
+
+
 
 
 
