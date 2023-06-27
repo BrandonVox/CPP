@@ -120,12 +120,15 @@ void UAttackComponent::HandleHitResult(const FHitResult& Result)
 UAnimMontage* UAttackComponent::GetCorrectAttackMontage()
 {
 	if (BaseCharacterData == nullptr) return nullptr;
-	if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
 
+	if (RequestAttackType == EAttackType::Strong)
+		return BaseCharacterData->AttackMontage_Strong;
+
+	// Normal Attack
+
+	if (BaseCharacterData->AttackMontages.IsEmpty()) return nullptr;
 	return BaseCharacterData->AttackMontages[AttackIndex];
 }
-
-
 
 void UAttackComponent::Attack()
 {
@@ -137,7 +140,8 @@ void UAttackComponent::Attack()
 		bIsAttacking = true;
 		bCanCombo = false;
 
-		AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
+		if (RequestAttackType == EAttackType::Normal)
+			AttackIndex = (AttackIndex + 1) % BaseCharacterData->AttackMontages.Num();
 
 		AttackInterface->I_HandleAttackSuccess();
 	}

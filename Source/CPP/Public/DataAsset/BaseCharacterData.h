@@ -19,6 +19,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Attack")
 	TArray< UAnimMontage*> AttackMontages;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Attack")
+	UAnimMontage* AttackMontage_Strong;
 	/*
 	* Hit React
 	*/

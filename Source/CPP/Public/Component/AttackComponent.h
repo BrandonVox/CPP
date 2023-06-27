@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Enum/AttackType.h"
 #include "AttackComponent.generated.h"
 
 
@@ -47,6 +48,9 @@ private:
 
 public:
 	FHitSomethingDelegate HitSomethingDelegate;
+
+	EAttackType RequestAttackType = EAttackType::Normal;
+
 private:
 	// luu actor co trien khai interface
 	// template
