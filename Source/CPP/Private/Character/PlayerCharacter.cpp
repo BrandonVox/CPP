@@ -97,19 +97,21 @@ void APlayerCharacter::HandleDead()
 	DisableInput(PlayerController);
 }
 
-
-
-void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy,
-	float Stamina_Enemy, float MaxStamina_Enemy)
+void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+	Super::I_EnterCombat(TargetActor);
 
-	if (PlayerWidget)
+	if (PlayerWidget && AttackInterface_Target)
 	{
 		PlayerWidget->ShowEnemyStats();
-		PlayerWidget->UpdateHealthBar_Enemy(Health_Enemy, MaxHealth_Enemy);
-		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Enemy, MaxStamina_Enemy);
+
+		PlayerWidget->UpdateHealthBar_Enemy(
+			AttackInterface_Target->I_GetHealth(),
+			AttackInterface_Target->I_GetMaxHealth());
+
+		PlayerWidget->UpdateStaminaBar_Enemy(
+			AttackInterface_Target->I_GetStamina(),
+			AttackInterface_Target->I_GetMaxStamina());
 	}
 }
 

@@ -38,6 +38,9 @@ ABaseCharacter::ABaseCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	// Z -> Yaw
 	GetCharacterMovement()->RotationRate.Yaw = 540.0;
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 }
 
 
@@ -78,6 +81,15 @@ void ABaseCharacter::BeginPlay()
 #pragma region Attack_Interface
 
 
+
+void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
+{
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+
+	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
+
+}
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
 {
@@ -162,6 +174,34 @@ bool ABaseCharacter::I_IsAttacking() const
 	if (AttackComponent == nullptr) return false;
 
 	return AttackComponent->bIsAttacking;
+}
+
+float ABaseCharacter::I_GetHealth() const
+{
+	if (HealthComponent == nullptr) return 0.0f;
+
+	return HealthComponent->Health;
+}
+
+float ABaseCharacter::I_GetMaxHealth() const
+{
+	if (HealthComponent == nullptr) return 0.0f;
+
+	return HealthComponent->MaxHealth;
+}
+
+float ABaseCharacter::I_GetStamina() const
+{
+	if (StaminaComponent == nullptr) return 0.0f;
+
+	return StaminaComponent->Stamina;
+}
+
+float ABaseCharacter::I_GetMaxStamina() const
+{
+	if (StaminaComponent == nullptr) return 0.0f;
+
+	return StaminaComponent->MaxStamina;
 }
 
 void ABaseCharacter::I_ANS_TraceHit()

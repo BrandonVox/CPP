@@ -5,7 +5,7 @@
 
 // Add default functionality here for any IAttackInterface functions that are not pure virtual.
 
-void IAttackInterface::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy, float Stamina_Enemy, float MaxStamina_Enemy)
+void IAttackInterface::I_EnterCombat(AActor* TargetActor)
 {
 }
 
