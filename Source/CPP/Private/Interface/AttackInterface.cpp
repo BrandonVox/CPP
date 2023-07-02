@@ -21,6 +21,10 @@ void IAttackInterface::I_HandleTargetAttacked(float Stamina_Target, float MaxSta
 {
 }
 
+void IAttackInterface::I_HandleTargetDead()
+{
+}
+
 void IAttackInterface::I_StaminaUpdated()
 {
 }

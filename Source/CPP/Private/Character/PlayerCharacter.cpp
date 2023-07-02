@@ -18,6 +18,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+
+#include "Components/AudioComponent.h"
+
 APlayerCharacter::APlayerCharacter()
 {
 	// Spring Arm
@@ -71,8 +75,13 @@ void APlayerCharacter::BeginPlay()
 
 		PlayerWidget->HideEnemyStats();
 
+		PlayerWidget->UpdateEliminationsText(Eliminations);
+
 	}
-		
+
+	// Theme
+	if(BaseCharacterData)
+		ThemeAudio = UGameplayStatics::SpawnSound2D(this, BaseCharacterData->ThemeSound);	
 }
 
 void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
@@ -113,6 +122,10 @@ void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 			AttackInterface_Target->I_GetStamina(),
 			AttackInterface_Target->I_GetMaxStamina());
 	}
+
+	// Combat Sound
+	if(ThemeAudio && BaseCharacterData)
+		ThemeAudio->SetSound(BaseCharacterData->CombatSound);
 }
 
 void APlayerCharacter::I_HitTarget(float Health_Target, float MaxHealth_Target)
@@ -146,6 +159,20 @@ void APlayerCharacter::I_HandleTargetAttacked(float Stamina_Target, float MaxSta
 		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Target, MaxStamina_Target);
 }
 
+void APlayerCharacter::I_HandleTargetDead()
+{
+	I_ExitCombat();
+
+	Eliminations++;
+
+	if(PlayerWidget)
+		PlayerWidget->UpdateEliminationsText(Eliminations);
+
+	// Eliminate Sound
+	if (BaseCharacterData)
+		UGameplayStatics::PlaySound2D(this, BaseCharacterData->EliminationSound);
+}
+
 void APlayerCharacter::I_StaminaUpdated()
 {
 	if (PlayerWidget && StaminaComponent)
@@ -167,6 +194,9 @@ void APlayerCharacter::I_ExitCombat()
 
 	if (I_OnExitCombat.IsBound())
 		I_OnExitCombat.Execute();
+
+	if (ThemeAudio && BaseCharacterData)
+		ThemeAudio->SetSound(BaseCharacterData->ThemeSound);
 
 }
 

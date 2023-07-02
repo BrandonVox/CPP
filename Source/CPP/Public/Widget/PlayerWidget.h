@@ -23,7 +23,13 @@ public:
 	void ShowEnemyStats();
 	void HideEnemyStats();
 
+	//
+	void UpdateEliminationsText(int Eliminations);
+
 private:
+	/*
+	* Player
+	*/
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar_Player;
 
@@ -36,7 +42,12 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	UTextBlock* StaminaText_Player;
 
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* EliminationsText_Number;
 
+	/*
+	* 
+	*/
 	UPROPERTY(meta = (BindWidget))
 	UProgressBar* HealthBar_Enemy;
 

@@ -210,6 +210,9 @@ float ABaseCharacter::I_GetMaxStamina() const
 
 void ABaseCharacter::I_ExitCombat()
 {
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
+
 	bIsStrafing = false;
 	if (GetCharacterMovement())
 		GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -313,11 +316,6 @@ void ABaseCharacter::HandleDead()
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	}
 
-	// enemy character
-	// sau khi enemy character bi xoa ra khoi level
-	// override function destroyed
-	// enemy character -> thong bao cho player
-	// de player xoa thanh mau cua enemy
 	SetLifeSpan(DeadMontageSecond);
 }
 

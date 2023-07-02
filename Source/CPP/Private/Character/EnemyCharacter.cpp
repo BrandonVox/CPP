@@ -130,6 +130,11 @@ void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, 
 void AEnemyCharacter::HandleDead()
 {
 	Super::HandleDead();
+	
+
+	if (AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetDead();
+
 	DetachFromControllerPendingDestroy();
 }
 
