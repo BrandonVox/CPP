@@ -89,6 +89,10 @@ void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
 
 	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
 
+	bIsStrafing = true;
+	if(GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = false;
+	bUseControllerRotationYaw = true;
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -202,6 +206,14 @@ float ABaseCharacter::I_GetMaxStamina() const
 	if (StaminaComponent == nullptr) return 0.0f;
 
 	return StaminaComponent->MaxStamina;
+}
+
+void ABaseCharacter::I_ExitCombat()
+{
+	bIsStrafing = false;
+	if (GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationYaw = false;
 }
 
 void ABaseCharacter::I_ANS_TraceHit()

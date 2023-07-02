@@ -158,6 +158,18 @@ void APlayerCharacter::I_StaminaUpdated_Target(float Stamina_Target, float MaxSt
 		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Target, MaxStamina_Target);
 }
 
+void APlayerCharacter::I_ExitCombat()
+{
+	Super::I_ExitCombat();
+
+	if (PlayerWidget)
+		PlayerWidget->HideEnemyStats();
+
+	if (I_OnExitCombat.IsBound())
+		I_OnExitCombat.Execute();
+
+}
+
 
 #pragma region Input
 
@@ -227,10 +239,6 @@ void APlayerCharacter::StrongAttackPressed()
 
 void APlayerCharacter::ExitCombatPressed()
 {
-	if(PlayerWidget)
-		PlayerWidget->HideEnemyStats();
-
-	if(I_OnExitCombat.IsBound())
-		I_OnExitCombat.Execute();
+	I_ExitCombat();
 }
 #pragma endregion

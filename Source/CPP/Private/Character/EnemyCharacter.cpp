@@ -42,12 +42,16 @@ void AEnemyCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	Super::I_EnterCombat(TargetActor);
 
+	//bIsStrafing;
+	//bUseControllerRotationYaw;
+	//GetMovementComponent();
+
 	if (AttackInterface_Target)
 		AttackInterface_Target->I_EnterCombat(this);
 
 	// Bind On Exit Combat
 	if (AttackInterface_Target->I_OnExitCombat.IsBound() == false)
-		AttackInterface_Target->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::HandleTargetExitCombat);
+		AttackInterface_Target->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::I_ExitCombat);
 }
 
 void AEnemyCharacter::I_RequestAttack()
@@ -102,6 +106,14 @@ void AEnemyCharacter::I_RequestAttackFailed_Stamina(float StaminaCost)
 		EnemyAIController->StartRegenStamina(StaminaCost);
 }
 
+void AEnemyCharacter::I_ExitCombat()
+{
+	Super::I_ExitCombat();
+
+	if (EnemyAIController)
+		EnemyAIController->BackToPatrol();
+}
+
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
@@ -119,12 +131,6 @@ void AEnemyCharacter::HandleDead()
 {
 	Super::HandleDead();
 	DetachFromControllerPendingDestroy();
-}
-
-void AEnemyCharacter::HandleTargetExitCombat()
-{
-	if(EnemyAIController)
-		EnemyAIController->BackToPatrol();
 }
 
 void AEnemyCharacter::Destroyed()

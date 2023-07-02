@@ -25,6 +25,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bShouldBlendLowerUpper = true;
 
+	UPROPERTY(BlueprintReadOnly)
+	double StrafeValue = 0.0;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bIsStrafing = false;
+
 private:
 	// basecharacter
 	UPROPERTY()
@@ -34,3 +40,4 @@ private:
 
 	float GroundSpeed = 0.0f;
 };
+

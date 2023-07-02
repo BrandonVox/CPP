@@ -30,4 +30,22 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bShouldBlendLowerUpper =
 		GroundSpeed > 0.0f
 		&& Character->GetCombatState() != ECombatState::Beaten;
+
+	// Strafe
+
+	const auto MovementRotation = UKismetMathLibrary::MakeRotFromX(Character->GetVelocity());
+
+	const auto& AimRotation = Character->GetBaseAimRotation();
+	
+	StrafeValue = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
+
+	if (GEngine)
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			1.0f,
+			FColor::Blue,
+			FString::Printf(TEXT("Value = %f"), StrafeValue)
+		);
+
+	bIsStrafing = Character->bIsStrafing;
 }

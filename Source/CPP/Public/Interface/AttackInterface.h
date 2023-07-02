@@ -37,6 +37,9 @@ public:
 
 	virtual void I_EnterCombat(AActor* TargetActor);
 
+	UFUNCTION()
+	virtual void I_ExitCombat() = 0;
+
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target);
 
 	UFUNCTION(BlueprintCallable)

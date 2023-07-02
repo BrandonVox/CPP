@@ -112,6 +112,8 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 		AIPerceptionComponent->OnTargetPerceptionUpdated.RemoveDynamic
 			(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 	}
+
+	SetFocus(Actor);
 }
 
 
@@ -167,6 +169,8 @@ void AEnemyAIController::BackToPatrol()
 		&AEnemyAIController::ExitCombatTimerFinished,
 		ExitCombatSecond
 	);
+
+	SetFocus(nullptr);
 }
 
 void AEnemyAIController::StartRegenStamina(float Stamina)

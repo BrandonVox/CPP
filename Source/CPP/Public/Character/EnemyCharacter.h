@@ -24,6 +24,8 @@ public:
 	virtual void I_HandleAttackSuccess() override;
 	virtual void I_StaminaUpdated() override;
 	virtual void I_RequestAttackFailed_Stamina(float StaminaCost) override;
+
+	virtual void I_ExitCombat() override;
 #pragma endregion
 
 #pragma region Enemy_Interface
@@ -43,10 +45,6 @@ protected:
 		AActor* DamageCauser) override;
 
 	virtual void HandleDead() override;
-
-private:
-	UFUNCTION()
-	void HandleTargetExitCombat();
 
 private:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol")

@@ -65,6 +65,8 @@ public:
 	virtual float I_GetStamina() const override;
 	virtual float I_GetMaxStamina() const override;
 
+	virtual void I_ExitCombat() override;
+
 #pragma endregion
 
 
@@ -91,7 +93,8 @@ private:
 
 	void HandleBeaten(const FVector& ShotFromDirection);
 
-
+public:
+	bool bIsStrafing = false;
 
 protected:
 	UPROPERTY(VisibleAnywhere)

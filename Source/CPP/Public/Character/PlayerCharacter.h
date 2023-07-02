@@ -31,6 +31,8 @@ public:
 	virtual void I_StaminaUpdated() override;
 
 	virtual void I_StaminaUpdated_Target(float Stamina_Target, float MaxStamina_Target) override;
+
+	virtual void I_ExitCombat() override;
 #pragma endregion
 
 
