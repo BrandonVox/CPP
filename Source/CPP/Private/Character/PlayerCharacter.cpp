@@ -3,6 +3,7 @@
 
 #include "Character/PlayerCharacter.h"
 #include "Widget/PlayerWidget.h"
+#include "Widget/EndWidget.h"
 
 #include "DataAsset/BaseCharacterData.h"
 #include "DataAsset/EnhancedInputData.h"
@@ -62,7 +63,10 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerWidget = CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
+	auto PlayerController = Cast<APlayerController>(GetController());
+
+	// Player Widget
+	PlayerWidget = CreateWidget<UPlayerWidget>(PlayerController, PlayerWidgetClass);
 
 	if (PlayerWidget && HealthComponent)
 	{
@@ -104,6 +108,38 @@ void APlayerCharacter::HandleDead()
 
 	auto PlayerController = Cast<APlayerController>(GetController());
 	DisableInput(PlayerController);
+
+	// End Widget
+	auto EndWidget = CreateWidget<UEndWidget>(PlayerController, EndWidgetClass);
+
+	if(EndWidget)
+		EndWidget->AddToViewport();
+
+	// Input Mode
+	if (EndWidget == nullptr) return;
+	if (PlayerController == nullptr) return;
+
+	FInputModeUIOnly MyInputMode;
+	MyInputMode.SetWidgetToFocus(EndWidget->TakeWidget());
+	PlayerController->SetInputMode(MyInputMode);
+	PlayerController->SetShowMouseCursor(true);
+
+}
+
+void APlayerCharacter::HandleBeaten(const FVector& ShotFromDirection)
+{
+	Super::HandleBeaten(ShotFromDirection);
+
+
+	// Camera Shake
+	auto CameraManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+
+	if(CameraManager && BaseCharacterData)
+		CameraManager->StartCameraShake(
+			BaseCharacterData->CameraShakeClass,
+			BaseCharacterData->ShakeScale
+		);
+
 }
 
 void APlayerCharacter::I_EnterCombat(AActor* TargetActor)

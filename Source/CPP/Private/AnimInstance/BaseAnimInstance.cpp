@@ -37,13 +37,13 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	
 	StrafeValue = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
 
-	if (GEngine)
-		GEngine->AddOnScreenDebugMessage(
-			-1,
-			1.0f,
-			FColor::Blue,
-			FString::Printf(TEXT("Value = %f"), StrafeValue)
-		);
+	//if (GEngine)
+	//	GEngine->AddOnScreenDebugMessage(
+	//		-1,
+	//		1.0f,
+	//		FColor::Blue,
+	//		FString::Printf(TEXT("Value = %f"), StrafeValue)
+	//	);
 
 	bIsStrafing = Character->bIsStrafing;
 }

@@ -49,6 +49,8 @@ protected:
 
 	virtual void HandleDead() override;
 
+	virtual void HandleBeaten(const FVector& ShotFromDirection) override;
+
 private:
 	void AddMapingContextForCharacter();
 
@@ -67,6 +69,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> EndWidgetClass;
 
 	UPROPERTY()
 	UPlayerWidget* PlayerWidget;

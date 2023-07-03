@@ -131,14 +131,26 @@ public:
 
 
 	/*
-	* Sound
+	* Player
 	*/
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	USoundBase* ThemeSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	USoundBase* CombatSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Sound")
-		USoundBase* EliminationSound;
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	USoundBase* EliminationSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	TSubclassOf<UCameraShakeBase> CameraShakeClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	float ShakeScale = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	TSubclassOf<UUserWidget> PlayerWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	TSubclassOf<UUserWidget> EndWidgetClass;
 };

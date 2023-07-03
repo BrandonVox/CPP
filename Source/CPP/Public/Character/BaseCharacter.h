@@ -82,6 +82,7 @@ protected:
 			AActor* DamageCauser);
 
 	virtual void HandleDead();
+	virtual void HandleBeaten(const FVector& ShotFromDirection);
 
 private:
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
@@ -91,7 +92,7 @@ private:
 
 	void SpawnHitImpact(const FVector& HitLocation);
 
-	void HandleBeaten(const FVector& ShotFromDirection);
+
 
 public:
 	bool bIsStrafing = false;
