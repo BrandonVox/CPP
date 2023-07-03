@@ -228,12 +228,11 @@ void APlayerCharacter::I_ExitCombat()
 	if (PlayerWidget)
 		PlayerWidget->HideEnemyStats();
 
-	if (I_OnExitCombat.IsBound())
-		I_OnExitCombat.Broadcast();
-
 	if (ThemeAudio && BaseCharacterData)
 		ThemeAudio->SetSound(BaseCharacterData->ThemeSound);
 
+	if(AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetExitCombat();
 }
 
 

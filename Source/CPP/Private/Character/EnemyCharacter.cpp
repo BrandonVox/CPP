@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Character/EnemyCharacter.h"
 #include "Interface/AttackInterface.h"
 
@@ -38,27 +35,35 @@ void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 	I_EnterCombat(PlayerActor);
 }
 
-void AEnemyCharacter::I_EnterCombat(AActor* TargetActor)
-{
-	Super::I_EnterCombat(TargetActor);
-
-	if (AttackInterface_Target)
-		AttackInterface_Target->I_EnterCombat(this);
-
-	// Bind On Exit Combat
-	if (AttackInterface_Target && AttackInterface_Target->I_OnExitCombat.IsBound() == false)
-		AttackInterface_Target->I_OnExitCombat.AddDynamic(this, &AEnemyCharacter::I_ExitCombat);
-}
-
 void AEnemyCharacter::I_ExitCombat()
 {
+	/*
+	* Change Speed
+	* Not Strafe
+	*/
 	Super::I_ExitCombat();
 
 	if (EnemyAIController)
 		EnemyAIController->BackToPatrol();
+}
 
-	if (AttackInterface_Target && AttackInterface_Target->I_OnExitCombat.IsBound())
-		AttackInterface_Target->I_OnExitCombat.RemoveDynamic(this, &AEnemyCharacter::I_ExitCombat);
+void AEnemyCharacter::I_HandleTargetExitCombat()
+{
+	/*
+	* Change Speed
+	* Not Strafe
+	*/
+	Super::I_ExitCombat();
+
+	if (EnemyAIController)
+		EnemyAIController->BackToPatrol();
+}
+
+void AEnemyCharacter::I_ReceiveCombat(AActor* TargetActor)
+{
+	Super::I_ReceiveCombat(TargetActor);
+	if (EnemyAIController)
+		EnemyAIController->CombatMode(TargetActor);
 }
 
 void AEnemyCharacter::I_RequestAttack()
@@ -112,8 +117,6 @@ void AEnemyCharacter::I_RequestAttackFailed_Stamina(float StaminaCost)
 	if(EnemyAIController)
 		EnemyAIController->StartRegenStamina(StaminaCost);
 }
-
-
 
 void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {

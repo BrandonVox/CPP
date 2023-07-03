@@ -36,6 +36,10 @@ public:
 
 #pragma region Attack_Interface
 	virtual void I_EnterCombat(AActor* TargetActor) override;
+	virtual void I_ReceiveCombat(AActor* TargetActor) override;
+
+	void Strafe();
+	void NotStrafe();
 
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;

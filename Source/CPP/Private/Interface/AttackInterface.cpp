@@ -5,7 +5,8 @@
 
 // Add default functionality here for any IAttackInterface functions that are not pure virtual.
 
-void IAttackInterface::I_EnterCombat(AActor* TargetActor)
+
+void IAttackInterface::I_HandleTargetExitCombat()
 {
 }
 

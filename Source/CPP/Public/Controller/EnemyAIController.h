@@ -33,12 +33,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateRegenLocation(AActor* AIActor, AActor* PlayerActor, float RegenRange);
 
+	void CombatMode(AActor* Actor);
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 	void HandleSeePlayer(AActor* Actor);
+
+
 
 	void ExitCombatTimerFinished();
 

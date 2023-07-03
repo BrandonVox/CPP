@@ -81,18 +81,19 @@ void ABaseCharacter::BeginPlay()
 #pragma region Attack_Interface
 
 
-
 void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
-
 	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
+	Strafe();
 
-	bIsStrafing = true;
-	if(GetCharacterMovement())
-		GetCharacterMovement()->bOrientRotationToMovement = false;
-	bUseControllerRotationYaw = true;
+	if (AttackInterface_Target)
+		AttackInterface_Target->I_ReceiveCombat(this);
+}
+
+void ABaseCharacter::I_ReceiveCombat(AActor* TargetActor)
+{
+	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
+	Strafe();
 }
 
 void ABaseCharacter::I_PlayAttackMontage(UAnimMontage* AttackMontage)
@@ -210,13 +211,7 @@ float ABaseCharacter::I_GetMaxStamina() const
 
 void ABaseCharacter::I_ExitCombat()
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
-
-	bIsStrafing = false;
-	if (GetCharacterMovement())
-		GetCharacterMovement()->bOrientRotationToMovement = true;
-	bUseControllerRotationYaw = false;
+	NotStrafe();
 }
 
 void ABaseCharacter::I_ANS_TraceHit()
@@ -362,4 +357,30 @@ UAnimMontage* ABaseCharacter::GetCorrectHitReactMontage(const FVector& AttackDir
 	}
 
 	return nullptr;
+}
+
+
+
+void ABaseCharacter::Strafe()
+{
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+
+	if (GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = false;
+	bUseControllerRotationYaw = true;
+
+	bIsStrafing = true;
+}
+
+void ABaseCharacter::NotStrafe()
+{
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
+
+	if (GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = true;
+	bUseControllerRotationYaw = false;
+
+	bIsStrafing = false;
 }
