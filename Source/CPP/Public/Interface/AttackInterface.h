@@ -16,7 +16,7 @@ class UAttackInterface : public UInterface
 /**
  * 
  */
-DECLARE_DYNAMIC_DELEGATE(FExitCombatDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FExitCombatDelegate);
 
 class CPP_API IAttackInterface
 {

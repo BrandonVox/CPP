@@ -46,9 +46,11 @@ protected:
 
 	virtual void HandleDead() override;
 
-private:
+public:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol")
 	TArray<AActor*> PatrolPoints;
+private:
+
 
 	int PatrolIndex = 0;
 

@@ -229,7 +229,7 @@ void APlayerCharacter::I_ExitCombat()
 		PlayerWidget->HideEnemyStats();
 
 	if (I_OnExitCombat.IsBound())
-		I_OnExitCombat.Execute();
+		I_OnExitCombat.Broadcast();
 
 	if (ThemeAudio && BaseCharacterData)
 		ThemeAudio->SetSound(BaseCharacterData->ThemeSound);
