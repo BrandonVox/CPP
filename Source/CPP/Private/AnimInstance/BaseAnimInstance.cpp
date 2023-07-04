@@ -30,4 +30,15 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bShouldBlendLowerUpper =
 		GroundSpeed > 0.0f
 		&& Character->GetCombatState() != ECombatState::Beaten;
+
+	/*
+	* Strafing
+	*/
+	const auto& AimRotation = Character->GetBaseAimRotation();
+
+	const auto MovementRotation = 
+		UKismetMathLibrary::MakeRotFromX(Character->GetVelocity());
+
+
+	StrafingValue = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
 }

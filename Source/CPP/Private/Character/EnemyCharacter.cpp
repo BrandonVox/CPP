@@ -35,31 +35,30 @@ FVector AEnemyCharacter::I_GetPatrolLocation()
 
 void AEnemyCharacter::I_HandleSeePlayer(AActor* PlayerActor)
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
-
-	AttackInterface_Player = TScriptInterface<IAttackInterface>(PlayerActor);
-
-	if (AttackInterface_Player == nullptr) return;
-
-	if (HealthComponent && StaminaComponent)
-		AttackInterface_Player->I_EnterCombat(
-			HealthComponent->Health,
-			HealthComponent->MaxHealth,
-			StaminaComponent->Stamina,
-			StaminaComponent->MaxStamina
-		);
-
-	if(AttackInterface_Player->I_OnExitCombat.IsBound() == false)
-		AttackInterface_Player->I_OnExitCombat.BindDynamic(this, &AEnemyCharacter::HandlePlayerExitCombat);
+	I_EnterCombat(PlayerActor);
 }
 
 void AEnemyCharacter::Destroyed()
 {
-	if (AttackInterface_Player)
-		AttackInterface_Player->I_HandleTargetDestroyed();
+	if (AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetDestroyed();
 
 	Super::Destroyed();
+}
+
+void AEnemyCharacter::I_HandleTargetExitCombat()
+{
+	Super::I_HandleTargetExitCombat();
+	if (EnemyAIController)
+		EnemyAIController->BackToPatrol();
+}
+
+void AEnemyCharacter::I_EnterCombat(AActor* TargetActor)
+{
+	Super::I_EnterCombat( TargetActor);
+
+	if (AttackInterface_Target == nullptr) return;
+	AttackInterface_Target->I_EnterCombat(this);
 }
 
 void AEnemyCharacter::I_RequestAttack()
@@ -85,15 +84,15 @@ void AEnemyCharacter::I_HandleAttackSuccess()
 {
 	Super::I_HandleAttackSuccess();
 
-	if(AttackInterface_Player && StaminaComponent)
-		AttackInterface_Player->
+	if(AttackInterface_Target && StaminaComponent)
+		AttackInterface_Target->
 			I_HandleTargetAttacked(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
 }
 
 void AEnemyCharacter::I_StaminaUpdated()
 {
-	if(AttackInterface_Player && StaminaComponent)
-		AttackInterface_Player->I_StaminaUpdated_Target
+	if(AttackInterface_Target && StaminaComponent)
+		AttackInterface_Target->I_StaminaUpdated_Target
 			(StaminaComponent->Stamina, StaminaComponent->MaxStamina);
 
 	
@@ -122,8 +121,8 @@ void AEnemyCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, 
 	// hit target
 	// da danh trung enemy
 	// cap nhat mau
-	if (AttackInterface_Player && HealthComponent)
-		AttackInterface_Player->
+	if (AttackInterface_Target && HealthComponent)
+		AttackInterface_Target->
 			I_HitTarget(HealthComponent->Health, HealthComponent->MaxHealth);
 }
 

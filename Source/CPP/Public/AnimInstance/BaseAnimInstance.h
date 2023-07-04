@@ -25,6 +25,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	bool bShouldBlendLowerUpper = true;
 
+	UPROPERTY(BlueprintReadOnly)
+	double StrafingValue = 0.0;
+
 private:
 	// basecharacter
 	UPROPERTY()

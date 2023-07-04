@@ -99,17 +99,28 @@ void APlayerCharacter::HandleDead()
 
 
 
-void APlayerCharacter::I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy,
-	float Stamina_Enemy, float MaxStamina_Enemy)
+void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+	Super::I_EnterCombat(TargetActor);
+	ShowTargetStats();
+}
+
+void APlayerCharacter::ShowTargetStats()
+{
+	if (AttackInterface_Target == nullptr) return;
 
 	if (PlayerWidget)
 	{
 		PlayerWidget->ShowEnemyStats();
-		PlayerWidget->UpdateHealthBar_Enemy(Health_Enemy, MaxHealth_Enemy);
-		PlayerWidget->UpdateStaminaBar_Enemy(Stamina_Enemy, MaxStamina_Enemy);
+
+		PlayerWidget->UpdateHealthBar_Enemy(
+			AttackInterface_Target->I_GetHealth(),
+			AttackInterface_Target->I_GetMaxHealth()
+		);
+		PlayerWidget->UpdateStaminaBar_Enemy(
+			AttackInterface_Target->I_GetStamina(),
+			AttackInterface_Target->I_GetMaxStamina()
+		);
 	}
 }
 
@@ -158,6 +169,8 @@ void APlayerCharacter::I_StaminaUpdated_Target(float Stamina_Target, float MaxSt
 
 
 #pragma region Input
+
+
 
 void APlayerCharacter::AddMapingContextForCharacter()
 {
@@ -228,7 +241,7 @@ void APlayerCharacter::ExitCombatPressed()
 	if(PlayerWidget)
 		PlayerWidget->HideEnemyStats();
 
-	if(I_OnExitCombat.IsBound())
-		I_OnExitCombat.Execute();
+	if(AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetExitCombat();
 }
 #pragma endregion

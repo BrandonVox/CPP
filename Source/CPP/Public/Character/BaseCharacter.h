@@ -35,6 +35,14 @@ public:
 	void ChangeMaxWalkSpeed(float NewSpeed);
 
 #pragma region Attack_Interface
+	virtual void I_HandleTargetExitCombat() override;
+	virtual void I_EnterCombat(AActor* TargetActor) override;
+
+	virtual float I_GetHealth() const override;
+	virtual float I_GetMaxHealth() const override;
+
+	virtual float I_GetStamina() const override;
+	virtual float I_GetMaxStamina() const override;
 
 	virtual void I_PlayAttackMontage(UAnimMontage* AttackMontage) override;
 	virtual void I_PlayStartAttackSound() override;
@@ -85,6 +93,9 @@ private:
 
 
 protected:
+	UPROPERTY()
+	TScriptInterface<IAttackInterface> AttackInterface_Target;
+
 	UPROPERTY(VisibleAnywhere)
 	UAttackComponent* AttackComponent;
 

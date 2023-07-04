@@ -16,7 +16,6 @@ class UAttackInterface : public UInterface
 /**
  * 
  */
-DECLARE_DYNAMIC_DELEGATE(FExitCombatDelegate);
 
 class CPP_API IAttackInterface
 {
@@ -35,7 +34,11 @@ public:
 	virtual void I_ANS_TraceHit() = 0;
 	virtual void I_ANS_BeginTraceHit() = 0;
 
-	virtual void I_EnterCombat(float Health_Enemy, float MaxHealth_Enemy, float Stamina_Enemy, float MaxStamina_Enemy);
+	// base 
+	virtual void I_EnterCombat(AActor* TargetActor) = 0;
+
+	virtual void I_HandleTargetExitCombat() = 0;
+
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target);
 
 	UFUNCTION(BlueprintCallable)
@@ -62,6 +65,12 @@ public:
 	// base character
 	virtual void I_RequestAttackFailed_Stamina(float StaminaCost);
 
-public:
-	FExitCombatDelegate I_OnExitCombat;
+	/*
+	* Stats
+	*/
+	virtual float I_GetHealth() const = 0;
+	virtual float I_GetMaxHealth() const = 0;
+
+	virtual float I_GetStamina() const = 0;
+	virtual float I_GetMaxStamina() const = 0;
 };

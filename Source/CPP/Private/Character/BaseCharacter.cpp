@@ -71,11 +71,48 @@ void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)
 	// Patrol Speed
 }
 
+void ABaseCharacter::I_HandleTargetExitCombat()
+{
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
+}
+
+void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
+{
+	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
+
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+}
+
+float ABaseCharacter::I_GetHealth() const
+{
+	return HealthComponent ? HealthComponent->Health : 0.0f;
+}
+
+float ABaseCharacter::I_GetMaxHealth() const
+{
+	return HealthComponent ? HealthComponent->MaxHealth : 0.0f;
+}
+
+float ABaseCharacter::I_GetStamina() const
+{
+	return StaminaComponent ? StaminaComponent->Stamina : 0.0f;
+}
+
+float ABaseCharacter::I_GetMaxStamina() const
+{
+	return StaminaComponent ? StaminaComponent->MaxStamina : 0.0f;
+}
+
 void ABaseCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	// bind delegate nhan sat thuong
+
 	OnTakePointDamage.AddDynamic(this, &ABaseCharacter::HandleTakePointDamage);
+
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
 }
 
 #pragma region Attack_Interface

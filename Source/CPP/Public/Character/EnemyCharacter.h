@@ -19,6 +19,8 @@ public:
 	virtual void Destroyed() override;
 
 #pragma region Attack_Interface
+	virtual void I_HandleTargetExitCombat() override;
+	virtual void I_EnterCombat(AActor* TargetActor) override;
 	virtual void I_RequestAttack() override;
 	virtual void I_HandleAttackSuccess() override;
 	virtual void I_StaminaUpdated() override;
@@ -48,8 +50,7 @@ private:
 	void HandlePlayerExitCombat();
 
 private:
-	UPROPERTY()
-	TScriptInterface<IAttackInterface> AttackInterface_Player;
+
 
 	UPROPERTY(EditInstanceOnly, Category = "Patrol")
 	TArray<AActor*> PatrolPoints;
