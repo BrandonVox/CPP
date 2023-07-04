@@ -157,6 +157,9 @@ void AEnemyAIController::BackToPatrol()
 
 	DebugColor = FLinearColor::Gray;
 
+	if (GetWorldTimerManager().IsTimerActive(ExitCombatTimer))
+		GetWorldTimerManager().ClearTimer(ExitCombatTimer);
+
 	GetWorldTimerManager().SetTimer(
 		ExitCombatTimer,
 		this,
