@@ -71,18 +71,45 @@ void ABaseCharacter::ChangeMaxWalkSpeed(float NewSpeed)
 	// Patrol Speed
 }
 
+void ABaseCharacter::I_ExitCombat()
+{
+	NotStrafe();
+}
+
 void ABaseCharacter::I_HandleTargetExitCombat()
 {
-	if (BaseCharacterData)
-		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
+	NotStrafe();
 }
 
 void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
 
+	Strafe();
+}
+
+void ABaseCharacter::Strafe()
+{
 	if (BaseCharacterData)
 		ChangeMaxWalkSpeed(BaseCharacterData->CombatSpeed);
+
+	bUseControllerRotationYaw = true;
+	if (GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = false;
+
+	bIsStrafing = true;
+}
+
+void ABaseCharacter::NotStrafe()
+{
+	if (BaseCharacterData)
+		ChangeMaxWalkSpeed(BaseCharacterData->DefaultSpeed);
+
+	bUseControllerRotationYaw = false;
+	if (GetCharacterMovement())
+		GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	bIsStrafing = false;
 }
 
 float ABaseCharacter::I_GetHealth() const

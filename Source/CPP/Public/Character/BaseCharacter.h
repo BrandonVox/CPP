@@ -35,8 +35,12 @@ public:
 	void ChangeMaxWalkSpeed(float NewSpeed);
 
 #pragma region Attack_Interface
+	virtual void I_ExitCombat() override;
+
 	virtual void I_HandleTargetExitCombat() override;
 	virtual void I_EnterCombat(AActor* TargetActor) override;
+
+
 
 	virtual float I_GetHealth() const override;
 	virtual float I_GetMaxHealth() const override;
@@ -80,6 +84,9 @@ protected:
 
 	virtual void HandleDead();
 
+	void Strafe();
+	void NotStrafe();
+
 private:
 	UAnimMontage* GetCorrectHitReactMontage(const FVector& AttackDirection) const;
 
@@ -91,6 +98,8 @@ private:
 	void HandleBeaten(const FVector& ShotFromDirection);
 
 
+public:
+	bool bIsStrafing = false;
 
 protected:
 	UPROPERTY()

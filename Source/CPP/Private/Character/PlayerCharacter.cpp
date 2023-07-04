@@ -99,6 +99,17 @@ void APlayerCharacter::HandleDead()
 
 
 
+void APlayerCharacter::I_ExitCombat()
+{
+	Super::I_ExitCombat();
+	//
+	if (PlayerWidget)
+		PlayerWidget->HideEnemyStats();
+
+	if (AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetExitCombat();
+}
+
 void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	Super::I_EnterCombat(TargetActor);
@@ -238,10 +249,6 @@ void APlayerCharacter::StrongAttackPressed()
 
 void APlayerCharacter::ExitCombatPressed()
 {
-	if(PlayerWidget)
-		PlayerWidget->HideEnemyStats();
-
-	if(AttackInterface_Target)
-		AttackInterface_Target->I_HandleTargetExitCombat();
+	I_ExitCombat();
 }
 #pragma endregion

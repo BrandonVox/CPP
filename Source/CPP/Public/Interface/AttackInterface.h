@@ -36,6 +36,7 @@ public:
 
 	// base 
 	virtual void I_EnterCombat(AActor* TargetActor) = 0;
+	virtual void I_ExitCombat() = 0;
 
 	virtual void I_HandleTargetExitCombat() = 0;
 

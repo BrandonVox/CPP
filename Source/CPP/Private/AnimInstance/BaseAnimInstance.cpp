@@ -40,5 +40,7 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		UKismetMathLibrary::MakeRotFromX(Character->GetVelocity());
 
 
-	StrafingValue = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
+	StrafeValue = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
+
+	bIsStrafing = Character->bIsStrafing;
 }

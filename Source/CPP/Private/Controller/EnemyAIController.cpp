@@ -112,6 +112,9 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 		AIPerceptionComponent->OnTargetPerceptionUpdated.RemoveDynamic
 			(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 	}
+	// ai controller
+	// luon nhin ve huong cua nguoi choi
+	SetFocus(Actor);
 }
 
 
@@ -166,6 +169,8 @@ void AEnemyAIController::BackToPatrol()
 		&AEnemyAIController::ExitCombatTimerFinished,
 		ExitCombatSecond
 	);
+
+	SetFocus(nullptr);
 }
 
 void AEnemyAIController::StartRegenStamina(float Stamina)
