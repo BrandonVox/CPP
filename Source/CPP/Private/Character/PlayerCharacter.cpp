@@ -17,6 +17,8 @@
 
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -72,6 +74,12 @@ void APlayerCharacter::BeginPlay()
 		PlayerWidget->HideEnemyStats();
 
 	}
+	// gameplaystatics
+	if (BaseCharacterData == nullptr) return;
+	BackgroundAudio = UGameplayStatics::SpawnSound2D(this, BaseCharacterData->ThemeSound);
+
+	if(BackgroundAudio)
+		BackgroundAudio->SetVolumeMultiplier(BaseCharacterData->BackgroundAudioVolume);
 		
 }
 
@@ -108,12 +116,18 @@ void APlayerCharacter::I_ExitCombat()
 
 	if (AttackInterface_Target)
 		AttackInterface_Target->I_HandleTargetExitCombat();
+
+	if (BackgroundAudio && BaseCharacterData)
+		BackgroundAudio->SetSound(BaseCharacterData->ThemeSound);
 }
 
 void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	Super::I_EnterCombat(TargetActor);
 	ShowTargetStats();
+
+	if(BackgroundAudio && BaseCharacterData)
+		BackgroundAudio->SetSound(BaseCharacterData->CombatSound);
 }
 
 void APlayerCharacter::ShowTargetStats()

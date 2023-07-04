@@ -128,4 +128,19 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Speed")
 	float CombatSpeed = 400.0f;
+
+	/*
+	* Sound
+	*/
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundBase* ThemeSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	USoundBase* CombatSound;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Sound")
+	float BackgroundAudioVolume = 0.5f;
+
 };

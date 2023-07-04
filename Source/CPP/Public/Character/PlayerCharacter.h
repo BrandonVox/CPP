@@ -60,6 +60,9 @@ private:
 	void ExitCombatPressed();
 
 private:
+	UPROPERTY()
+	UAudioComponent* BackgroundAudio;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmComponent;
 
