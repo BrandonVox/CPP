@@ -27,9 +27,7 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	bShouldMove = GroundSpeed > 0.0f;
 
-	bShouldBlendLowerUpper =
-		GroundSpeed > 0.0f
-		&& Character->GetCombatState() != ECombatState::Beaten;
+	bShouldBlendLowerUpper = bShouldMove;
 
 	/*
 	* Strafing
