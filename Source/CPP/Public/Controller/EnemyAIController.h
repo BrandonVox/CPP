@@ -35,6 +35,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateRegenLocation(AActor* AIActor, AActor* PlayerActor, float RegenRange);
 
+	/*
+	* Affiliation
+	*/
+	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
+	virtual FGenericTeamId GetGenericTeamId() const override;
+
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
 private:
@@ -52,6 +58,9 @@ public:
 	float TargetStamina = 0.0f;
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	FGenericTeamId TeamId = FGenericTeamId(0);
+
 	UPROPERTY()
 	APawn* PossessedPawn;
 

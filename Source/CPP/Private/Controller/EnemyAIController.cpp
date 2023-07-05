@@ -16,6 +16,8 @@
 
 AEnemyAIController::AEnemyAIController()
 {
+	SetGenericTeamId(GetGenericTeamId());
+
 	// AI PERCEPTION COMPONENT
 	AIPerceptionComponent = CreateDefaultSubobject
 		<UAIPerceptionComponent>(TEXT("AI Perception Component"));
@@ -27,9 +29,36 @@ AEnemyAIController::AEnemyAIController()
 	AISightConfig->SightRadius = 2500.0f;
 	AISightConfig->LoseSightRadius = 2500.0f;
 	AISightConfig->PeripheralVisionAngleDegrees = 55.0f;
-	AISightConfig->DetectionByAffiliation.bDetectNeutrals = true;
+
+	AISightConfig->DetectionByAffiliation.bDetectFriendlies = false;
+	AISightConfig->DetectionByAffiliation.bDetectNeutrals = false;
+	AISightConfig->DetectionByAffiliation.bDetectEnemies = true;
 
 	AIPerceptionComponent->ConfigureSense(*AISightConfig);
+}
+
+ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Other) const
+{
+	if (APawn const* OtherPawn = Cast<APawn>(&Other))
+	{
+		if (auto const TeamAgent = Cast<IGenericTeamAgentInterface>(OtherPawn->GetController()))
+		{
+			if (TeamAgent->GetGenericTeamId() == GetGenericTeamId())
+			{
+				return ETeamAttitude::Friendly;
+			}
+			else
+			{
+				return ETeamAttitude::Hostile;
+			}
+		}
+	}
+	return ETeamAttitude::Neutral;
+}
+
+FGenericTeamId AEnemyAIController::GetGenericTeamId() const
+{
+	return TeamId;
 }
 
 void AEnemyAIController::OnPossess(APawn* InPawn)
@@ -74,6 +103,12 @@ void AEnemyAIController::Tick(float DeltaTime)
 
 void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)
 {
+	//if (Stimulus.WasSuccessfullySensed())
+	//	DebugColor = FLinearColor::Red;
+	//else
+	//	DebugColor = FLinearColor::Green;
+
+	//return;
 	if (Stimulus.WasSuccessfullySensed())
 	{
 		HandleSeePlayer(Actor);
