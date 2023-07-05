@@ -50,7 +50,7 @@ protected:
 	virtual void HandleDead() override;
 
 private:
-	void ShowEndWidget();
+	void ShowEndWidget(FText ResultText);
 	void ShowTargetStats();
 
 	void AddMapingContextForCharacter();
@@ -65,6 +65,9 @@ private:
 	void PlayThemeSound_Combat();
 
 private:
+	FText LoseText = FText::FromString(TEXT("Lose"));
+	FText WinText = FText::FromString(TEXT("Win"));
+
 	int Eliminations = 0;
 
 	UPROPERTY()

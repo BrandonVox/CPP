@@ -33,6 +33,8 @@ void UEndWidget::UpdateResultText(FText NewText)
 void UEndWidget::PlayAgainClicked()
 {
 	if (GetOwningPlayer() == nullptr) return;
+	
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
 
 	FInputModeGameOnly MyInputMode;
 	GetOwningPlayer()->SetInputMode(MyInputMode);

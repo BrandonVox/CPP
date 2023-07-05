@@ -62,7 +62,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	PlayerWidget = CreateWidget<UPlayerWidget>(GetWorld(), PlayerWidgetClass);
 
 	if (PlayerWidget && HealthComponent)
@@ -89,11 +89,10 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::Destroyed()
 {
-	ShowEndWidget();
 	Super::Destroyed();
 }
 
-void APlayerCharacter::ShowEndWidget()
+void APlayerCharacter::ShowEndWidget(FText ResultText)
 {
 	auto PlayerController = Cast<APlayerController>(GetController());
 
@@ -103,8 +102,11 @@ void APlayerCharacter::ShowEndWidget()
 	if (PlayerController == nullptr) return;
 	if (EndWidget == nullptr) return;
 
+	// Pause game
+	UGameplayStatics::SetGamePaused(this, true);
+
 	EndWidget->AddToViewport();
-	EndWidget->UpdateResultText(FText::FromString(TEXT("Lose")));
+	EndWidget->UpdateResultText(ResultText);
 
 	FInputModeUIOnly MyInputMode;
 	MyInputMode.SetWidgetToFocus(EndWidget->TakeWidget());
@@ -133,6 +135,8 @@ void APlayerCharacter::HandleDead()
 
 	auto PlayerController = Cast<APlayerController>(GetController());
 	DisableInput(PlayerController);
+
+	ShowEndWidget(LoseText);
 }
 
 
@@ -204,6 +208,11 @@ void APlayerCharacter::I_HandleTargetDestroyed()
 
 	PlayThemeSound_Normal();
 	NotStrafe();
+
+	// Win Event
+	// 1
+	if (Eliminations >= 1)
+		ShowEndWidget(WinText);
 }
 
 void APlayerCharacter::I_HandleAttackSuccess()
