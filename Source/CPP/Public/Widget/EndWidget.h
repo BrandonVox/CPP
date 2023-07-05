@@ -13,9 +13,15 @@ UCLASS()
 class CPP_API UEndWidget : public UUserWidget
 {
 	GENERATED_BODY()
-
 public:
+	virtual bool Initialize() override;
 	void UpdateResultText(FText NewText);
+private:
+	UFUNCTION()
+	void PlayAgainClicked();
+
+	UFUNCTION()
+	void QuitClicked();
 
 private:
 	UPROPERTY(meta = (BindWidget))

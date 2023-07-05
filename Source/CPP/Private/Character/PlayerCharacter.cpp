@@ -95,10 +95,10 @@ void APlayerCharacter::Destroyed()
 
 void APlayerCharacter::ShowEndWidget()
 {
-	if(EndWidget == nullptr)
-		EndWidget = CreateWidget<UEndWidget>(GetWorld(), EndWidgetClass);
-
 	auto PlayerController = Cast<APlayerController>(GetController());
+
+	if (EndWidget == nullptr)
+		EndWidget = CreateWidget<UEndWidget>(PlayerController, EndWidgetClass);
 
 	if (PlayerController == nullptr) return;
 	if (EndWidget == nullptr) return;
