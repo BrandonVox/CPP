@@ -84,7 +84,12 @@ void ABaseCharacter::I_HandleTargetExitCombat()
 void ABaseCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
+	Strafe();
+}
 
+void ABaseCharacter::I_ReceiveCombat(AActor* TargetActor)
+{
+	AttackInterface_Target = TScriptInterface<IAttackInterface>(TargetActor);
 	Strafe();
 }
 

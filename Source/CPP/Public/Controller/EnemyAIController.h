@@ -16,6 +16,8 @@ class CPP_API AEnemyAIController : public AAIController
 
 public:
 	AEnemyAIController();
+	void CombatMode(AActor* Actor);
+
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
@@ -39,6 +41,8 @@ private:
 	UFUNCTION()
 	void HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus);
 	void HandleSeePlayer(AActor* Actor);
+
+
 
 	void ExitCombatTimerFinished();
 

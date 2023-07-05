@@ -19,8 +19,13 @@ public:
 	virtual void Destroyed() override;
 
 #pragma region Attack_Interface
+	virtual void I_ExitCombat() override;
+	virtual void I_HandleTargetDestroyed() override;
 	virtual void I_HandleTargetExitCombat() override;
+
 	virtual void I_EnterCombat(AActor* TargetActor) override;
+	virtual void I_ReceiveCombat(AActor* TargetActor) override;
+
 	virtual void I_RequestAttack() override;
 	virtual void I_HandleAttackSuccess() override;
 	virtual void I_StaminaUpdated() override;

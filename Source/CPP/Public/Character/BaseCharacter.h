@@ -39,6 +39,7 @@ public:
 
 	virtual void I_HandleTargetExitCombat() override;
 	virtual void I_EnterCombat(AActor* TargetActor) override;
+	virtual void I_ReceiveCombat(AActor* TargetActor) override;
 
 
 

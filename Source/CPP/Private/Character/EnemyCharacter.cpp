@@ -46,6 +46,21 @@ void AEnemyCharacter::Destroyed()
 	Super::Destroyed();
 }
 
+
+
+void AEnemyCharacter::I_HandleTargetDestroyed()
+{
+	Super::I_HandleTargetDestroyed();
+	I_ExitCombat();
+}
+
+void AEnemyCharacter::I_ExitCombat()
+{
+	Super::I_ExitCombat();
+	if (EnemyAIController)
+		EnemyAIController->BackToPatrol();
+}
+
 void AEnemyCharacter::I_HandleTargetExitCombat()
 {
 	Super::I_HandleTargetExitCombat();
@@ -57,8 +72,16 @@ void AEnemyCharacter::I_EnterCombat(AActor* TargetActor)
 {
 	Super::I_EnterCombat( TargetActor);
 
-	if (AttackInterface_Target == nullptr) return;
-	AttackInterface_Target->I_EnterCombat(this);
+	if(AttackInterface_Target)
+		AttackInterface_Target->I_ReceiveCombat(this);
+}
+
+void AEnemyCharacter::I_ReceiveCombat(AActor* TargetActor)
+{
+	Super::I_ReceiveCombat(TargetActor);
+
+	if(EnemyAIController)
+		EnemyAIController->CombatMode(TargetActor);
 }
 
 void AEnemyCharacter::I_RequestAttack()

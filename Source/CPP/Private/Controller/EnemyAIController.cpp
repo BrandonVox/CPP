@@ -93,11 +93,16 @@ void AEnemyAIController::HandleTargetPerceptionUpdated(AActor* Actor, FAIStimulu
 
 void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 {
-
-	DebugColor = FLinearColor::Red;
+	CombatMode(Actor);
 
 	if (EnemyInterface)
 		EnemyInterface->I_HandleSeePlayer(Actor);
+}
+
+void AEnemyAIController::CombatMode(AActor* Actor)
+{
+	DebugColor = FLinearColor::Red;
+
 
 
 	if (Blackboard)
@@ -110,10 +115,9 @@ void AEnemyAIController::HandleSeePlayer(AActor* Actor)
 	if (AIPerceptionComponent && AIPerceptionComponent->OnTargetPerceptionUpdated.IsBound())
 	{
 		AIPerceptionComponent->OnTargetPerceptionUpdated.RemoveDynamic
-			(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
+		(this, &AEnemyAIController::HandleTargetPerceptionUpdated);
 	}
-	// ai controller
-	// luon nhin ve huong cua nguoi choi
+
 	SetFocus(Actor);
 }
 

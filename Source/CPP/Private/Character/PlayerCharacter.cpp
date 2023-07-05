@@ -89,6 +89,9 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::Destroyed()
 {
+	if (AttackInterface_Target)
+		AttackInterface_Target->I_HandleTargetDestroyed();
+
 	Super::Destroyed();
 }
 
@@ -103,7 +106,7 @@ void APlayerCharacter::ShowEndWidget(FText ResultText)
 	if (EndWidget == nullptr) return;
 
 	// Pause game
-	UGameplayStatics::SetGamePaused(this, true);
+	// UGameplayStatics::SetGamePaused(this, true);
 
 	EndWidget->AddToViewport();
 	EndWidget->UpdateResultText(ResultText);
@@ -158,6 +161,8 @@ void APlayerCharacter::HandleBeaten(const FVector& ShotFromDirection)
 
 
 
+
+
 void APlayerCharacter::I_ExitCombat()
 {
 	Super::I_ExitCombat();
@@ -178,6 +183,15 @@ void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 	ShowTargetStats();
 
 	if(BackgroundAudio && BaseCharacterData)
+		BackgroundAudio->SetSound(BaseCharacterData->CombatSound);
+}
+
+void APlayerCharacter::I_ReceiveCombat(AActor* TargetActor)
+{
+	Super::I_ReceiveCombat(TargetActor);
+	ShowTargetStats();
+
+	if (BackgroundAudio && BaseCharacterData)
 		BackgroundAudio->SetSound(BaseCharacterData->CombatSound);
 }
 

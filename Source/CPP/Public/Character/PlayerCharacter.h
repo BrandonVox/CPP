@@ -22,6 +22,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 #pragma region Attack_Interface
+	virtual void I_ReceiveCombat(AActor* TargetActor) override;
 	virtual void I_ExitCombat() override;
 	virtual void I_EnterCombat(AActor* TargetActor) override;
 	virtual void I_HitTarget(float Health_Target, float MaxHealth_Target) override;
