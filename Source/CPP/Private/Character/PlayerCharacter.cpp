@@ -73,6 +73,8 @@ void APlayerCharacter::BeginPlay()
 
 		PlayerWidget->HideEnemyStats();
 
+		PlayerWidget->UpdateEliminations(Eliminations);
+
 	}
 	// gameplaystatics
 	if (BaseCharacterData == nullptr) return;
@@ -80,7 +82,6 @@ void APlayerCharacter::BeginPlay()
 
 	if(BackgroundAudio)
 		BackgroundAudio->SetVolumeMultiplier(BaseCharacterData->BackgroundAudioVolume);
-		
 }
 
 void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
@@ -162,8 +163,16 @@ void APlayerCharacter::I_HitTarget(float Health_Target, float MaxHealth_Target)
 
 void APlayerCharacter::I_HandleTargetDestroyed()
 {
+	Eliminations++;
+
 	if (PlayerWidget)
+	{
 		PlayerWidget->HideEnemyStats();
+		PlayerWidget->UpdateEliminations(Eliminations);
+	}
+
+	PlayThemeSound_Normal();
+	NotStrafe();
 }
 
 void APlayerCharacter::I_HandleAttackSuccess()
@@ -264,5 +273,17 @@ void APlayerCharacter::StrongAttackPressed()
 void APlayerCharacter::ExitCombatPressed()
 {
 	I_ExitCombat();
+}
+void APlayerCharacter::PlayThemeSound_Normal()
+{
+
+	if (BackgroundAudio && BaseCharacterData)
+		BackgroundAudio->SetSound(BaseCharacterData->ThemeSound);
+}
+void APlayerCharacter::PlayThemeSound_Combat()
+{
+
+	if (BackgroundAudio && BaseCharacterData)
+		BackgroundAudio->SetSound(BaseCharacterData->CombatSound);
 }
 #pragma endregion

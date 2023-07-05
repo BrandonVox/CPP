@@ -59,7 +59,12 @@ private:
 	void StrongAttackPressed();
 	void ExitCombatPressed();
 
+	void PlayThemeSound_Normal();
+	void PlayThemeSound_Combat();
+
 private:
+	int Eliminations = 0;
+
 	UPROPERTY()
 	UAudioComponent* BackgroundAudio;
 

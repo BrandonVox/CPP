@@ -76,6 +76,10 @@ void UPlayerWidget::HideEnemyStats()
 	}
 }
 
-// enemy thay player
-// enemy thong bao cho player
-// player se hien dung chi so mau cua enemy
+void UPlayerWidget::UpdateEliminations(int E)
+{
+	FString NewString = FString::Printf(TEXT("%d"), E);
+
+	if (Eliminations)
+		Eliminations->SetText(FText::FromString(NewString));
+}
