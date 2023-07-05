@@ -9,6 +9,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 class UPlayerWidget;
+class UEndWidget;
 
 UCLASS()
 class CPP_API APlayerCharacter : public ABaseCharacter
@@ -17,6 +18,7 @@ class CPP_API APlayerCharacter : public ABaseCharacter
 
 public:
 	APlayerCharacter();
+	virtual void Destroyed() override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 #pragma region Attack_Interface
@@ -48,7 +50,7 @@ protected:
 	virtual void HandleDead() override;
 
 private:
-
+	void ShowEndWidget();
 	void ShowTargetStats();
 
 	void AddMapingContextForCharacter();
@@ -77,6 +79,12 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
 	TSubclassOf<UUserWidget> PlayerWidgetClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> EndWidgetClass;
+
 	UPROPERTY()
 	UPlayerWidget* PlayerWidget;
+
+	UPROPERTY()
+	UEndWidget* EndWidget;
 };

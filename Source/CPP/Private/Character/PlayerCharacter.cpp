@@ -3,6 +3,7 @@
 
 #include "Character/PlayerCharacter.h"
 #include "Widget/PlayerWidget.h"
+#include "Widget/EndWidget.h"
 
 #include "DataAsset/BaseCharacterData.h"
 #include "DataAsset/EnhancedInputData.h"
@@ -34,6 +35,8 @@ APlayerCharacter::APlayerCharacter()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	CameraComponent->bUsePawnControlRotation = false;
 }
+
+
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -84,6 +87,32 @@ void APlayerCharacter::BeginPlay()
 		BackgroundAudio->SetVolumeMultiplier(BaseCharacterData->BackgroundAudioVolume);
 }
 
+void APlayerCharacter::Destroyed()
+{
+	ShowEndWidget();
+	Super::Destroyed();
+}
+
+void APlayerCharacter::ShowEndWidget()
+{
+	if(EndWidget == nullptr)
+		EndWidget = CreateWidget<UEndWidget>(GetWorld(), EndWidgetClass);
+
+	auto PlayerController = Cast<APlayerController>(GetController());
+
+	if (PlayerController == nullptr) return;
+	if (EndWidget == nullptr) return;
+
+	EndWidget->AddToViewport();
+	EndWidget->UpdateResultText(FText::FromString(TEXT("Lose")));
+
+	FInputModeUIOnly MyInputMode;
+	MyInputMode.SetWidgetToFocus(EndWidget->TakeWidget());
+
+	PlayerController->SetInputMode(MyInputMode);
+	PlayerController->SetShowMouseCursor(true);
+}
+
 void APlayerCharacter::HandleTakePointDamage(AActor* DamagedActor, float Damage, AController* InstigatedBy, FVector HitLocation, UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection, const UDamageType* DamageType, AActor* DamageCauser)
 {
 	Super::HandleTakePointDamage(DamagedActor, Damage, InstigatedBy,
@@ -130,6 +159,8 @@ void APlayerCharacter::I_EnterCombat(AActor* TargetActor)
 	if(BackgroundAudio && BaseCharacterData)
 		BackgroundAudio->SetSound(BaseCharacterData->CombatSound);
 }
+
+
 
 void APlayerCharacter::ShowTargetStats()
 {
