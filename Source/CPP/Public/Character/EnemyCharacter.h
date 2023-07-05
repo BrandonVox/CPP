@@ -49,11 +49,13 @@ private:
 	UFUNCTION()
 	void HandlePlayerExitCombat();
 
+public:
+	UPROPERTY(EditInstanceOnly, Category = "Patrol")
+	TArray<AActor*> PatrolPoints;
 private:
 
 
-	UPROPERTY(EditInstanceOnly, Category = "Patrol")
-	TArray<AActor*> PatrolPoints;
+
 
 	int PatrolIndex = 0;
 
