@@ -143,4 +143,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Sound")
 	float BackgroundAudioVolume = 0.5f;
 
+	/*
+	* Player
+	*/
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	TSubclassOf<UCameraShakeBase> CameraShakeClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	float ShakeScale = 30.0f;
+
 };

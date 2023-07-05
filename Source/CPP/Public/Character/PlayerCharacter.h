@@ -48,6 +48,7 @@ protected:
 		AActor* DamageCauser) override;
 
 	virtual void HandleDead() override;
+	virtual void HandleBeaten(const FVector& ShotFromDirection) override;
 
 private:
 	void ShowEndWidget(FText ResultText);

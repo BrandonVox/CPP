@@ -139,6 +139,23 @@ void APlayerCharacter::HandleDead()
 	ShowEndWidget(LoseText);
 }
 
+void APlayerCharacter::HandleBeaten(const FVector& ShotFromDirection)
+{
+	Super::HandleBeaten(ShotFromDirection);
+	// rung camera
+	// camera manager
+	auto CameraManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+
+	if (CameraManager && BaseCharacterData)
+	{
+		CameraManager->StartCameraShake(
+			BaseCharacterData->CameraShakeClass,
+			BaseCharacterData->ShakeScale
+		);
+	}
+
+}
+
 
 
 void APlayerCharacter::I_ExitCombat()

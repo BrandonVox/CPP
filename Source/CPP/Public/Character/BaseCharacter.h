@@ -83,6 +83,7 @@ protected:
 			AActor* DamageCauser);
 
 	virtual void HandleDead();
+	virtual void HandleBeaten(const FVector& ShotFromDirection);
 
 	void Strafe();
 	void NotStrafe();
@@ -95,7 +96,7 @@ private:
 
 	void SpawnHitImpact(const FVector& HitLocation);
 
-	void HandleBeaten(const FVector& ShotFromDirection);
+
 
 
 public:
