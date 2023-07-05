@@ -17,9 +17,20 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void SpawnEnemy();
+
+	UFUNCTION()
+	void HandleEnemyDestroyed(AActor* DestroyedActor);
+
+private:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AActor> EnemyClass;
 
 	UPROPERTY(EditInstanceOnly)
 	TArray<AActor*> PatrolPoints;
+
+	FTimerHandle RespawnTimer;
+
+	UPROPERTY(EditDefaultsOnly)
+	float RespawnSecond = 3.0f;
 };

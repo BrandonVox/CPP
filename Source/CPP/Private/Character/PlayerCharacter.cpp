@@ -242,7 +242,7 @@ void APlayerCharacter::I_HandleTargetDestroyed()
 
 	// Win Event
 	// 1
-	if (Eliminations >= 1)
+	if (Eliminations >= 3)
 		ShowEndWidget(WinText);
 }
 
