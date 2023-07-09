@@ -75,3 +75,6 @@ DerivedDataCache/*
 
 # Assets
 Content/Assets/*
+
+# Docs
+Doc/*
